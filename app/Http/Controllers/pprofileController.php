@@ -27,7 +27,7 @@ public function loadptest(Request $request){
 	->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
 	->join("patients","patients.id","=","test_order_master.patient_id")
 	->join("tests","tests.id","=","test_order_detail.test_id")
-	->select("patients.patient_name","staff.name as doctor_name", "staff.id as doctor_id","test_order_detail.amount","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name")
+	->select("patients.patient_name","staff.name as doctor_name","test_order_detail.amount","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name")
 	->where("test_order_detail.status_id",">",0)
 	->where("test_order_master.status_id",">",0)
 	->where("test_order_master.company_id",Auth::user()->company_id)

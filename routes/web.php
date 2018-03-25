@@ -40,9 +40,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/medication','medicationController@home');
 	Route::any('/savemedication','medicationController@savemedication');
 	Route::any('/loadmedication','medicationController@loadmedication');
+<<<<<<< HEAD
 	Route::any('/lab', 'labController@lab')->name('lab');
 	Route::any('/filter', 'labController@filter')->name('lab');
 	Route::any('/payment', 'paymentController@home')->name('payment');
+=======
+	Route::any('/lab','labController@lab');
+	
+>>>>>>> last change
 	
 	
 	

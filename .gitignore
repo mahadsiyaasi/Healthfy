@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #vendor/
 #node_modules/
@@ -19,3 +20,17 @@
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 #.rocketeer/
+=======
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
+>>>>>>> last change

@@ -22,15 +22,17 @@ use App\Http\Controllers\medicationController;
          
       </form>
       <form>      
-      <table class="w3-table">
+      <table class="w3-table table-bordered table" id="listtable">
         
-          <th>
+          <thead class="w3-text-gray w3-x-large w3-border w3-border-black">
             <td>Dosage Name</td>
             <td>Dosage&Unit</td>
             <td>Duration</td>
             <td>Structure</td>
-          </th>
-        
+          </thead>
+        <tbody>
+          
+        </tbody>
       </table>
       </form>
   </div>
@@ -52,11 +54,13 @@ use App\Http\Controllers\medicationController;
          
       </form>
       <div class="w3-padding">
-        
+        <div id="">
+          
+        </div>
       </div>
-      <ul id="myUL" class="w3-list w3-ul w3-list-item w3-border w3-padding">
+      <ul id="myUL" class="w3-list w3-ul w3-list-item w3-border">
     @foreach($var as $key => $val)
-        <li class="checked fortick"><a href="#"> {{$val['name']}} </a><span class="pull-right"><i class=""></i></span></li>
+        <li class="checked fortick" tagid="{{$val['id']}}" tageffect="{{$val['effect']}}" tagstrenght="{{$val['strenght']}}" tagname="{{$val['name']}}"><a href="#"> {{$val['name']}} </a><span class="pull-right"><i class=""></i></span></li>
       @endforeach
       </ul>
   </div>

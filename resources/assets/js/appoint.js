@@ -97,7 +97,6 @@ function calendar(){
 }
 function modalpopup(start,end){
 	var times = moment(end).format('hh:mm');
-
 	modalmakeup({
 	title:$("input[name=patient_name]").val()+"`s new appointment",
 	width:"60%",

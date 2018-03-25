@@ -84,7 +84,6 @@ function editgroup(data){
    var $this = $(this);
     if ($("body").find("input[name=groupname]").val() !="") {
     $this.button('loading');
-
     $.ajax({
       url:"savegroup",
       data:{_token:_token,gn:$("body").find("input[name=groupname]").val(),id:id},
