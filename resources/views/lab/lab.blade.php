@@ -45,11 +45,11 @@
               </tr>
             </thead>
               <tbody>
-                 <?php $last = 0; 
+                 <?php $last =""; 
                   $detail_id = 0;
                  ?>
                 @foreach($ordertest as $vals)
-                  @if($last != $vals['master_id'])
+                  @if($last != $vals['doctor_name'])
                      <tr>
                         <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span> </td>
                         <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> </td>
@@ -57,7 +57,7 @@
                         <td class="w3-light-gray active"> Status <span class="badge w3-blue"> {{ $vals['status_name'] }}  </span></td>
                     </tr>
                   @endif
-                <?php $last = $vals['master_id']; ?>
+                <?php $last = $vals['doctor_name']; ?>
                 <?php $detail_id = $vals['id']; ?>
                 @foreach($ordertest as $val)
                 @if($val['test_order_id'] == $vals['master_id'] && $detail_id== $val['id'] )
@@ -92,7 +92,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-          Footer
+         /
         </div>
         <!-- /.box-footer-->
       </div>

@@ -16,7 +16,7 @@ function filterfn(){
                     $(this).dialog("close");
                 }
             },
-	body :'<form method="post" action="" id="fmfilter"><div class="warner"></div>'
+	body :'<form method="post" action="" id="fmfilter">'
   +'<div class="w3-row-padding">'
   +'<div class="form-group"><label for="inputName" class=" control-label">Status</label><div class=""><select type="text"  name="status_filter" class="form-control" id="inputName" placeholder="status ">'
   +'<option value="2">Awaiting payment</option><option value="3">Lab queue</option><option value="2">Awaiting result</option><option value="2">Completed</option></select></div></div>'+
@@ -31,10 +31,10 @@ function filterfn(){
          $('body').find("#oncreate select[name=doctor_filter]").append("<option value='"+item.id+"' tagcheckid='"+item.id+"'>"+item.name+"</option>");
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
-        if (ajaxtoserv($("body").find("#fmfilter"),null,"form","filter?_token="+_token,this).success) {
+        if (re_define_lab(ajaxtoserv($("body").find("#fmfilter"),null,"form","filter?_token="+_token,this).success)) {
         setTimeout(function() {
              removebesmodal();
-             re_define_lab();
+             
          }, 1000);
         }
 			
@@ -44,7 +44,8 @@ function filterfn(){
 function re_define_lab(data){
 	var last = 0 ;
 	var detail_id = 0;
-		var htm = '<thead>'            
+	$("#lbredefine").html("")
+		var header = '<thead>'            
               +'<tr>'
               +'<th>Doctor</th>'
               +'<th>patient</th>'
@@ -56,35 +57,50 @@ function re_define_lab(data){
 
             $.each(eval(data), function(i,item){
                   if(last != item.master_id){
-                     htm+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
+                     header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
-                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class="badge w3-blue"> '+item.status_name+'  </span></td>'
+                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.detail_id,item.master_id)+'  </span></td>'
                   +'  </tr>'
+                   $("#lbredefine").append(header);
                   }
+               
                 last = item.master_id;
                 detail_id = item.id;
                 $.each(eval(data), function(it,inner){
-                if(inner.test_order_id == item.master_id && $detail_id== inner.id){
-               	htm  + ' <tr>'
-                 
-                  +'<td>'+inner.testname+'</td>'
+                if(inner.test_order_id == item.master_id && detail_id== inner.id){
+               	var htm   =  ' <tr><td>'+inner.testname+'</td>'
                  +' <td> '+inner.patient_name+' </td>'
-                  +'<td> '+inner.amount+' </td>'
+                  +'<td> $'+inner.amount+' </td>'
                   +'<td>'
-                   +' <span class="badge w3-red">'+inner.status_name+' </span>'
-        
-
-                +'  </td>'
-                 
-                +'</tr>'
-
+                   +statusController(inner.status_id,inner.status_name,inner.detail_id,inner.patient_id)+'</td>';
+                    $("#lbredefine").append(htm);
                 }
                 
                 })
+               
             })
-            	htm  + ' </tbody>';
-             $("#lbredefine").html(htm);
-            
+          $("#lbredefine").append("</tbody");
+         	return true;
 
+}
+function statusController(status_id,status_name,id,patient_id){
+					if(  status_id==1)
+                    rt ='<span class="badge w3-red">  </span>'
+                    else if(  status_id==2)
+                    return '<span class="badge w3-blue">  '+ status_name+'</span> | <a  class=" w3-small w3-btn w3-blue w3-round-large" onclick="paymentpopup(this)" tag_id="'+id+'" tagpatient_id="'+patient_id+'"><i class="fa fa-dollar"> Pay</i></a> |  <a  class=" w3-small w3-btn w3-red w3-round-large" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'" ><i class="fa fa-trash"> Cancel</i></a>'
+                    else if(  status_id==3)
+                    return '<span class="badge w3-yellow">  '+ status_name+'</span>'
+                    else if( status_id==4)
+                    return '<span class="badge w3-green">  '+ status_name+'</span>'
+                    else if(  status_id==5)
+                    return '<span class="badge w3-teal">  '+ status_name+'</span>'
+                   
+
+}
+function cancelpayment(data){
+alert($(data).attr("tag_id"))
+}
+function paymentpopup(data){
+alert($(data).attr("tag_id"))
 }
