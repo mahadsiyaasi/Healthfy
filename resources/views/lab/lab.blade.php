@@ -22,7 +22,7 @@
         <div class="box-header with-border">
           <a class="btn" ><i class="fa fa-bars w3-large"></i> <h3 class="box-title"> List of labs</h3></a>
           
-          <a  class="button btn" ><i class="fa fa-filter"> filter</i></a>
+          <a  class="button btn" onclick="filterfn()"><i class="fa fa-filter"> filter</i></a>
           <input type="search"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;">
 
           <div class="box-tools pull-right">
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="box-body">
-          <table  class="w3-table table table-stripped border  card">
+          <table  class="w3-table table table-stripped border  card" id="lbredefine">
             <thead>
              
               <tr>
