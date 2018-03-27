@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-<<<<<<< HEAD
+
 use DateTime;
 use Response;
-=======
-use App\Models\OrderMaster;
 
->>>>>>> last change
+use App\Models\OrderMaster;
 class labController extends Controller
 {
      public function __construct()
@@ -30,11 +28,11 @@ class labController extends Controller
 	->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
 	->join("patients","patients.id","=","test_order_master.patient_id")
 	->join("tests","tests.id","=","test_order_detail.test_id")
-<<<<<<< HEAD
+ 
 	->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
-=======
+
 	->select("patients.patient_name","staff.name as doctor_name","test_order_detail.amount","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_master.id as master_id")
->>>>>>> last change
+
 	->where("test_order_detail.status_id",">",0)
 	->where("test_order_master.status_id",">",0)
 	->where("test_order_master.company_id",Auth::user()->company_id)
