@@ -85,10 +85,18 @@ function re_define_lab(data){
 
 }
 function statusController(status_id,status_name,id,patient_id){
+	
 					if(  status_id==1)
                     rt ='<span class="badge w3-red">  </span>'
                     else if(  status_id==2)
-                    return '<span class="badge w3-blue">  '+ status_name+'</span> | <a  class=" w3-small w3-btn w3-blue w3-round-large" onclick="paymentpopup(this)" tag_id="'+id+'" tagpatient_id="'+patient_id+'"><i class="fa fa-dollar"> Pay</i></a> |  <a  class=" w3-small w3-btn w3-red w3-round-large" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'" ><i class="fa fa-trash"> Cancel</i></a>'
+                    return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
+  +' <a  class=" w3-small w3-btn w3-blue w3-round-large" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
+    +' </a>'
+  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"><i class="fa fa-dollar"></i> Pay</a></li>'
+     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'"><i class="fa fa-trash"></i> Cancel</a></li>'
+   +' </ul>'+
+'</div>'
                     else if(  status_id==3)
                     return '<span class="badge w3-yellow">  '+ status_name+'</span>'
                     else if( status_id==4)
@@ -99,8 +107,15 @@ function statusController(status_id,status_name,id,patient_id){
 
 }
 function cancelpayment(data){
-alert($(data).attr("tag"))
+alert($(data).attr("tagid"))
 }
 function paymentpopup(data){
-alert($(data).attr("tag_id"))
+alert($(data).attr("tagpatient_id"))
 }
+$(document).ready(function(){
+	$("body").find(".gentd").each(function(){
+		//alert($(this).attr("tagid"))
+	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id")));
+		
+	})
+})

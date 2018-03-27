@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/loadmedication','medicationController@loadmedication');
 	Route::any('/lab', 'labController@lab')->name('lab');
 	Route::any('/filter', 'labController@filter')->name('lab');
-	
+	Route::any('/payment', 'paymentController@home')->name('payment');
 	
 	
 	

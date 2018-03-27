@@ -20,8 +20,15 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <a class="btn" ><i class="fa fa-bars w3-large"></i> <h3 class="box-title"> List of labs</h3></a>
-          
+          <div class="dropdown" style="display:inline-block; cursor: pointer;">
+          <a class="btndropdown-toggle"  data-toggle="dropdown"><i class="fa fa-bars w3-large"></i> <h3 class="box-title"> List of labs</h3></a>
+            <ul class="dropdown-menu w3-card-8 btn-info" >
+    <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i>Awaiting</a></li>
+  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i>Lab Queue</a></li>
+  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i></i>Awaiting Result</a></li>
+  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i></i>Completed</a></li>
+    </ul>
+</div>
           <a  class="button btn" onclick="filterfn()"><i class="fa fa-filter"> filter</i></a>
           <input type="search"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;">
 
@@ -38,10 +45,10 @@
             <thead>
              
               <tr>
-              <th>Doctor</th>
+              <th >Doctor</th>
               <th>patient</th>
               <th>Amount</th>
-              <th>Action & Status </th>
+              <th  class="text-center">Action & Status </th>
               </tr>
             </thead>
               <tbody>
@@ -54,29 +61,22 @@
                         <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span> </td>
                         <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> </td>
                         <td class="w3-light-gray active">Total :  <span class="badge w3-green">$ {{ $vals['total_amount'] }} </span></td>
-                        <td class="w3-light-gray active"> Status <span class="badge w3-blue"> {{ $vals['status_name'] }}  </span></td>
+                        <td class="text-center w3-light-gray active"> Status <span class="badge w3-blue"> {{ $vals['status_name'] }}  </span></td>
                     </tr>
                   @endif
                 <?php $last = $vals['doctor_name']; ?>
                 <?php $detail_id = $vals['id']; ?>
                 @foreach($ordertest as $val)
                 @if($val['test_order_id'] == $vals['master_id'] && $detail_id== $val['id'] )
-                <tr>
+                <tr class="parentgentd" tagid="{{$val['id']}}" tagpatient_id="{{$val['patient_id']}}" tagamount="{{$val['amount']}}" tagdoctor_id="{{$val['doctor_id']}}" tagpatient_name="{{$val['patient_name']}}">
                  
                   <td> {{ $val['testname'] }}</td>
                   <td> {{ $val['patient_name'] }} </td>
                   <td> ${{ $val['amount'] }} </td>
-                  <td>  @if($val['status_id']==1)
-                    <span class="badge w3-red"> {{  $val['status_name'] }}  </span>
-                    @elseif($val['status_id']==2)
-                    <span class="badge w3-blue"> {{  $val['status_name'] }}</span> | <a  class=" w3-small w3-btn w3-blue w3-round-large" ><i class="fa fa-dollar"> Pay</i></a> |  <a  class=" w3-small w3-btn w3-red w3-round-large" ><i class="fa fa-trash"> Cancel</i></a>
-                    @elseif($val['status_id']==2)
-                    <span class="badge w3-yellow"> {{  $val['status_name'] }}</span>
-                    @elseif($val['status_id']==2)
-                    <span class="badge w3-green"> {{  $val['status_name'] }}</span>
-                    @elseif($val['status_id']==2)
-                    <span class="badge w3-teal"> {{  $val['status_name'] }}</span>
-                    @endif
+                  <td class="gentd text-center" tagid="{{$val['id']}}" tagpaient_id="{{$val['patient_id']}}"  status_id="{{$val['status_id']}}" status_name="{{$val['status_name']}}"> 
+
+                    
+                    
 
                   </td>
                  
