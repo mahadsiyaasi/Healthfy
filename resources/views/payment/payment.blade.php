@@ -20,7 +20,13 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
+          <div class="dropdown" style="display:inline-block; cursor: pointer;">
+          <a class="btndropdown-toggle"  data-toggle="dropdown"><i class="fa fa-bars w3-large"></i> <h3 class="box-title">Create Payment</h3></a>
+            <ul class="dropdown-menu w3-card-8 btn-info" >
+    <li class="w3-text-white"><a class="w3-text-white" href="?new=main"><i class="fa fa-circle"></i>Create Main</a></li>
+  <li class="w3-text-white"><a class="w3-text-white" href="?new=sub_main"><i class="fa fa-circle"></i>Create Sub Main</a></li>
+    </ul>
+</div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -33,9 +39,9 @@
         <div class="box-body">
           @if(Request::get("new"))
 
+          @include('payment.newpayment')
 
-
-          @endif
+          @else
          <table  class="w3-table table table-stripped border  card" id="">
             <thead>
              
@@ -81,7 +87,8 @@
               </tbody>
             
           </table>
-        </div>
+          @endif
+       
         </div>
         <!-- /.box-body -->
         <div class="box-footer">

@@ -14,7 +14,8 @@ class PaymentMethod extends Model
         'company_id',
         'status_id',
         'description',
-        'parent_id'
+        'parent_id'.
+        'account'
     ];   
 
     protected $guarded = [];
