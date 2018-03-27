@@ -13984,7 +13984,7 @@ function statusController(status_id,status_name,id,patient_id){
 
 }
 function cancelpayment(data){
-alert($(data).attr("tag_id"))
+alert($(data).attr("tag"))
 }
 function paymentpopup(data){
 alert($(data).attr("tag_id"))
