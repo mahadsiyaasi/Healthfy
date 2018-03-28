@@ -257,7 +257,7 @@ use App\Http\Controllers\customerController;
 
 
                       <div class="navbar-right w3-padding">
-                        <button class="w3-button w3-border w3-text-blue w3-hover" style="display: inline-block; position: relative;bottom: -2.5px" onclick="location.href='patients'">cancell</button>
+                        <button class="w3-button w3-border w3-text-blue w3-hover" style="display: inline-block; position: relative;bottom: -2.5px" onclick="location.href='patients'">Cancel</button>
                         <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; position: relative; right: -5px; bottom: -2.5px" id="savepatient">Save</button>
 
                       </div> 

@@ -127,6 +127,10 @@ function ajaxtoserv(form,data,type,url,button){
       warner(form,data,tybol)
       $(form).trigger("reset")
       bools =  data;
+      },error: function(xhr){ 
+      warner(form,xhr.responseJSON.message,0)
+      $this.button("reset")
+      bools = "error";
       }
     })
   }
@@ -157,10 +161,16 @@ function warner(modal,message,type){
     if (type==1) {
     $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Success!</strong>'+message.success+'.</div>');
     }else if (type==0) {
-      $.each(eval(message), function(i, item) {
+      if (message instanceof Array) {
+         $.each(eval(message), function(i, item) {
              
           $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+item+'.</div>');
     });
+       
+      }else {
+          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+message+'.</div>');
+      }
+     
     }
 }
 function warnerremover(modal){
