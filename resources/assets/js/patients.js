@@ -148,10 +148,11 @@ else{
             if (url=="saveorder") {
              return location.href = "/patients/"+_id;
             }
+            bools =  data;
           var tybol = data.success?1:0;      
           warner(form,data,tybol)
           $(button).button('reset');
-          bools =  data;
+          
         }
         });
 }

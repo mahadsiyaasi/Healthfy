@@ -23,10 +23,10 @@
           <div class="dropdown" style="display:inline-block; cursor: pointer;">
           <a class="btndropdown-toggle"  data-toggle="dropdown"><i class="fa fa-bars w3-large"></i> <h3 class="box-title"> List of labs</h3></a>
             <ul class="dropdown-menu w3-card-8 btn-info" >
-    <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i>Awaiting</a></li>
-  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i>Lab Queue</a></li>
-  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i></i>Awaiting Result</a></li>
-  <li class="w3-text-white"><a class="w3-text-white"><i class="fa fa-circle"></i></i>Completed</a></li>
+    <li class="w3-text-white" onclick="filterbody('2')"><a class="w3-text-white"><i class="fa fa-circle"></i>Awaiting Payment</a></li>
+  <li class="w3-text-white" onclick="filterbody('3')"><a class="w3-text-white"><i class="fa fa-circle"></i>Lab Queue</a></li>
+  <li class="w3-text-white" onclick="filterbody('4')" ><a class="w3-text-white"><i class="fa fa-circle"></i></i>Awaiting Result</a></li>
+  <li class="w3-text-white" onclick="filterbody('5')"><a class="w3-text-white"><i class="fa fa-circle"></i></i>Completed</a></li>
     </ul>
 </div>
           <a  class="button btn" onclick="filterfn()"><i class="fa fa-filter"> filter</i></a>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="box-body">
-          <table  class="w3-table table table-stripped border  card" id="lbredefine">
+          <table  class="w3-table table table-stripped border  card">
             <thead>
              
               <tr>
@@ -51,7 +51,7 @@
               <th  class="text-center">Action & Status </th>
               </tr>
             </thead>
-              <tbody>
+              <tbody id="lbredefine">
                  <?php $last =""; 
                   $detail_id = 0;
                  ?>
