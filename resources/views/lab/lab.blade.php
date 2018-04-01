@@ -73,7 +73,7 @@
                   <td> {{ $val['testname'] }}</td>
                   <td> {{ $val['patient_name'] }} </td>
                   <td> ${{ $val['amount'] }} </td>
-                  <td class="gentd text-center" tagid="{{$val['id']}}" tagpaient_id="{{$val['patient_id']}}"  status_id="{{$val['status_id']}}" status_name="{{$val['status_name']}}"> 
+                  <td class="gentd text-center" tagid="{{$val['id']}}"   status_id="{{$val['status_id']}}" status_name="{{$val['status_name']}}" tagpaient_id="{{$val['patient_id']}}"> 
 
                     
                     

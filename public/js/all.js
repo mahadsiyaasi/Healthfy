@@ -13946,7 +13946,7 @@ function re_define_lab(data){
                      header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.detail_id,item.master_id,"test_master")+'  </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
                    $("#lbredefine").append(header);
                   }
@@ -13997,7 +13997,7 @@ function cancelpayment(data){
 alert($(data).attr("tagid"))
 }
 function paymentpopup(data){
-var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","getdatafrom?_token="+_token,this).success;
+var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this).success;
 if (data) {
 modalmakeup({
   title:"payment form",
@@ -14032,7 +14032,7 @@ function filterbody(id) {
 }
 $(document).ready(function(){
 	$("body").find(".gentd").each(function(){
-		//alert($(this).attr("tagid"))
+	////alert($(this) .attr("tagpaient_id"))
 	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_detail"));
 		
 	})
@@ -14092,6 +14092,8 @@ function loadmedications(){
                 ]
                 });
 }
+//var checkarray  = [];
+//jQuery.inArray($(this).attr("tagid"),checkarray)==-1
 $(document).ready(function(){
 $('body').on('click', '.finlist li', function(){
   $(this).find('i').toggleClass("fa fa-check")
@@ -14120,7 +14122,7 @@ function popuplist(){
   removebesmodal()
   modalmakeup({
   title:"Choose Medication",
-  width:"60%",
+  width:"30%",
   color:"w3-white",
   fade:"w3-animate-zoom",
   buttontext:"save",
@@ -14141,15 +14143,36 @@ function popuplist(){
     var index =0;
     $('body').find('.finlist li').each(function(){
       var $this = $(this).find("i");
-      if ($this.hasClass("fa-check")) {
-        ///alert($(this).attr('tagid'))
-        htm += '<tr style="100%; position:relative" class="w3-border w3-border-blue"><td  class="w3-text-blue w3-large" style="10%">'+$(this).attr("tagname")+'</td><td class="w3-padding" style="40%">   <input type="number" placeholder="frequency" style="width:30%; display:inline-block" class="form-control" name="frequency" required> <select class="form-control" style="width:68%; display:inline-block" name="frequencyl" required></select></td><td style="10%" style="15%"><input type="number" placeholder="days" style="width:95%; display:inline-block" class="form-control" name="frequency" required></td>'+
-        '<td style="width: 100px"><label for="'+$(this).attr("tagname")+index+1+'" class="w3-tiny"><input name="session" type="radio"  id="'+$(this).attr("tagname")+index+1+'" class="check radio w3-checkbox checkbox" After food> After Food</label> <br> <label for="'+$(this).attr("tagname")+index+1.2+'" class="w3-tiny"> <input name="session" type="radio" class="check radio w3-checkbox checkbox" value="Before Food" id="'+$(this).attr("tagname")+index+1.2+'" >Before Food </label></td></tr>';
+      if ($this.hasClass("fa-check")  ) {
+      //checkarray.push($(this).attr("tagid"))
+        htm += '<tr main_precripe_tag="'+$(this).attr("tagid")+'" style="100%; position:relative" class="lit-group li w3-li w3-border-top">'+
+        '<td  style="width:180px"  class="w3-text-blue w3-large"><h3>'+$(this).attr("tagname")+'</h3><a class="w3-text-black">'+$(this).attr("dn")+'</a></td>'+
+        '<td class="w3-padding" style="width:120px">   <input type="number" placeholder="frequency" style="display:inline-block" class="form-control" name="frequency" required><span>'+$(this).attr("dn")+'</span></td>'+
+        ' <td style="width:180px;position:relative"><select class="form-control" style="display:inline-block" name="frequencyl" required></select><br></td>'+
+        '<td style="width:90px"><input type="number" placeholder="days" style="width:95%; display:inline-block" class="form-control" name="frequency" required><br><span>days</span></td>'+
+        '<td style="position:relative;width: 200px"><div class="form-check w3-padding"><label for="'+$(this).attr("tagname")+index+1+'" class="form-check-label" style="display:inline-block"><input name="session'+index+'" type="radio"  id="'+$(this).attr("tagname")+index+1+'" class="check form-check-input radio w3-checkbox checkbox" style="display:inline-block"> After Food</label>  | '+
+        ' <label for="'+$(this).attr("tagname")+index+1.2+'" class="form-check-label" style="display:inline-block"> <input name="session'+index+'" type="radio" class=" form-check-input check radio w3-checkbox checkbox" value=" Before Food " id="'+$(this).attr("tagname")+index+1.2+'" style="display:inline-block"> Before Food </label><br><a>Add instruction</a>'+
+        '<a class="pull-right w3-hover-text-red" style="position:relative; right:-10px; top:-10px; cursor:pointer" onclick="removemain(this)"><i class="fa fa-close"></i></a></td></tr>'
+      index++;
       }
     })
-    alert(htm);
     $('#listtable tbody').append(htm);
     removebesmodal()
     e.preventDefault();
   })
+}
+function removemain(th){
+  $(th).parents("tr:first").remove();
+}
+function avoidduplicate() {
+ $('body #listtable tbody tr').each(function(){
+  var maithis = $(this).attr("main_precripe_tag");
+  ///alert(maithis)
+  $('body').find('.finlist li').each(function(){
+      var $this = $(this).find("i");
+      if ($(this).attr("tagid")==maithis) {
+            $this.addClass("fa fa-check")
+      }
+    })
+ })
 }

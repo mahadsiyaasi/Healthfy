@@ -15,24 +15,25 @@ use App\Http\Controllers\medicationController;
         <div class="input-group">
           
           <h4 class="">
-            Selected List <a class=" w3-button" onclick="popuplist()"><i class="fa fa-plus"> Add</i></a>
+            Selected List  <a class=" w3-button" onclick="popuplist();avoidduplicate();"><i class="fa fa-plus"> Add</i></a>
           </h4>
 
         </div>
          
       </form>
       <form>      
-      <table class="w3-table table-bordered table" id="listtable">
+      <table class="w3-table" id="listtable" style="width: 100%; position: relative;">
         
-          <thead class="w3-text-gray w3-x-large w3-border w3-border-black">
-            <td>Dosage Name</td>
-            <td>Dosage&Unit</td>
+          <thead class="w3-text-gray">
+            <td>Drug Name</td>
+            <td>Dosage</td>
+            <td>Frequency</td>
             <td>Duration</td>
-            <td>Structure</td>
+            <td>Instruction</td>
           </thead>
         <tbody>
           
-        </tbody>
+      </tbody>
       </table>
       </form>
   </div>
@@ -60,7 +61,7 @@ use App\Http\Controllers\medicationController;
       </div>
       <ul id="myUL" class="w3-list w3-ul w3-list-item w3-border">
     @foreach($var as $key => $val)
-        <li class="checked fortick" tagid="{{$val['id']}}" tageffect="{{$val['effect']}}" tagstrenght="{{$val['strenght']}}" tagname="{{$val['name']}}"><a href="#"> {{$val['name']}} </a><span class="pull-right"><i class=""></i></span></li>
+        <li class="checked fortick" tagid="{{$val['id']}}" tageffect="{{$val['effect']}}" tagstrenght="{{$val['strenght']}}" tagname="{{$val['name']}}" dn="{{$val['dosage_unit_name']}}">  <a href="#"> {{$val['name']}} </a><span class="pull-right"><i class=""></i></span></li>
       @endforeach
       </ul>
   </div>

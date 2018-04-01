@@ -52,7 +52,7 @@ function re_define_lab(data){
                      header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.detail_id,item.master_id,"test_master")+'  </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
                    $("#lbredefine").append(header);
                   }
@@ -103,7 +103,7 @@ function cancelpayment(data){
 alert($(data).attr("tagid"))
 }
 function paymentpopup(data){
-var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","getdatafrom?_token="+_token,this).success;
+var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this).success;
 if (data) {
 modalmakeup({
   title:"payment form",
@@ -138,7 +138,7 @@ function filterbody(id) {
 }
 $(document).ready(function(){
 	$("body").find(".gentd").each(function(){
-		//alert($(this).attr("tagid"))
+	////alert($(this) .attr("tagpaient_id"))
 	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_detail"));
 		
 	})

@@ -115,9 +115,22 @@ class medicationController extends Controller
 
      public static function finddrug($data){
         if ($data==null) {
-           return MedicationList::all();
+           return MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+           ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
+            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
+         //->where('medication_list.id',$data)    
+         ->where('medication_list.status_id',">",0) 
+        ->distinct('medication_list.id')  
+         ->get();
         }else{
-         $data  = MedicationList::find($data);         
+         $data  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+           ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
+            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
+         ->where('medication_list.id',$data)    
+         ->where('medication_list.status_id',">",0) 
+         ->distinct('medication_list.id')   
+         ->distinct('dosage_unit_list.dul_id')  
+         ->get();
         
         return $data;
 }
