@@ -86,7 +86,8 @@ class labController extends Controller
     ->where("test_order_master.patient_id","=",$filter->input('patient_id'))
     ->where("test_order_master.company_id",Auth::user()->company_id)
     ->distinct('test_order_detail.id')
-    ->get());
+    ->get(),
+'payment'=>PaymentMethod::all());
         }
     }
         else{

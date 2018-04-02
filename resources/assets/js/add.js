@@ -150,3 +150,17 @@ function submittest(){
       data.push({name:"doctor_id", value:$("select[name=doctor_id]").val()}) 
      ajaxtoserv(data,null,"array","saveorder");
 }
+function screenmodal(data){
+    var modal = '<div class="modal fade" id="modalwarn">'
+                +'<div class="modal-dialog w3-round-xlarge " style="width:40%">'
+                +'<div class="modal-content w3-white">'
+                +'<div class="modal-header" style="border: none;">'
+                +'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
+                +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title"> Warning</h4></div>'
+                +'<div class="modal-body w3-text-red"><h3>'
+                +data.message+
+                '</h3></div>';
+                removebesmodal()
+                $(".specialmodal").html(modal);
+                $(".specialmodal").find("#modalwarn").modal("show");
+}

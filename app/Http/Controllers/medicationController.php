@@ -115,25 +115,32 @@ class medicationController extends Controller
 
      public static function finddrug($data){
         if ($data==null) {
-           return MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+           $largedata =  MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
            ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
             ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
          //->where('medication_list.id',$data)    
          ->where('medication_list.status_id',">",0) 
-        ->distinct('medication_list.id')  
-         ->get();
+          ->distinct('medication_dosage_units.medication_id')   
+          ->get();
+          
+          return self::removeduplicate($largedata,'id');
         }else{
-         $data  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+         $s  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
            ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
             ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
          ->where('medication_list.id',$data)    
          ->where('medication_list.status_id',">",0) 
-         ->distinct('medication_list.id')   
+         //->distinct('medication_list.mdu_id')   
          ->distinct('dosage_unit_list.dul_id')  
          ->get();
         
-        return $data;
+        return $s;
 }
+    }
+    public static function removeduplicate($data,$id){
+      $data= $data->unique($id);
+      $data = array_slice($data->values()->all(), 0, 5, true);
+      return $data;
     }
 
 }

@@ -13479,6 +13479,20 @@ function submittest(){
       data.push({name:"doctor_id", value:$("select[name=doctor_id]").val()}) 
      ajaxtoserv(data,null,"array","saveorder");
 }
+function screenmodal(data){
+    var modal = '<div class="modal fade" id="modalwarn">'
+                +'<div class="modal-dialog w3-round-xlarge " style="width:40%">'
+                +'<div class="modal-content w3-white">'
+                +'<div class="modal-header" style="border: none;">'
+                +'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
+                +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title"> Warning</h4></div>'
+                +'<div class="modal-body w3-text-red"><h3>'
+                +data.message+
+                '</h3></div>';
+                removebesmodal()
+                $(".specialmodal").html(modal);
+                $(".specialmodal").find("#modalwarn").modal("show");
+}
 $(document).ready(function(){
 	test_view= $('.test_view').DataTable({
     "initComplete": function( settings, json ) {
@@ -13959,7 +13973,7 @@ function re_define_lab(data){
                  +' <td> '+inner.patient_name+' </td>'
                   +'<td> $'+inner.amount+' </td>'
                   +'<td>'
-                   +statusController(inner.status_id,inner.status_name,inner.detail_id,inner.patient_id,"test_detail")+'</td>';
+                   +statusController(inner.status_id,inner.status_name,inner.id,inner.patient_id,"test_detail")+'</td>';
                     $("#lbredefine").append(htm);
                     detail_id = inner.id;
                 }
@@ -13977,11 +13991,11 @@ function statusController(status_id,status_name,id,patient_id,type){
                     rt ='<span class="badge w3-red">  </span>'
                     else if(  status_id==2)
                     return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
-  +' <a  class=" w3-small w3-btn w3-blue w3-round-large" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
+  +' <a  class=" w3-medium w3-border w3-border-gray w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
     +' </a>'
   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'" tagtype="'+type+'"><i class="fa fa-dollar"></i> Pay</a></li>'
-     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'" tagtype="'+type+'"><i class="fa fa-trash"></i> Cancel</a></li>'
+    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'"  ><i class="fa fa-trash"></i> Cancel</a></li>'
    +' </ul>'+
 '</div>'
                     else if(  status_id==3)
@@ -13996,11 +14010,43 @@ function statusController(status_id,status_name,id,patient_id,type){
 function cancelpayment(data){
 alert($(data).attr("tagid"))
 }
-function paymentpopup(data){
-var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this).success;
-var htmls = '<form method="post" class="w3-padding" id="updatetests"><input type="hidden" name="order_id" required><input type="hidden" name="detail_id" required>'+
-'<input type="hidden" name="patient_id" required><input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /><div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount"  readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
-'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay"><optgroup label="Mobile"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup><optgroup label="Bank"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup></select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
+
+
+////////////////////////////////////////
+function paymentpopup(datas){
+var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this);
+var   selectincde;
+var total;
+//alert($(datas).attr("tagtype"));
+if ($(datas).attr("tagtype").trim()=="test_master") {
+  var parent_id;
+
+$.each(eval(data.success),function(i,item){
+parent_id  =item.patient_id;
+ total =  item.total_amount;
+
+})
+}else 
+{
+  $.each(eval(data.success),function(i,item){
+  total =  item.amount;
+  parent_id  =item.patient_id;
+})
+}
+$.each(eval(data.payment),function(i,item){
+  if (item.parent_id=="" || item.parent_id == null) {
+     selectincde +='<optgroup label="'+item.name+'">';
+  }
+   $.each(eval(data.payment),function(ins,itemdata){
+    if (itemdata.parent_id==item.id) {
+    selectincde +='<option value="'+itemdata.id+'">'+itemdata.account+'</option>'
+  }
+   })
+   selectincde +='</optgroup>'
+})
+var htmls = '<form method="post" class="w3-padding" id="labpayment">'+
+'<div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount" value="'+total+'"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount" value="'+total+'" readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
+'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay">'+selectincde+'</select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
 
 
 if (data) {
@@ -14009,8 +14055,8 @@ modalmakeup({
   width:"50%",
   color:"w3-white",
   fade:"w3-animate-zoom",
-  buttontext:"filter",
-  buttoneventclass:"btnfilter",
+  buttontext:"Save",
+  buttoneventclass:"savelabpaymentbtn",
   buttoncolor:"w3-blue",
   buttons: {
                 saveg: function() {
@@ -14023,6 +14069,19 @@ modalmakeup({
             },
   body :htmls
   });
+$('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),null,"form","savepaymental?patient_id="+parent_id+"&order_id="+$(datas).attr("tagid"),$(this)).success){
+
+
+       setTimeout(function(){ 
+           
+             location.reload();
+            
+          },1000)
+    }
+
+
+})
 }
 }
 function filterbody(id) {
@@ -14036,6 +14095,14 @@ $(document).ready(function(){
 		
 	})
 })
+function discounts(th){
+      var disc = $('input[name=discount]').val();
+      var total = $('input[name=total_amount]').val();
+       var last  = (total*1)-(disc*1)
+      $('input[name=curency]').val(last);
+      
+      
+}
 var medication_list;
 $(document).ready(function(){
 loadmedications();
@@ -14091,7 +14158,8 @@ function loadmedications(){
                 ]
                 });
 }
-//var checkarray  = [];
+var checkarray  = [];
+var index =0;
 //jQuery.inArray($(this).attr("tagid"),checkarray)==-1
 $(document).ready(function(){
 $('body').on('click', '.finlist li', function(){
@@ -14139,20 +14207,31 @@ function popuplist(){
   });
   $("#oncreate").on("click",".appentbody",function(e){
     var htm="";
-    var index =0;
+    
     $('body').find('.finlist li').each(function(){
+      var header_id  = $(this).attr("tagid");
       var $this = $(this).find("i");
-      if ($this.hasClass("fa-check")  ) {
+      if ($this.hasClass("fa-check") && avoidduplicatesubmit($(this).attr("tagid")) ) {
       //checkarray.push($(this).attr("tagid"))
         htm += '<tr main_precripe_tag="'+$(this).attr("tagid")+'" style="100%; position:relative" class="lit-group li w3-li w3-border-top">'+
         '<td  style="width:180px"  class="w3-text-blue w3-large"><h3>'+$(this).attr("tagname")+'</h3><a class="w3-text-black">'+$(this).attr("dn")+'</a></td>'+
-        '<td class="w3-padding" style="width:120px">   <input type="number" placeholder="frequency" style="display:inline-block" class="form-control" name="frequency" required><span>'+$(this).attr("dn")+'</span></td>'+
-        ' <td style="width:180px;position:relative"><select class="form-control" style="display:inline-block" name="frequencyl" required></select><br></td>'+
-        '<td style="width:90px"><input type="number" placeholder="days" style="width:95%; display:inline-block" class="form-control" name="frequency" required><br><span>days</span></td>'+
-        '<td style="position:relative;width: 200px"><div class="form-check w3-padding"><label for="'+$(this).attr("tagname")+index+1+'" class="form-check-label" style="display:inline-block"><input name="session'+index+'" type="radio"  id="'+$(this).attr("tagname")+index+1+'" class="check form-check-input radio w3-checkbox checkbox" style="display:inline-block"> After Food</label>  | '+
-        ' <label for="'+$(this).attr("tagname")+index+1.2+'" class="form-check-label" style="display:inline-block"> <input name="session'+index+'" type="radio" class=" form-check-input check radio w3-checkbox checkbox" value=" Before Food " id="'+$(this).attr("tagname")+index+1.2+'" style="display:inline-block"> Before Food </label><br><a>Add instruction</a>'+
+        '<td class="w3-padding" style="width:120px">   <input type="number" placeholder="frequency" style="display:inline-block" class="form-control" name="dosage[]" required><span>'+$(this).attr("dn")+'</span></td>'+
+        ' <td style="width:180px;position:relative"><select class="form-control" style="display:inline-block" name="frequency[]" required></select><br></td>'+
+        '<td style="width:90px"><input type="number" placeholder="days" style="width:95%; display:inline-block" class="form-control" name="days[]" required><br><span>days</span></td>'+
+        '<td style="position:relative;width: 200px"><div class="form-check w3-padding"><label for="'+$(this).attr("tagname")+index+1+'" class="form-check-label" style="display:inline-block"><input name="session['+index+']" type="radio"  id="'+$(this).attr("tagname")+index+1+'" class="check form-check-input radio w3-checkbox checkbox" value="After Food" style="display:inline-block"> After Food</label>  | '+
+        ' <label for="'+$(this).attr("tagname")+index+1.2+'" class="form-check-label" style="display:inline-block"> <input name="session['+index+']" type="radio" class=" form-check-input check radio w3-checkbox checkbox" value=" Before Food " id="'+$(this).attr("tagname")+index+1.2+'" style="display:inline-block"> Before Food </label><br><a>Add instruction</a>'+
         '<a class="pull-right w3-hover-text-red" style="position:relative; right:-10px; top:-10px; cursor:pointer" onclick="removemain(this)"><i class="fa fa-close"></i></a></td></tr>'
       index++;
+      }else  if ($this.hasClass("fa-check")==false && avoidduplicatesubmit($(this).attr("tagid"))===false) {
+        $('body #listtable tbody tr').each(function(){
+          var $tho = $(this);
+        var maithis = $(this).attr("main_precripe_tag");
+          if (header_id == maithis) {
+            $tho.remove()
+          }
+
+
+      })
       }
     })
     $('#listtable tbody').append(htm);
@@ -14174,4 +14253,37 @@ function avoidduplicate() {
       }
     })
  })
+}
+function avoidduplicatesubmit(id) {
+  checkarray.length =0;
+ $('body #listtable tbody tr').each(function(){
+  var maithis = $(this).attr("main_precripe_tag");
+      checkarray.push(maithis)
+ })
+ //var checkarray  = [];
+if (jQuery.inArray(id,checkarray)==-1){
+  return true;
+}else{
+  return false;
+}
+}
+function saveprescription(){
+var dataarray = [];
+dataarray.length = 0;
+if ($('body #listtable tbody').find('tr').length>0) {
+$('body #listtable tbody tr').each(function(){
+  dataarray.push({name: 'medication_id[]', value: $(this).attr("main_precripe_tag")});
+})
+$('body #listtable tbody tr'). find('input[type=number],select').each(function(){
+  dataarray.push({name: $(this).attr('name'), value: $(this).val()});
+})
+$('body #listtable tbody tr'). find('input[type=radio]').each(function(){
+  if ($(this).is(':checked')) {
+  dataarray.push({name: $(this).attr('name'), value: $(this).val()});
+}
+})
+  ajaxtoserv(dataarray,null,"not form","saveprescription?_token="+_token,this);
+}else{
+ screenmodal({'message':"Sorry you did not selected anything please select one or more medication at the add button <i class='fa fa-warning'></i>"})
+}
 }

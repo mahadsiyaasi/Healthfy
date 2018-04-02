@@ -65,7 +65,7 @@ function re_define_lab(data){
                  +' <td> '+inner.patient_name+' </td>'
                   +'<td> $'+inner.amount+' </td>'
                   +'<td>'
-                   +statusController(inner.status_id,inner.status_name,inner.detail_id,inner.patient_id,"test_detail")+'</td>';
+                   +statusController(inner.status_id,inner.status_name,inner.id,inner.patient_id,"test_detail")+'</td>';
                     $("#lbredefine").append(htm);
                     detail_id = inner.id;
                 }
@@ -83,11 +83,11 @@ function statusController(status_id,status_name,id,patient_id,type){
                     rt ='<span class="badge w3-red">  </span>'
                     else if(  status_id==2)
                     return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
-  +' <a  class=" w3-small w3-btn w3-blue w3-round-large" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
+  +' <a  class=" w3-medium w3-border w3-border-gray w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
     +' </a>'
   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'" tagtype="'+type+'"><i class="fa fa-dollar"></i> Pay</a></li>'
-     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'" tagtype="'+type+'"><i class="fa fa-trash"></i> Cancel</a></li>'
+    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'"  ><i class="fa fa-trash"></i> Cancel</a></li>'
    +' </ul>'+
 '</div>'
                     else if(  status_id==3)
@@ -102,11 +102,43 @@ function statusController(status_id,status_name,id,patient_id,type){
 function cancelpayment(data){
 alert($(data).attr("tagid"))
 }
-function paymentpopup(data){
-var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this).success;
-var htmls = '<form method="post" class="w3-padding" id="updatetests"><input type="hidden" name="order_id" required><input type="hidden" name="detail_id" required>'+
-'<input type="hidden" name="patient_id" required><input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /><div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount"  readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
-'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay"><optgroup label="Mobile"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup><optgroup label="Bank"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup></select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
+
+
+////////////////////////////////////////
+function paymentpopup(datas){
+var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this);
+var   selectincde;
+var total;
+//alert($(datas).attr("tagtype"));
+if ($(datas).attr("tagtype").trim()=="test_master") {
+  var parent_id;
+
+$.each(eval(data.success),function(i,item){
+parent_id  =item.patient_id;
+ total =  item.total_amount;
+
+})
+}else 
+{
+  $.each(eval(data.success),function(i,item){
+  total =  item.amount;
+  parent_id  =item.patient_id;
+})
+}
+$.each(eval(data.payment),function(i,item){
+  if (item.parent_id=="" || item.parent_id == null) {
+     selectincde +='<optgroup label="'+item.name+'">';
+  }
+   $.each(eval(data.payment),function(ins,itemdata){
+    if (itemdata.parent_id==item.id) {
+    selectincde +='<option value="'+itemdata.id+'">'+itemdata.account+'</option>'
+  }
+   })
+   selectincde +='</optgroup>'
+})
+var htmls = '<form method="post" class="w3-padding" id="labpayment">'+
+'<div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount" value="'+total+'"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount" value="'+total+'" readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
+'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay">'+selectincde+'</select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
 
 
 if (data) {
@@ -115,8 +147,8 @@ modalmakeup({
   width:"50%",
   color:"w3-white",
   fade:"w3-animate-zoom",
-  buttontext:"filter",
-  buttoneventclass:"btnfilter",
+  buttontext:"Save",
+  buttoneventclass:"savelabpaymentbtn",
   buttoncolor:"w3-blue",
   buttons: {
                 saveg: function() {
@@ -129,6 +161,19 @@ modalmakeup({
             },
   body :htmls
   });
+$('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),null,"form","savepaymental?patient_id="+parent_id+"&order_id="+$(datas).attr("tagid"),$(this)).success){
+
+
+       setTimeout(function(){ 
+           
+             location.reload();
+            
+          },1000)
+    }
+
+
+})
 }
 }
 function filterbody(id) {
@@ -142,3 +187,11 @@ $(document).ready(function(){
 		
 	})
 })
+function discounts(th){
+      var disc = $('input[name=discount]').val();
+      var total = $('input[name=total_amount]').val();
+       var last  = (total*1)-(disc*1)
+      $('input[name=curency]').val(last);
+      
+      
+}

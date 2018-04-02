@@ -11,14 +11,30 @@ use App\Http\Controllers\medicationController;
   
 	<div class="" style="position: relative; width: 100%">
 		<ul class="w3-ul w3-hover-border-red">
-    <form action="#" method="get" class="w3-border-bottom">
-        <div class="input-group">
+    <form action="#" method="get" class="w3-border-bottom" style="width: 100%">
+
+        <div class="input-group" style="width: 100%">
           
-          <h4 class="">
-            Selected List  <a class=" w3-button" onclick="popuplist();avoidduplicate();"><i class="fa fa-plus"> Add</i></a>
+          <h4 class="" style=" width: 100%">
+
+
+<div class="dropdown" style="display:inline-block; cursor: pointer;">
+          <a class="btndropdown-toggle"  data-toggle="dropdown" style="display:inline-block; cursor: pointer;"><i class="fa fa-bars w3-large" style="display:inline-block; cursor: pointer;"></i> <h3 style="display:inline-block; cursor: pointer;" class="box-title">Prescriotions </h3></a>
+            <ul class="dropdown-menu w3-card-8 btn-info" >
+    <li class="w3-text-white" onclick="popuplist();avoidduplicate();"><a class="w3-text-white"><i class="fa fa-circle"></i>Select Lists</a></li>
+  <li class="w3-text-white"><a  href="/patients/{{$patient->id}}" class="w3-text-white"><i class="fa fa-circle"></i>Cancel</a></li>
+  </ul>
+</div>
+
+         <a class=" w3-btn btn w3-arround w3-text-blue w3-text-bold" style="background: inherit; font-weight: bold;" onclick="popuplist();avoidduplicate();"><i class="fa fa-plus"> Add</i></a>
+         <div class="pull-right">
+               <a  href="/patients/{{$patient->id}}" class=" w3-btn btn w3-arround w3-text-red w3-text-bold w3-text-red" style="background:inherit;font-weight: bold;"><i class="fa fa-trash"> Cancel</i></a>
+               <a class=" w3-btn btn w3-arround w3-text-green w3-text-bold" style="background:inherit;font-weight: bold;" onclick="saveprescription();"><i class="fa fa-save"> Save</i></a>
+            </div>
           </h4>
 
-        </div>
+
+  </div>
          
       </form>
       <form>      
