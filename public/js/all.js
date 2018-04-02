@@ -13898,7 +13898,7 @@ function filterfn(){
 	width:"55%",
 	color:"w3-white",
 	fade:"w3-animate-zoom",
-	buttontext:"filter",
+	buttontext:"Save",
 	buttoneventclass:"btnfilter",
 	buttoncolor:"w3-blue",
 	buttons: {
@@ -13998,6 +13998,11 @@ alert($(data).attr("tagid"))
 }
 function paymentpopup(data){
 var data  = ajaxtoserv({tagtype:$(data).attr("tagtype"),order_id:$(data).attr("tagid"),patient_id:$(data).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this).success;
+var htmls = '<form method="post" class="w3-padding" id="updatetests"><input type="hidden" name="order_id" required><input type="hidden" name="detail_id" required>'+
+'<input type="hidden" name="patient_id" required><input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" /><div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount"  readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
+'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay"><optgroup label="Mobile"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup><optgroup label="Bank"><option value="{{ $pay->name }}">{{ $pay->name }}</option></optgroup></select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
+
+
 if (data) {
 modalmakeup({
   title:"payment form",
@@ -14016,13 +14021,7 @@ modalmakeup({
                     $(this).dialog("close");
                 }
             },
-  body :'<form method="post" action="" id="fmfilter">'
-  +'<div class="w3-row-padding">'
-  +'<div class="form-group"><label for="inputName" class=" control-label">Status</label><div class=""><select type="text"  name="status_filter" class="form-control" id="inputName" placeholder="status ">'
-  +'<option value="2">Awaiting payment</option><option value="3">Lab queue</option><option value="2">Awaiting result</option><option value="2">Completed</option></select></div></div>'+
-  '<div class="w3-half"><div class="form-group"><label for="inputName" class=" control-label">doctor</label><div class=""><select type="text" name="doctor_filter" class="form-control" id="doctor_filter" placeholder="doctor" ></select></div></div></div>'+
-'<div class="w3-half"><div class="w3-row-padding"><div class="w3-half"><div class="form-group"><label for="inputName" class=" control-label">from</label><div class=""><input type="text" name="date-from" class="form-control" id="date-filter" placeholder="date" ></div></div></div><div class="w3-half"><div class="form-group"><label for="inputName" class=" control-label">end</label><div class=""><input type="text" name="date-to" class="form-control" id="date-filter" placeholder="date" ></div></div></div>'+
-  '</div></div></form>'
+  body :htmls
   });
 }
 }
