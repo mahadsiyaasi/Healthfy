@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/filter', 'labController@filter')->name('lab');
 	Route::any('/payment', 'paymentController@home')->name('payment');
 	Route::any('/savepayment','paymentController@savepayment');
+	Route::any('/savepaymental','labController@savepaymental');
 	
 	
 	

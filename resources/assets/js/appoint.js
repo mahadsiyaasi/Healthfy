@@ -133,7 +133,7 @@ function modalpopup(start,end){
 		$("body").find("select[name=disease]").append("<option value='"+item.specialization+"' tagcheckid='"+item.id+"'>"+item.specialization+"</option>");
 		})
 		$("body").on("click",".saveappoint",function(){
-        if (ajaxtoserv($("body").find("#appointmentfm"),null,"form","newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&doctor_id="+$("body").find("#appointmentfm input[name=doctor]").attr('doctortag'),this).success) {
+        if (ajaxtoserv($("body").find("#appointmentfm"),"form","newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&doctor_id="+$("body").find("#appointmentfm input[name=doctor]").attr('doctortag'),this).success) {
         setTimeout(function() {
              $("#calender").fullCalendar( 'refresh' )
              $('#calender').fullCalendar( 'refetchEvents' );

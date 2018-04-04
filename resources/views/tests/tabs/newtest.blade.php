@@ -72,6 +72,6 @@
             </form>
               <div class="form-group panel w3-padding" style=" position: relative; ">
                     <div class="pull-right">
-                      <button type="button" class="btn btn-danger" onclick='var $this= $(this);  if(ajaxtoserv("#testform",null,"form","savetestorder?_token="+_token,this).success){setTimeout(function() {viewonedit.ajax.reload();$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
+                      <button type="button" class="btn btn-danger" onclick='var $this= $(this);  if(ajaxtoserv("#testform","form","savetestorder?_token="+_token,this).success){setTimeout(function() {viewonedit.ajax.reload();$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
                     </div>
                   </div>

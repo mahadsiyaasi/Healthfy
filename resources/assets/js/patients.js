@@ -7,9 +7,8 @@ $(document).ready(function(){
 datereuse("#dateofbirth");
 $("#savepatient").click(function(){
   commonvalidator("#patientfm")
-  $this =  this;
   if ($("#patientfm").valid()) {
-    if (ajaxtoserv("#patientfm",null,"form","savepatient",$this).success){
+    if (ajaxtoserv("#patientfm","form","savepatient",this).success){
 
 
        setTimeout(function(){ 
@@ -108,28 +107,31 @@ function datereuse(control){
         });
          });
 }
-function ajaxtoserv(form,data,type,url,button){
+function ajaxtoserv(data,type,url,btn){
   var bools;
   if (type=="form") {
-   commonvalidator(form);
-  var datsend = type=="data"?data:$(form).serialize();
-  if ($(form).valid()) { 
-    var $this = $(button);
-    $this.button('loading');
+   commonvalidator(data);
+  var datsend = $(data).serialize();
+  if ($(data).valid()) { 
+    $(btn).button('loading');
     $.ajax({
       url:url,
       data:datsend,
       type:"POST",
       async: false,
       datatype:"json",
-      success:function(data){
-      var tybol = data.success?1:0;      
-      warner(form,data,tybol)
-      $(form).trigger("reset")
-      bools =  data;
-      },error: function(xhr){ 
-      warner(form,xhr.responseJSON.message,0)
-      $this.button("reset")
+      success:function(res){
+      var tybol = res.success?1:0;      
+      warner(data,res,tybol)
+      if (res.success) {
+      $(data).trigger("reset")
+      }
+      bools =  res;
+       $(btn).button("reset")
+      },
+      error: function(xhr){ 
+      warner(data,xhr.responseJSON.message,05454)
+       $(btn).button("reset")
       bools = "error";
       }
     })
@@ -140,18 +142,18 @@ function ajaxtoserv(form,data,type,url,button){
 else{
   $.ajax({
       url:url,
-      data:form,
+      data:data,
       async: false,
       datatype:"json",
-      success:function(data){
+      success:function(res){
           
             if (url=="saveorder") {
              return location.href = "/patients/"+_id;
             }
-            bools =  data;
-          var tybol = data.success?1:0;      
-          warner(form,data,tybol)
-          $(button).button('reset');
+            bools =  res;
+          var tybol = res.success?1:0;      
+          warner(data,res,tybol)
+          $(btn).button('reset');
           
         }
         });
@@ -160,18 +162,30 @@ return bools;
 }
 function warner(modal,message,type){
     if (type==1) {
-    $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Success!</strong>'+message.success+'.</div>');
+    $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> Success ! </strong>'+message.success+'.</div>');
+    setTimeout(function() {
+    $(modal).find(".warner").html("")
+        }, 5000);
     }else if (type==0) {
-      if (message instanceof Array) {
-         $.each(eval(message), function(i, item) {
+    $.each(eval(message), function(i, item) {
              
-          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+item+'.</div>');
+          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>    </strong>'+item+'.</div>');
+     setTimeout(function() {
+          $(modal).find(".warner").html("")
+        }, 5000);
     });
        
-      }else {
-          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+message+'.</div>');
-      }
      
+        
+         
+      
+     
+    }else{
+      var msg =  message==""||message==null?"Eror exists server side. contact with developer or visit  go ..":message;
+      $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>   </strong>'+msg+'<a href="/feedback">Feedback</a>.</div>');
+        setTimeout(function() {
+          $(modal).find(".warner").html("")
+        }, 5000);
     }
 }
 function warnerremover(modal){

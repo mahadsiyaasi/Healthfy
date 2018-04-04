@@ -148,7 +148,7 @@ function submittest(){
       data.push({name:"patient_id", value:$("input[name=patient_id]").val()})
       data.push({name:"_token", value:_token})
       data.push({name:"doctor_id", value:$("select[name=doctor_id]").val()}) 
-     ajaxtoserv(data,null,"array","saveorder");
+     ajaxtoserv(data,"array","saveorder",null);
 }
 function screenmodal(data){
     var modal = '<div class="modal fade" id="modalwarn">'

@@ -10,6 +10,9 @@ use Response;
 
 use App\Models\OrderMaster;
 use App\Models\PaymentMethod;
+use App\Models\Transuction;
+use Validator;
+
 class labController extends Controller
 {
      public function __construct()
@@ -109,5 +112,33 @@ class labController extends Controller
     ->get());
 }
     return Response::json($data);
+}
+public function savepaymental(Request $data){
+    $valid =  Validator::make($data->all(),[
+               'total_amount'=>"required|min:1|numeric",
+                'discount'=>"required|min:1|numeric",
+                'curency'=>"required|min:1|numeric",
+                'accountpay'=>"required|min:1",
+                 'remark'=>"required|min:1"
+    ]);
+    if ($valid->fails()) {
+       return Response::json($valid->messages());
+    }else{
+        Transuction::create([
+        'patient_id'=>$data->input('patient_id'),  
+        'date'=>date('Y-m-d H:i:s'),
+        'amount'=>$data->input('total_amount'),
+        'discount'=>$data->input('discount'),
+        'balance'=>$data->input('curency'),
+        'order_id'=>$data->input('order_id'),
+        'order_type'=>"TestOrderPayment",
+        'transaction_type'=>"Payment",
+        'status_id'=>1,
+        'account'=>$data->input('accountpay'),
+        "company_id"=>Auth::user()->company_id
+    ]);
+        return Response::json(['success'=>'success full saved !']);
     }
+
+}
 }
