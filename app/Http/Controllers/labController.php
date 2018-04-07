@@ -12,6 +12,7 @@ use App\Models\OrderMaster;
 use App\Models\PaymentMethod;
 use App\Models\Transuction;
 use Validator;
+use App\Http\Controller\medicationController;
 
 class labController extends Controller
 {
@@ -57,8 +58,7 @@ class labController extends Controller
     ->where("test_order_detail.status_id","=",$filter->input('status_id'))
     ->where("test_order_master.company_id",Auth::user()->company_id)
     ->distinct('test_order_detail.id')
-    ->get(),
-'payment'=>PaymentMethod::all());
+    ->get());
         }
         elseif ($filter->has('tagtype')) {
             if ($filter->input('tagtype')=='test_detail') {
@@ -113,7 +113,7 @@ class labController extends Controller
 }
     return Response::json($data);
 }
-public function savepaymental(Request $data){
+public function labpayment(Request $data){
     $valid =  Validator::make($data->all(),[
                'total_amount'=>"required|min:1|numeric",
                 'discount'=>"required|min:1|numeric",

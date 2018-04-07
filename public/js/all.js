@@ -13966,30 +13966,34 @@ function re_define_lab(data){
 	var last = 0 ;
 	var detail_id = 0;
 	$("#lbredefine").html("")
-	var header ="";
+
           $.each(eval(data), function(i,item){
-                  if(last != item.master_id ){
+              var header ="";
+                  if( item.master_id  !=  last){
                      header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
                         +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
                    $("#lbredefine").append(header);
+                    last = item.master_id;
+
                   }
                
-                last = item.master_id;
                 detail_id = item.id;
                 $.each(eval(data), function(it,inner){
+                  var htm = ""
                 if(inner.test_order_id == item.master_id && detail_id != inner.id){
-               	var htm   =  ' <tr><td>'+inner.testname+'</td>'
+               	   htm +=  ' <tr><td>'+inner.testname+'</td>'
                  +' <td> '+inner.patient_name+' </td>'
                   +'<td> $'+inner.amount+' </td>'
                   +'<td>'
                    +statusController(inner.status_id,inner.status_name,inner.id,inner.patient_id,"test_detail")+'</td>';
                     $("#lbredefine").append(htm);
-                    detail_id = inner.id;
+                    
+                    alert(inner.id )
                 }
-                
+                detail_id = inner.id;
                 })
                
             })
@@ -14083,7 +14087,7 @@ modalmakeup({
   body :htmls
   });
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
- if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","savepaymental",$(this)).success){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment",$(this)).success){
       setTimeout(function(){ 
            location.reload();
      },1000)
