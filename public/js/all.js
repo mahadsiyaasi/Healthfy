@@ -12545,9 +12545,8 @@ $(document).ready(function(){
 datereuse("#dateofbirth");
 $("#savepatient").click(function(){
   commonvalidator("#patientfm")
-  $this =  this;
   if ($("#patientfm").valid()) {
-    if (ajaxtoserv("#patientfm",null,"form","savepatient",$this).success){
+    if (ajaxtoserv("#patientfm","form","savepatient",this).success){
 
 
        setTimeout(function(){ 
@@ -12646,28 +12645,31 @@ function datereuse(control){
         });
          });
 }
-function ajaxtoserv(form,data,type,url,button){
+function ajaxtoserv(data,type,url,btn){
   var bools;
   if (type=="form") {
-   commonvalidator(form);
-  var datsend = type=="data"?data:$(form).serialize();
-  if ($(form).valid()) { 
-    var $this = $(button);
-    $this.button('loading');
+   commonvalidator(data);
+  var datsend = $(data).serialize();
+  if ($(data).valid()) { 
+    $(btn).button('loading');
     $.ajax({
       url:url,
       data:datsend,
       type:"POST",
       async: false,
       datatype:"json",
-      success:function(data){
-      var tybol = data.success?1:0;      
-      warner(form,data,tybol)
-      $(form).trigger("reset")
-      bools =  data;
-      },error: function(xhr){ 
-      warner(form,xhr.responseJSON.message,0)
-      $this.button("reset")
+      success:function(res){
+      var tybol = res.success?1:0;      
+      warner(data,res,tybol)
+      if (res.success) {
+      $(data).trigger("reset")
+      }
+      bools =  res;
+       $(btn).button("reset")
+      },
+      error: function(xhr){ 
+      warner(data,xhr.responseJSON.message,05454)
+       $(btn).button("reset")
       bools = "error";
       }
     })
@@ -12678,18 +12680,18 @@ function ajaxtoserv(form,data,type,url,button){
 else{
   $.ajax({
       url:url,
-      data:form,
+      data:data,
       async: false,
       datatype:"json",
-      success:function(data){
+      success:function(res){
           
             if (url=="saveorder") {
              return location.href = "/patients/"+_id;
             }
-            bools =  data;
-          var tybol = data.success?1:0;      
-          warner(form,data,tybol)
-          $(button).button('reset');
+            bools =  res;
+          var tybol = res.success?1:0;      
+          warner(data,res,tybol)
+          $(btn).button('reset');
           
         }
         });
@@ -12698,18 +12700,30 @@ return bools;
 }
 function warner(modal,message,type){
     if (type==1) {
-    $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Success!</strong>'+message.success+'.</div>');
+    $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> Success ! </strong>'+message.success+'.</div>');
+    setTimeout(function() {
+    $(modal).find(".warner").html("")
+        }, 5000);
     }else if (type==0) {
-      if (message instanceof Array) {
-         $.each(eval(message), function(i, item) {
+    $.each(eval(message), function(i, item) {
              
-          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+item+'.</div>');
+          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>    </strong>'+item+'.</div>');
+     setTimeout(function() {
+          $(modal).find(".warner").html("")
+        }, 5000);
     });
        
-      }else {
-          $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Error!: </strong>'+message+'.</div>');
-      }
      
+        
+         
+      
+     
+    }else{
+      var msg =  message==""||message==null?"Eror exists server side. contact with developer or visit  go ..":message;
+      $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>   </strong>'+msg+'<a href="/feedback">Feedback</a>.</div>');
+        setTimeout(function() {
+          $(modal).find(".warner").html("")
+        }, 5000);
     }
 }
 function warnerremover(modal){
@@ -12747,12 +12761,10 @@ $(document).ready(function(){
 	$("#doctorbtn").click(function(){
   commonvalidator("#doctorfm")
   if ($("#doctorfm").valid()) {
-   if (ajaxtoserv("#doctorfm",null,"form","savedoctor").success){
+   if (ajaxtoserv("#doctorfm","form","savedoctor",this).success){
     setTimeout(function(){ 
-           
-              location.href="doctors"
-            
-          },1000)
+     location.href="doctors"
+    },1000)
 }
   }
 })
@@ -13085,7 +13097,7 @@ function edititem(data){
   findOption($('body').find("#oncreate"),'group',row.data().parent_name)
     $('body').find("#oncreate").on("click",".updateitem",function(e){
       var $this = $(this);
-    if (ajaxtoserv($('body').find("#dasd"),null,"form","savetestorder?_token="+_token,this).success){
+    if (ajaxtoserv($('body').find("#dasd"),"form","savetestorder?_token="+_token,this).success){
       setTimeout(function() {
         $('body').find("#oncreate").find("#dasd").trigger("reset")
          removebesmodal();
@@ -13148,7 +13160,7 @@ modalmakeup({
         datereuse($("body").find("input[name=end_date]"))
         loadappoint('/loadappoint');
         $("body").on("click",".updateapp",function(){
-        if(ajaxtoserv($("body").find("#apdateap"),null,"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
+        if(ajaxtoserv($("body").find("#apdateap"),"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
         setTimeout(function() {
           appoin_table.ajax.reload();
           removebesmodal();
@@ -13478,7 +13490,7 @@ function submittest(){
       data.push({name:"patient_id", value:$("input[name=patient_id]").val()})
       data.push({name:"_token", value:_token})
       data.push({name:"doctor_id", value:$("select[name=doctor_id]").val()}) 
-     ajaxtoserv(data,null,"array","saveorder");
+     ajaxtoserv(data,"array","saveorder",null);
 }
 function screenmodal(data){
     var modal = '<div class="modal fade" id="modalwarn">'
@@ -13754,7 +13766,7 @@ function modalpopup(start,end){
 		$("body").find("select[name=disease]").append("<option value='"+item.specialization+"' tagcheckid='"+item.id+"'>"+item.specialization+"</option>");
 		})
 		$("body").on("click",".saveappoint",function(){
-        if (ajaxtoserv($("body").find("#appointmentfm"),null,"form","newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&doctor_id="+$("body").find("#appointmentfm input[name=doctor]").attr('doctortag'),this).success) {
+        if (ajaxtoserv($("body").find("#appointmentfm"),"form","newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&doctor_id="+$("body").find("#appointmentfm input[name=doctor]").attr('doctortag'),this).success) {
         setTimeout(function() {
              $("#calender").fullCalendar( 'refresh' )
              $('#calender').fullCalendar( 'refetchEvents' );
@@ -13940,7 +13952,7 @@ function filterfn(){
          $('body').find("#oncreate select[name=doctor_filter]").append("<option value='"+item.id+"' tagcheckid='"+item.id+"'>"+item.name+"</option>");
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
-        if (re_define_lab(ajaxtoserv($("body").find("#fmfilter"),null,"form","filter?_token="+_token,this).success)) {
+        if (re_define_lab(ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success)) {
         setTimeout(function() {
              removebesmodal();
              
@@ -13955,30 +13967,34 @@ function re_define_lab(data){
 	var last = 0 ;
 	var detail_id = 0;
 	$("#lbredefine").html("")
-	var header ="";
+
           $.each(eval(data), function(i,item){
-                  if(last != item.master_id ){
+              var header ="";
+                  if( item.master_id  !=  last){
                      header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
                         +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
                    $("#lbredefine").append(header);
+                    last = item.master_id;
+
                   }
                
-                last = item.master_id;
                 detail_id = item.id;
                 $.each(eval(data), function(it,inner){
+                  var htm = ""
                 if(inner.test_order_id == item.master_id && detail_id != inner.id){
-               	var htm   =  ' <tr><td>'+inner.testname+'</td>'
+               	   htm +=  ' <tr><td>'+inner.testname+'</td>'
                  +' <td> '+inner.patient_name+' </td>'
                   +'<td> $'+inner.amount+' </td>'
                   +'<td>'
                    +statusController(inner.status_id,inner.status_name,inner.id,inner.patient_id,"test_detail")+'</td>';
                     $("#lbredefine").append(htm);
-                    detail_id = inner.id;
+                    
+                    alert(inner.id )
                 }
-                
+                detail_id = inner.id;
                 })
                
             })
@@ -14015,15 +14031,16 @@ alert($(data).attr("tagid"))
 
 ////////////////////////////////////////
 function paymentpopup(datas){
-var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},null,"not form","filter?_token="+_token,this);
-var   selectincde;
+var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","filter?_token="+_token,this);
+var selectincde;
 var total;
+var order_id = $(datas).attr("tagid");
 //alert($(datas).attr("tagtype"));
 if ($(datas).attr("tagtype").trim()=="test_master") {
-  var parent_id;
+  var patient_id;
 
 $.each(eval(data.success),function(i,item){
-parent_id  =item.patient_id;
+patient_id  =item.patient_id;
  total =  item.total_amount;
 
 })
@@ -14031,21 +14048,21 @@ parent_id  =item.patient_id;
 {
   $.each(eval(data.success),function(i,item){
   total =  item.amount;
-  parent_id  =item.patient_id;
+  patient_id  =item.patient_id;
 })
 }
 $.each(eval(data.payment),function(i,item){
   if (item.parent_id=="" || item.parent_id == null) {
-     selectincde +='<optgroup label="'+item.name+'">';
+     selectincde +='<optgroup class="" label="'+item.name+'">';
   }
    $.each(eval(data.payment),function(ins,itemdata){
     if (itemdata.parent_id==item.id) {
-    selectincde +='<option value="'+itemdata.id+'">'+itemdata.account+'</option>'
+    selectincde +='<option class="w3-text-light-black" value="'+itemdata.account+'">'+itemdata.account+'</option>'
   }
    })
    selectincde +='</optgroup>'
 })
-var htmls = '<form method="post" class="w3-padding" id="labpayment">'+
+var htmls = '<form method="post" class="w3-padding" id="labpayment"><div class="warner"></div><input type="hidden" value="'+patient_id+'" name="patient_id"><input type="hidden" value="'+order_id+'" name="order_id">'+
 '<div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount" value="'+total+'"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="number"  onchange="discounts()" name="discount" value="0" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount" value="'+total+'" readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
 '<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay">'+selectincde+'</select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
 
@@ -14071,14 +14088,10 @@ modalmakeup({
   body :htmls
   });
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
- if (ajaxtoserv($('body').find("#oncreate #labpayment"),null,"form","savepaymental?patient_id="+parent_id+"&order_id="+$(datas).attr("tagid"),$(this)).success){
-
-
-       setTimeout(function(){ 
-           
-             location.reload();
-            
-          },1000)
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment",$(this)).success){
+      setTimeout(function(){ 
+           location.reload();
+     },1000)
     }
 
 
@@ -14087,7 +14100,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 }
 function filterbody(id) {
 
-  re_define_lab(ajaxtoserv({status_id:id},null,"not form","filter?_token="+_token,this).success)
+  re_define_lab(ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success)
 }
 $(document).ready(function(){
 	$("body").find(".gentd").each(function(){

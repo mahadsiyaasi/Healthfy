@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/filter', 'labController@filter')->name('lab');
 	Route::any('/payment', 'paymentController@home')->name('payment');
 	Route::any('/savepayment','paymentController@savepayment');
+<<<<<<< HEAD
 	Route::any('/patients/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');
 	
@@ -133,4 +134,8 @@ Route::group(['middleware' => 'auth'], function () {
 							
 		*/
 	});
+=======
+	Route::any('/labpayment','labController@labpayment');
+});
+>>>>>>> eaa84938417a25d8a9b72303ec634f525847460d
 Route::get('/logout', 'Auth\LoginController@logout');

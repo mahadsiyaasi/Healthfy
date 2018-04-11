@@ -4,12 +4,10 @@ $(document).ready(function(){
 	$("#doctorbtn").click(function(){
   commonvalidator("#doctorfm")
   if ($("#doctorfm").valid()) {
-   if (ajaxtoserv("#doctorfm",null,"form","savedoctor").success){
+   if (ajaxtoserv("#doctorfm","form","savedoctor",this).success){
     setTimeout(function(){ 
-           
-              location.href="doctors"
-            
-          },1000)
+     location.href="doctors"
+    },1000)
 }
   }
 })

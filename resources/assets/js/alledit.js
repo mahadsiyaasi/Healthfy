@@ -132,7 +132,7 @@ function edititem(data){
   findOption($('body').find("#oncreate"),'group',row.data().parent_name)
     $('body').find("#oncreate").on("click",".updateitem",function(e){
       var $this = $(this);
-    if (ajaxtoserv($('body').find("#dasd"),null,"form","savetestorder?_token="+_token,this).success){
+    if (ajaxtoserv($('body').find("#dasd"),"form","savetestorder?_token="+_token,this).success){
       setTimeout(function() {
         $('body').find("#oncreate").find("#dasd").trigger("reset")
          removebesmodal();
@@ -195,7 +195,7 @@ modalmakeup({
         datereuse($("body").find("input[name=end_date]"))
         loadappoint('/loadappoint');
         $("body").on("click",".updateapp",function(){
-        if(ajaxtoserv($("body").find("#apdateap"),null,"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
+        if(ajaxtoserv($("body").find("#apdateap"),"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
         setTimeout(function() {
           appoin_table.ajax.reload();
           removebesmodal();
