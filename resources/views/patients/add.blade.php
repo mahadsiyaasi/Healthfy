@@ -129,6 +129,7 @@
           @elseif(Request::get('new')=="appointment")
           @include('patients.addcontent.newappoint')
           @elseif(Request::get('new')=="prescription")
+          
           @include('patients.addcontent.prescription')
           @endif
             </div>

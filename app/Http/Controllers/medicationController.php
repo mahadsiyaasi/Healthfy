@@ -117,7 +117,8 @@ class medicationController extends Controller
         if ($data==null) {
            $largedata =  MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
            ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
-            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
+           ->join("units","units.id","=","medication_list.unit_id")
+            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name','units.unit')
          //->where('medication_list.id',$data)    
          ->where('medication_list.status_id',">",0) 
           ->distinct('medication_dosage_units.medication_id')   
@@ -142,5 +143,61 @@ class medicationController extends Controller
       $data = array_slice($data->values()->all(), 0, 5, true);
       return $data;
     }
+    public function getfrequencylist(){
+      return Response::json(['success'=>DB::table("frequency_list")->get()]);
+    }
+public function saveprescriptionprofile(Request $request){
+    //if ($request->input("actiontype")=="register") {
+    $input = $request->all();
+    $rules = [];
+    $messages = [];
+    foreach($input['medication_id'] as $key => $val){
+    $rules['medication_id.'.$key] = 'required|numeric|min:1';
+    $rules['frequency_id.'.$key] = 'required|numeric|min:1';
+    $rules['dosage.'.$key] = 'required|min:1';
+    $rules['days.'.$key] = 'required|min:1|numeric';
+    $rules['instruction.'.$key] = 'required|min:1';
+   }
+    $vd = Validator::make($input,$rules);
+    if($vd->fails()){
+      return response()->json($vd->messages());
+    }else{
+      $array_pres_list = array(
+      'patient_id' => $request->input("patient_id") ,
+      "doctor_id"=>$request->input("doctor_id") ,
+      "status_id"=>1,
+      'company_id'=>Auth::user()->company_id,
+      "date"=>date('Y-m-d H:i:s')
+       );
+      $another = [];
+      $id =   DB::table("prescription_list")->insertGetId($array_pres_list);
+      foreach($request->input("medication_id") as $key => $value) {
+        $another []=array(
+        'prescription_id'=>$id,
+        'medication_id' =>$value,
+        'dosage'=>$request->input("dosage")[$key],
+        //'dosage_unit_id'=>$request->input("dosage_unit_id")[$key],
+        'frequency_id'=>$request->input("frequency_id")[$key],
+        'duration'=>$request->input("days")[$key],
+        'instruction'=>$request->input("instruction")[$key],
+        'status_id'=>1,
+        );
+      }
+      DB::table("prescription_detail")->insert($another);
+      $succ = array('success' =>'Success full saved!');
+       return response()->json($succ);
+    }
+  /*}else{
+      $update_data = PrescriptionDetail::find($request->input("pres_id"));
+        $update_data->dosage=$request->input("injection")[0];
+        $update_data->dosage_unit_id=$request->input("dul_id");
+        $update_data->frequency_id=$request->input("frequency_id")[0];
+        $update_data->duration=$request->input("days")[0];
+        $update_data->instruction=$request->input("bf")[0];
+        $update_data->save();
+        $succ = array('success' =>'Success full Updated!');
+      return response()->json($succ);
+      }*/
 
+}
 }

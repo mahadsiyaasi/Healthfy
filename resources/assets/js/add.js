@@ -1,4 +1,5 @@
 var selectdata =[];
+var patient_id = $("input[name=patient_id]").val()
 $(document).ready(function(){
 
 doctortable= $('#new_tests').DataTable({
