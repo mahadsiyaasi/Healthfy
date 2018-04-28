@@ -13278,8 +13278,8 @@ modalmakeup({
 
 function modalmakeup(array){
 	var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
-	var modal = '<div class="modal fade" id="oncreate">'
-          		+'<div class="modal-dialog '+array.fade+' w3-round-xlarge " style="width:'+array.width+'">'
+	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate">'
+          		+'<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:'+array.width+'">'
             	+'<div class="modal-content '+array.color+'">'
               	+'<div class="modal-header" style="border: none;">'
                 +'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
@@ -13287,8 +13287,8 @@ function modalmakeup(array){
               	+'<div class="modal-body">'
               	+array.body+
                 '</div><div class="modal-footer" style="border: none;">'
-                +'<button type="button" onclick= "removebesmodal()" class="btn btn-red dismism" data-dismiss="modal">Close</button>'
-                +'<button type="button" class="btn '+array.buttoncolor+' '+array.buttoneventclass+'" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button></div></div></div></div>';
+                +'<button type="button" onclick= "removebesmodal()" class="btn w3-text-red dismism" data-dismiss="modal" style="background:inherit">Close</button>'
+                +'<button type="button" class="btn  '+array.buttoneventclass+' w3-text-blue" style="background:inherit" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button></div></div></div></div>';
                 removebesmodal()
  	 			$(".specialmodal").html(modal);
                 $(".specialmodal").find("#oncreate").modal("show");
@@ -14008,7 +14008,7 @@ function statusController(status_id,status_name,id,patient_id,type){
                     rt ='<span class="badge w3-red">  </span>'
                     else if(  status_id==2)
                     return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
-  +' <a  class=" w3-medium w3-border w3-border-gray w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
+  +' <a  class=" w3-medium w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
     +' </a>'
   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
     +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
@@ -14088,9 +14088,9 @@ modalmakeup({
   body :htmls
   });
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
- if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment",$(this)).success){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
-           location.reload();
+          // location.reload();
      },1000)
     }
 
@@ -14098,16 +14098,24 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 })
 }
 }
+///filter with pop up
 function filterbody(id) {
-
   re_define_lab(ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success)
 }
 $(document).ready(function(){
+  //inner trs with detail
 	$("body").find(".gentd").each(function(){
-	////alert($(this) .attr("tagpaient_id"))
 	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_detail"));
 		
 	})
+
+  //header tr update with status and payment
+  $("body").find(".maintrgentd").each(function(){
+   $(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_master"));
+    
+  })
+
+
 })
 function discounts(th){
       var disc = $('input[name=discount]').val();

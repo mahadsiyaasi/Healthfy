@@ -87,7 +87,7 @@ function statusController(status_id,status_name,id,patient_id,type){
                     rt ='<span class="badge w3-red">  </span>'
                     else if(  status_id==2)
                     return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
-  +' <a  class=" w3-medium w3-border w3-border-gray w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
+  +' <a  class=" w3-medium w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
     +' </a>'
   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
     +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
@@ -167,9 +167,9 @@ modalmakeup({
   body :htmls
   });
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
- if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment",$(this)).success){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
-           location.reload();
+          // location.reload();
      },1000)
     }
 
@@ -177,16 +177,24 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 })
 }
 }
+///filter with pop up
 function filterbody(id) {
-
   re_define_lab(ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success)
 }
 $(document).ready(function(){
+  //inner trs with detail
 	$("body").find(".gentd").each(function(){
-	////alert($(this) .attr("tagpaient_id"))
 	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_detail"));
 		
 	})
+
+  //header tr update with status and payment
+  $("body").find(".maintrgentd").each(function(){
+   $(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_master"));
+    
+  })
+
+
 })
 function discounts(th){
       var disc = $('input[name=discount]').val();

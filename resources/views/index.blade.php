@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Home
+        {{Route::currentRouteName()}}
         
       </h1>
       <ol class="breadcrumb">

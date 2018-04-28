@@ -12,21 +12,21 @@
 */
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-	Route::any('/', 'HomeController@index')->name('index');
-	Route::any('/patients', 'customerController@patient')->name('patient');
+	Route::any('/', 'HomeController@index')->name(config('app.name').' | Home');
+	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
-	Route::any('/doctors', 'doctorsController@doctor')->name('doctors');
+	Route::any('/doctors', 'doctorsController@doctor')->name('Doctors | '.config('app.name'));
 	Route::any('/savedoctor','doctorsController@savedoctor');
 	Route::any('/loaddoctors','doctorsController@loaddoctors');
-	Route::any('/patients/{id}',array('as' =>'patients.singlepatient' ,'uses'=>'pprofileController@getpatient' ));
-	Route::any('/editor','editorController@editor');
+	Route::any('/patients/{id}',array('uses'=>'pprofileController@getpatient' ))->name('Patient Profile | '.config('app.name'));
+	Route::any('/editor','editorController@editor')->name('Editor | '.config('app.name'));
 	Route::any('/cancels','editorController@cancels');
-	Route::any('/tests','testsController@home');
+	Route::any('/tests','testsController@home')->name('Tests | '.config('app.name'));
 	Route::any('/savegroup','testsController@savegroup');
 	Route::any('/loadtest','testsController@loadtest');
 	Route::any('/savetestorder','testsController@savetestorder');
-	Route::any('/patients/{id}/add',array('as' =>'patients/add' ,'uses'=>'addController@add' ));
+	Route::any('/patients/{id}/add',array('uses'=>'addController@add' ))->name('paitent > Add | '.config('app.name'));
 	Route::any('/patients/{id}/loadtest','testsController@loadtest');
 	Route::any('/patients/{id}/saveorder','addController@saveorder');
 	Route::any('/loadptest','pprofileController@loadptest');
@@ -37,17 +37,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/patients/{id}/newappoint','addController@newappoint');
 	Route::any('/mainappoint','pprofileController@mainappoint');
 	Route::any('/loadappoint','addController@loadappoint');
-	Route::any('/medication','medicationController@home');
+	Route::any('/medication','medicationController@home')->name('Medicaion | '.config('app.name'));;
 	Route::any('/savemedication','medicationController@savemedication');
 	Route::any('/loadmedication','medicationController@loadmedication');
-	Route::any('/lab', 'labController@lab')->name('lab');
+	Route::any('/lab', 'labController@lab')->name('Labs | '.config('app.name'));
 	Route::any('/filter', 'labController@filter')->name('lab');
-	Route::any('/payment', 'paymentController@home')->name('payment');
+	Route::any('/payment', 'paymentController@home')->name('Payment Method | '.config('app.name'));
 	Route::any('/savepayment','paymentController@savepayment');
-<<<<<<< HEAD
 	Route::any('/patients/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');
-	
+	Route::any('/labpayment','labController@labpayment');
 	
 	
 	
@@ -131,11 +130,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('/loadchartlist', 'chartController@loadchartlist');
 		Route::any('/journalload', 'chartController@journalload');
 		
-							
-		*/
+		
 	});
-=======
-	Route::any('/labpayment','labController@labpayment');
+
+
+
+*/
 });
->>>>>>> eaa84938417a25d8a9b72303ec634f525847460d
 Route::get('/logout', 'Auth\LoginController@logout');

@@ -116,7 +116,7 @@ class labController extends Controller
 public function labpayment(Request $data){
     $valid =  Validator::make($data->all(),[
                'total_amount'=>"required|min:1|numeric",
-                'discount'=>"required|min:1|numeric",
+                'discount'=>"required|numeric",
                 'curency'=>"required|min:1|numeric",
                 'accountpay'=>"required|min:1",
                  'remark'=>"required|min:1"
@@ -124,7 +124,16 @@ public function labpayment(Request $data){
     if ($valid->fails()) {
        return Response::json($valid->messages());
     }else{
-        Transuction::create([
+        if ($data->input("tagtype")=="test_detail") {
+            $row =  DB::table('prescription_detail')->find();
+        }
+        
+        return Response::json(['success'=>'success full saved !']);
+    }
+
+}
+public function paymenttran($data){
+    $check = Transuction::create([
         'patient_id'=>$data->input('patient_id'),  
         'date'=>date('Y-m-d H:i:s'),
         'amount'=>$data->input('total_amount'),
@@ -132,13 +141,15 @@ public function labpayment(Request $data){
         'balance'=>$data->input('curency'),
         'order_id'=>$data->input('order_id'),
         'order_type'=>"TestOrderPayment",
-        'transaction_type'=>"Payment",
+        'trunsaction_type'=>"Payment",
         'status_id'=>1,
         'account'=>$data->input('accountpay'),
         "company_id"=>Auth::user()->company_id
     ]);
-        return Response::json(['success'=>'success full saved !']);
-    }
-
+    if ($check) {
+       return true;
+    }else{
+    return false;
+}
 }
 }
