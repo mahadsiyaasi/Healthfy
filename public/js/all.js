@@ -14175,9 +14175,9 @@ function loadmedications(){
 var checkarray  = [];
 var index =0;
 //jQuery.inArray($(this).attr("tagid"),checkarray)==-1
-var listformfrequency = ajaxtoserv({_token:_token},null,"notform","getfrequencylist",null).success;
+var listformfrequency;
 $(document).ready(function(){
-
+listformfrequency = ajaxtoserv({_token:_token},"not form","getfrequencylist",null).success;
 $('body').on('click', '.finlist li', function(){
   $(this).find('i').toggleClass("fa fa-check")
   $(this).toggleClass("w3-border-left w3-border-blue w3-light-grey")
@@ -14305,11 +14305,12 @@ $('body #listtable tbody tr'). find('input[type=radio]').each(function(){
 })
 dataarray.push({name:"patient_id",value:patient_id})
 dataarray.push({name:"doctor_id",value:$("select[name=doctor_id]").val()})
-var serverReturn =  ajaxtoserv(dataarray,null,"not form","saveprescription?_token="+_token,this);
+var serverReturn =  ajaxtoserv(dataarray,"not form","saveprescription?_token="+_token,this);
   if(serverReturn.success){
+    warner('.getinnereror',serverReturn,1)
     setTimeout(function() {
-      location.href= '/patients/'+patient_id
-    }, 1000);
+    location.href= '/patients/'+patient_id
+    }, 800);
   }else{
     warner('.getinnereror',serverReturn,0)
   }
@@ -14327,4 +14328,9 @@ if (listformfrequency){
 $(element).html(list);
 
 }
+}
+function datatitle(element,message){
+  $(element).attr("data-toggle","tooltip");
+   $(element).attr("title",message);
+
 }

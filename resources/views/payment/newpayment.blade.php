@@ -72,7 +72,7 @@
              
             </div>
               <div class="w3-rest w3-padding w3-border-top">
-               <button type="button" class="btn btn-info w3-large pull-right" onclick='var $this= $(this);  if(ajaxtoserv("#paymentfm",null,"form","savepayment?_token="+_token,this).success){setTimeout(function() {location.href="/payment";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">Save</button>
+               <button type="button" class="btn btn-info w3-large pull-right" onclick='var $this= $(this);  if(ajaxtoserv("#paymentfm","form","savepayment?_token="+_token,this).success){setTimeout(function() {location.href="/payment";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">Save</button>
               </div>
               </div>
           </div>
@@ -128,7 +128,7 @@
              
             </div>
               <div class="w3-rest w3-padding w3-border-top">
-              <button type="button" class="btn btn-info pull-right" onclick='var $this= $(this);  if(ajaxtoserv("#paymentfm",null,"form","savepayment?_token="+_token,this).success){setTimeout(function() {location.href="/payment";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
+              <button type="button" class="btn btn-info pull-right" onclick='var $this= $(this);  if(ajaxtoserv("#paymentfm","form","savepayment?_token="+_token,this).success){setTimeout(function() {location.href="/payment";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
               </div>
           </div>
           

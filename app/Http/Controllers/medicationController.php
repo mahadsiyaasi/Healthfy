@@ -92,8 +92,8 @@ class medicationController extends Controller
     		}
     		DB::table('medication_dosage_units')->insert($dosage);
     		DB::table('medication_route')->insert($route);
-    		$messages = array('success' =>'success full saved !' );
-    		return Response::json($messages);
+    		
+    		return Response::json(['success'=>'success full saved !']);
 
     	}
     }
@@ -110,7 +110,7 @@ class medicationController extends Controller
          ->where('medication_list.status_id','>',0)
          ->get();
 
-        return \DataTables::of($data)->make(true);
+        return \DataTables::of(self::removeduplicate($data),'id')->make(true);
     }
 
      public static function finddrug($data){
@@ -118,7 +118,7 @@ class medicationController extends Controller
            $largedata =  MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
            ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
            ->join("units","units.id","=","medication_list.unit_id")
-            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name','units.unit')
+            ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','units.unit')
          //->where('medication_list.id',$data)    
          ->where('medication_list.status_id',">",0) 
           ->distinct('medication_dosage_units.medication_id')   
@@ -184,8 +184,7 @@ public function saveprescriptionprofile(Request $request){
         );
       }
       DB::table("prescription_detail")->insert($another);
-      $succ = array('success' =>'Success full saved!');
-       return response()->json($succ);
+    return Response::json(['success'=>'success full saved !']);
     }
   /*}else{
       $update_data = PrescriptionDetail::find($request->input("pres_id"));
@@ -200,4 +199,18 @@ public function saveprescriptionprofile(Request $request){
       }*/
 
 }
+ public static function loadprescription_profile($filter_id){
+   $data  = DB::table("prescription_detail")->join('medication_list','medication_list.id','=','prescription_detail.medication_id')
+ ->join('prescription_list','prescription_list.id','=','prescription_detail.prescription_id')
+          ->join('patients','patients.id','=','prescription_list.patient_id')
+          ->join('staff','staff.id','=','prescription_list.doctor_id')
+          ->join('frequency_list','frequency_list.id','=','prescription_detail.frequency_id')
+          //->join('dosage_unit_list','dosage_unit_list.dul_id','=','prescription_detail.dosage_unit_id')
+          ->select('medication_list.name as medical_name','staff.name as doctor_name','patients.patient_name','prescription_list.date','prescription_list.id as master_id','prescription_detail.id as detail_id','prescription_detail.duration','prescription_detail.dosage','prescription_detail.instruction','frequency_list.name as frequency_name','prescription_detail.prescription_id')
+          ->where("prescription_list.patient_id",$filter_id)
+          ->where("prescription_detail.status_id",1)
+          ->where('prescription_list.company_id','=',Auth::user()->company_id)
+          ->get();
+          return $data;
+ }
 }

@@ -13,6 +13,7 @@ use App\Models\OrderMaster;
 use App\Models\OrderDetail;
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Http\Controllers\medicationController;
 class pprofileController extends Controller
 {
     public function __construct()
@@ -49,7 +50,7 @@ public function mainappoint(Request $request){
   public function getpatient($id){
   	if (is_numeric($id)) {
   	  $patient = Patient::find($id);
-      return view('patients.singlepatient')->with('patient',$patient);
+      return view('patients.singlepatient')->with('patient',$patient)->with("patientPrescriptions",medicationController::removeduplicate(medicationController::loadprescription_profile($id),'detail_id'));
   }
   }
 }

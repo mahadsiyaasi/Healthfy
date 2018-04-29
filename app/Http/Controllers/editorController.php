@@ -22,7 +22,9 @@ class editorController extends Controller
     	$table ="App\Models\\".$request->input("table");
         if ($request->input("table")=="Doctor") {
           $table ="App\Models\Staff";
-        }
+        }elseif ($request->input("table")=="PrescriptionList") {
+          $arra =\App\Models\PrescriptionDetail::where('prescription_id',$request->input('id'))->update(['status_id'=>0]);
+         }
     	$data  = $table::find($request->input("id"));
     	$data->status_id=0;
     	$data->save();

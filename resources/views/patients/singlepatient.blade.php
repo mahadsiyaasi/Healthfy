@@ -72,14 +72,14 @@
         <!-- /.col -->
         <div class="col-md-9">
           <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs card w3-card w3-border">
               <li class="active"><a href="#labtab" class="" data-toggle="tab">Lab</a></li>
               <li><a href="#appointtab" class="" data-toggle="tab">Appointment</a></li>
               <li><a href="#settings"  class="" data-toggle="tab">Condition</a></li>
-              <li><a href="#settings" class="" data-toggle="tab">Prescription</a></li>
+              <li><a href="#presc" class="" data-toggle="tab">Prescription</a></li>
               <li><a href="#settings" class="" data-toggle="tab">Measurement</a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content card w3-card w3-border">
               <div class="active tab-pane" id="labtab">
               @include('patients.tab.lab')
               </div>
@@ -89,8 +89,8 @@
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="settings">
-               
+              <div class="tab-pane" id="presc">
+               @include('patients.tab.prescriptionview')
               </div>
               <!-- /.tab-pane -->
             </div>
