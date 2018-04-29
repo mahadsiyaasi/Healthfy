@@ -5,7 +5,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Home
+        {{Route::currentRouteName()}}
         
       </h1>
       <ol class="breadcrumb">
@@ -61,7 +61,7 @@
                         <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span> </td>
                         <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> </td>
                         <td class="w3-light-gray active">Total :  <span class="badge w3-green">$ {{ $vals['total_amount'] }} </span></td>
-                        <td class="text-center w3-light-gray active"> Status <span class="badge w3-blue"> {{ $vals['status_name'] }}  </span></td>
+                        <td class="text-center w3-light-gray active maintrgentd" tagid="{{$vals['master_id']}}"   status_id="{{$vals['status_id']}}" status_name="{{$vals['status_name']}}" tagpaient_id="{{$vals['patient_id']}}"></td>
                     </tr>
                   @endif
                 <?php $last = $vals['doctor_name']; ?>

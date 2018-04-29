@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Patient Profile
+        {{Route::currentRouteName()}}
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Patient</a></li>

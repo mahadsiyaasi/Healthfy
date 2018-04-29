@@ -16,7 +16,7 @@ class Transuction extends Model
         'balance',
         'order_id',
         'order_type',
-        'transaction_type',
+        'trunsaction_type',
         'status_id',
         'account',
         "company_id"
