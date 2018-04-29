@@ -18,7 +18,7 @@
     <section class="content">
 
       <!-- Default box -->
-      <div class="box">
+      <div class="box w3-white" style="padding: 0px 0px 0px 0px; background:inherit;">
         <div class="box-header with-border">
           <div class="dropdown" style="display:inline-block; cursor: pointer;">
           <a class="btndropdown-toggle"  data-toggle="dropdown"><i class="fa fa-bars w3-large"></i> <h3 class="box-title"> List of labs</h3></a>
@@ -30,7 +30,7 @@
     </ul>
 </div>
           <a  class="button btn" onclick="filterfn()"><i class="fa fa-filter"> filter</i></a>
-          <input type="search"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;">
+          <input type="search" onkeyup="searchtable($(this).attr('id'),'labtable')" id="searchtablein"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;">
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -41,9 +41,9 @@
           </div>
         </div>
         <div class="box-body">
-          <table  class="w3-table table table-stripped border  card">
-            <thead>
-             
+        <div class="table-responsive">
+<table id="labtable"  class="table table-bordred w3-table-bordered table-bordred">
+            <thead>             
               <tr>
               <th >Doctor</th>
               <th>patient</th>
@@ -51,7 +51,7 @@
               <th  class="text-center">Action & Status </th>
               </tr>
             </thead>
-              <tbody id="lbredefine">
+              <tbody id="lbredefine" class="w3-text-black w3-text-bold" style="">
                  <?php $last =""; 
                   $detail_id = 0;
                  ?>
@@ -61,19 +61,19 @@
                         <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span> </td>
                         <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> </td>
                         <td class="w3-light-gray active">Total :  <span class="badge w3-green">$ {{ $vals['total_amount'] }} </span></td>
-                        <td class="text-center w3-light-gray active maintrgentd" tagid="{{$vals['master_id']}}"   status_id="{{$vals['status_id']}}" status_name="{{$vals['status_name']}}" tagpaient_id="{{$vals['patient_id']}}"></td>
+                        <td class="text-center w3-light-gray active maintrgentd" tagid="{{$vals['master_id']}}"   status_id="{{$vals['master_status_id']}}" status_name="{{$vals['master_status']}}" tagpaient_id="{{$vals['patient_id']}}"></td>
                     </tr>
                   @endif
                 <?php $last = $vals['doctor_name']; ?>
                 <?php $detail_id = $vals['id']; ?>
                 @foreach($ordertest as $val)
                 @if($val['test_order_id'] == $vals['master_id'] && $detail_id== $val['id'] )
-                <tr class="parentgentd" tagid="{{$val['id']}}" tagpatient_id="{{$val['patient_id']}}" tagamount="{{$val['amount']}}" tagdoctor_id="{{$val['doctor_id']}}" tagpatient_name="{{$val['patient_name']}}">
+                <tr>
                  
                   <td> {{ $val['testname'] }}</td>
                   <td> {{ $val['patient_name'] }} </td>
                   <td> ${{ $val['amount'] }} </td>
-                  <td class="gentd text-center" tagid="{{$val['id']}}"   status_id="{{$val['status_id']}}" status_name="{{$val['status_name']}}" tagpaient_id="{{$val['patient_id']}}"> 
+                  <td class="gentd text-center" tagid="{{$val['id']}}"   status_id="{{$val['detail_status_id']}}" status_name="{{$val['detail_status']}}" tagpaient_id="{{$val['patient_id']}}"> 
 
                     
                     
@@ -109,4 +109,7 @@
     </div>
    
   </footer>
+</section>
+</div>
+
   @endsection

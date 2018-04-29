@@ -46,15 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/savepayment','paymentController@savepayment');
 	Route::any('/patients/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');
-<<<<<<< HEAD
-	
 	Route::any('/labpayment','labController@labpayment');
-=======
 	Route::any('/labpayment','labController@labpayment');
-	
->>>>>>> 0a5c80e50a2cc036faf75db5bae7246d33042a3a
-	
-	
 	
 		/*Route::any('/',array('as' =>'index' ,'uses'=>'patientController@create' ));
 		Route::any('/pregister','patientController@showregister');
@@ -134,20 +127,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('/savegrid', 'chartController@savegrid');
 		Route::any('/loadchartlist', 'chartController@loadchartlist');
 		Route::any('/journalload', 'chartController@journalload');*/
-		
-<<<<<<< HEAD
+
 							
 	
 	
 });
 
-=======
-		
-	});
-
-
-
-*/
-});
->>>>>>> 0a5c80e50a2cc036faf75db5bae7246d33042a3a
 Route::get('/logout', 'Auth\LoginController@logout');

@@ -13,7 +13,8 @@ use App\Models\PaymentMethod;
 use App\Models\Transuction;
 use Validator;
 use App\Http\Controller\medicationController;
-
+use DB;
+use App\Models\OrderDetail;
 class labController extends Controller
 {
      public function __construct()
@@ -29,17 +30,19 @@ class labController extends Controller
     public function lab()
     {
     	$data  = OrderMaster::join("test_order_detail","test_order_detail.test_order_id","=","test_order_master.id")
-	->join("staff","staff.id","=","test_order_master.doctor_id")
-	->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
-	->join("patients","patients.id","=","test_order_master.patient_id")
-	->join("tests","tests.id","=","test_order_detail.test_id")
- 
-	->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
+       ->join("varaible_lists", function ($join) {
+        $join->on('varaible_lists.status_id', '=', 'test_order_detail.status_id')
+        ->on('varaible_lists.status_id', '=', 'test_order_master.status_id');
+            
+        })
+   
+    ->join("staff","staff.id","=","test_order_master.doctor_id")
+    ->join("patients","patients.id","=","test_order_master.patient_id")
+    ->join("tests","tests.id","=","test_order_detail.test_id")
+    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
 
-	->select("patients.patient_name","staff.name as doctor_name","test_order_detail.amount","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_master.id as master_id","patients.id as patient_id")
-
-	->where("test_order_detail.status_id",">",0)
-	->where("test_order_master.status_id",">",0)
+	->where("test_order_detail.status_id",">",1)
+	->where("test_order_master.status_id","=",2)
 	->where("test_order_master.company_id",Auth::user()->company_id)
 	//->where("test_order_master.patient_id",$request->input("patient_id"))
 	->get();
@@ -49,13 +52,18 @@ class labController extends Controller
     {
     if ($filter->has("status_id")) {
     $data = array('success'=>OrderMaster::join("test_order_detail","test_order_detail.test_order_id","=","test_order_master.id")
+       ->join("varaible_lists", function ($join) {
+        $join->on('varaible_lists.status_id', '=', 'test_order_detail.status_id')
+        ->on('varaible_lists.status_id', '=', 'test_order_master.status_id');
+            
+        })
+   
     ->join("staff","staff.id","=","test_order_master.doctor_id")
-    ->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
+    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
     ->where("test_order_master.status_id","=",$filter->input('status_id'))
-    ->where("test_order_detail.status_id","=",$filter->input('status_id'))
+    ->where("test_order_detail.status_id",">",0)
     ->where("test_order_master.company_id",Auth::user()->company_id)
     ->distinct('test_order_detail.id')
     ->get());
@@ -74,6 +82,7 @@ class labController extends Controller
    ->where("test_order_master.patient_id","=",$filter->input('patient_id'))
     ->where("test_order_master.company_id",Auth::user()->company_id)
     ->distinct('test_order_detail.id')
+    ->orderBy("test_order_detail.id")
     ->get(),
 'payment'=>PaymentMethod::all());
             }else{
@@ -125,10 +134,17 @@ public function labpayment(Request $data){
        return Response::json($valid->messages());
     }else{
         if ($data->input("tagtype")=="test_detail") {
-            $row =  DB::table('prescription_detail')->find();
-        }
-        
-        return Response::json(['success'=>'success full saved !']);
+            $row =  OrderDetail::find($data->input('order_id'));
+            $row->status_id = 3;
+            $row->save();
+        }else{
+            $row =OrderMaster::find($data->input('order_id'));
+            $row->status_id = 3;
+            $row->save();
+            $row2 =OrderDetail::where('test_order_id',$data->input('order_id'))->update(['status_id'=>3]);
+           }
+        self::paymenttran($data);
+        return Response::json(['success'=>'Transuction saved success full !']);
     }
 
 }

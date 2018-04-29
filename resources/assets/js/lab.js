@@ -53,56 +53,38 @@ function re_define_lab(data){
                      header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
                         +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.status_id,item.status_name,item.master_id,item.patient_id,"test_master")+'  </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.master_status_id,item.master_status,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
                    $("#lbredefine").append(header);
                     last = item.master_id;
-
-                  }
-               
-                detail_id = item.id;
-                $.each(eval(data), function(it,inner){
+                       $.each(eval(data), function(it,inner){
                   var htm = ""
                 if(inner.test_order_id == item.master_id && detail_id != inner.id){
-               	   htm +=  ' <tr><td>'+inner.testname+'</td>'
-                 +' <td> '+inner.patient_name+' </td>'
-                  +'<td> $'+inner.amount+' </td>'
-                  +'<td>'
-                   +statusController(inner.status_id,inner.status_name,inner.id,inner.patient_id,"test_detail")+'</td>';
+                   htm +=  ' <tr>'+
+                   '<td>'+inner.testname+'</td>'+
+                   '<td> '+inner.patient_name+' </td>'+
+                   '<td> $'+inner.amount+' </td>'+
+                   '<td>'+
+                   statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail")+'</td>'+
+                   '</tr>';
+
                     $("#lbredefine").append(htm);
                     
-                    alert(inner.id )
+                   
+                    detail_id = inner.id;
                 }
-                detail_id = inner.id;
+                
                 })
+                  }
+
+              
                
             })
           
          	return true;
 
 }
-function statusController(status_id,status_name,id,patient_id,type){
-	
-					if(  status_id==1)
-                    rt ='<span class="badge w3-red">  </span>'
-                    else if(  status_id==2)
-                    return '<span class="badge w3-blue" style="display:inline-block">  '+ status_name+'</span> | <div class="dropdown" style="display:inline-block">'
-  +' <a  class=" w3-medium w3-btn w3-text-blue w3-round-large" style="background:inherit" dropdown-toggle"  data-toggle="dropdown">Action<span class="caret"></span></button>'
-    +' </a>'
-  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-    +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
-     +' <li class=""><a class="" onclick="cancelpayment(this)" tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'"  ><i class="fa fa-trash"></i> Cancel</a></li>'
-   +' </ul>'+
-'</div>'
-                    else if(  status_id==3)
-                    return '<span class="badge w3-yellow">  '+ status_name+'</span>'
-                    else if( status_id==4)
-                    return '<span class="badge w3-green">  '+ status_name+'</span>'
-                    else if(  status_id==5)
-                    return '<span class="badge w3-teal">  '+ status_name+'</span>'
-                   
 
-}
 function cancelpayment(data){
 alert($(data).attr("tagid"))
 }
@@ -169,7 +151,7 @@ modalmakeup({
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
  if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
-          // location.reload();
+           location.reload();
      },1000)
     }
 
@@ -203,4 +185,43 @@ function discounts(th){
       $('input[name=curency]').val(last);
       
       
+}
+function statusController(status_id,status_name,id,patient_id,type){
+              var color =  type =="test_master"?"w3-green":"w3-blue"
+              var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
+              var pref = type =="test_master"?"Status":""
+                if( status_id==2  && type == "test_master" ) {
+                   return 'Status ' + ' <div class="dropdown " style="display:inline-block"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border">'
+                        +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                       +' </ul>'+
+                    '</div>'
+                  
+                }
+                    else if(  status_id==3){
+                    return '<span class="badge w3-yellow">  '+ status_name+'</span>'
+                    }else if( status_id==4){
+                    return '<span class="badge w3-green">  '+ status_name+'</span>'
+                   }else if(  status_id==5){
+                    return '<span class="badge w3-teal">  '+ status_name+'</span>'
+                   
+                  }else if (type=="test_detail" && status_id ==2) {
+                  return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                        +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                       +' </ul>'+
+                    '</div>'
+                  }
+}
+function searchtable(id,table) {
+ var $rows = $('#'+table+" tr");
+
+    var val = $.trim($("#"+id).val()).replace(/ +/g, ' ').toLowerCase();
+
+    $rows.show().filter(function() {
+        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        return !~text.indexOf(val);
+    }).hide();
 }
