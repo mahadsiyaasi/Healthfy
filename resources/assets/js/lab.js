@@ -50,8 +50,8 @@ function re_define_lab(data){
           $.each(eval(data), function(i,item){
               var header ="";
                   if( item.master_id  !=  last){
-                     header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span> </td>'
-                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> </td>'
+                     header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>'
+                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></td>'
                        + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
                         +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.master_status_id,item.master_status,item.master_id,item.patient_id,"test_master")+'  </span></td>'
                   +'  </tr>'
@@ -62,9 +62,9 @@ function re_define_lab(data){
                 if(inner.test_order_id == item.master_id && detail_id != inner.id){
                    htm +=  ' <tr>'+
                    '<td>'+inner.testname+'</td>'+
-                   '<td> '+inner.patient_name+' </td>'+
+                   '<td> <a href="/patients/'+inner.patient_id+'"> '+inner.patient_name+'</a> </td>'+
                    '<td> $'+inner.amount+' </td>'+
-                   '<td>'+
+                   '<td class="text-center" style="align-text: center">'+
                    statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail")+'</td>'+
                    '</tr>';
 
@@ -80,7 +80,7 @@ function re_define_lab(data){
               
                
             })
-          
+          $("#tablepagecounter").text(getcountofrows("lbredefine"))
          	return true;
 
 }
@@ -152,6 +152,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
  if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
            location.reload();
+            $("#tablepagecounter").text(getcountofrows("lbredefine"));
      },1000)
     }
 
@@ -175,7 +176,13 @@ $(document).ready(function(){
    $(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_master"));
     
   })
+$("#labtable").on("click","th",function(){
+  sortTable($(this).index(),"labtable")
+})
 
+
+ $('#lbredefine').pageMe({pagerSelector:'#pagetablepage',showPrevNext:true,hidePageNumbers:false,perPage:10});
+    
 
 })
 function discounts(th){
@@ -187,12 +194,13 @@ function discounts(th){
       
 }
 function statusController(status_id,status_name,id,patient_id,type){
+  
               var color =  type =="test_master"?"w3-green":"w3-blue"
               var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
               var pref = type =="test_master"?"Status":""
                 if( status_id==2  && type == "test_master" ) {
-                   return 'Status ' + ' <div class="dropdown " style="display:inline-block"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
-                      +'<ul class="dropdown-menu w3-border">'
+                   return 'Status ' + ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
                         +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
                        +' </ul>'+
@@ -215,13 +223,7 @@ function statusController(status_id,status_name,id,patient_id,type){
                     '</div>'
                   }
 }
-function searchtable(id,table) {
- var $rows = $('#'+table+" tr");
 
-    var val = $.trim($("#"+id).val()).replace(/ +/g, ' ').toLowerCase();
-
-    $rows.show().filter(function() {
-        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-        return !~text.indexOf(val);
-    }).hide();
-}
+$(document).ready(function(){
+  $("#tablepagecounter").text(getcountofrows("lbredefine"))
+})

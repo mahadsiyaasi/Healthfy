@@ -42,36 +42,39 @@
         </div>
         <div class="box-body">
         <div class="table-responsive">
-<table id="labtable"  class="table table-bordred w3-table-bordered table-bordred">
-            <thead>             
-              <tr>
-              <th >Doctor</th>
-              <th>patient</th>
-              <th>Amount</th>
+<table id="labtable"  class="table table-bordred w3-table-bordered table-bordred" style="width: 100%; height: 100%; overflow-y: auto">
+            <tr class="border w3-border w3-table-bordered">             
+              
+              <th class="border w3-border  w3-table-bordered">Doctor </th>
+              <th class="border w3-border w3-table-bordered">patient</th>
+              <th class="border w3-border w3-table-bordered">Amount</th>
               <th  class="text-center">Action & Status </th>
               </tr>
-            </thead>
-              <tbody id="lbredefine" class="w3-text-black w3-text-bold" style="">
-                 <?php $last =""; 
+            <tbody id="lbredefine" class="w3-text-black w3-text-bold" style="">
+                 <?php $last =0; 
                   $detail_id = 0;
+                  $patient_check = 0;
                  ?>
                 @foreach($ordertest as $vals)
-                  @if($last != $vals['doctor_name'])
+                  @if($last != $vals['master_id'])
                      <tr>
-                        <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span> </td>
-                        <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> </td>
+                        <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span><a class="btn"><i class="fa fa-eye"></i> Detail</a></td>
+                        <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>
                         <td class="w3-light-gray active">Total :  <span class="badge w3-green">$ {{ $vals['total_amount'] }} </span></td>
                         <td class="text-center w3-light-gray active maintrgentd" tagid="{{$vals['master_id']}}"   status_id="{{$vals['master_status_id']}}" status_name="{{$vals['master_status']}}" tagpaient_id="{{$vals['patient_id']}}"></td>
                     </tr>
-                  @endif
-                <?php $last = $vals['doctor_name']; ?>
+                 
+                <?php $last = $vals['master_id']; 
+                  $patient_check = $vals['patient_id']
+                ?>
+                 @endif
                 <?php $detail_id = $vals['id']; ?>
                 @foreach($ordertest as $val)
-                @if($val['test_order_id'] == $vals['master_id'] && $detail_id== $val['id'] )
+                @if($val['test_order_id'] == $vals['master_id'] && $detail_id == $val['id'] )
                 <tr>
                  
                   <td> {{ $val['testname'] }}</td>
-                  <td> {{ $val['patient_name'] }} </td>
+                  <td><a href="/patients/{{$val['patient_id']}}"> {{ $val['patient_name'] }}</a> </td>
                   <td> ${{ $val['amount'] }} </td>
                   <td class="gentd text-center" tagid="{{$val['id']}}"   status_id="{{$val['detail_status_id']}}" status_name="{{$val['detail_status']}}" tagpaient_id="{{$val['patient_id']}}"> 
 
@@ -87,29 +90,25 @@
                  @endforeach
                  @endforeach
               </tbody>
-            
-          </table>
+
+             <tfoot class="main-footer">
+              <tr>
+       <td colspan="3">
+        <ul class="pagination pagination-lg pager pull-left" id="pagetablepage" style="display: inline-block;top: -25px; position: relative;"></ul>
+       
+       <td>
+        <div  style="display: inline-block;" class="pull-right">
+        <p id="tablepagecounter">Showing 1 of  <?php echo count($ordertest); ?> rows </p>
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-         /
-        </div>
-        <!-- /.box-footer-->
+         </td>  
+        </tr>    
+        </tfoot>
+       </table>
       </div>
-      <!-- /.box -->
-
+      </div>    
     </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      
-    </div>
-   
-  </footer>
-</section>
+  </section>
 </div>
 
   @endsection

@@ -110,7 +110,7 @@ class medicationController extends Controller
          ->where('medication_list.status_id','>',0)
          ->get();
 
-        return \DataTables::of(self::removeduplicate($data),'id')->make(true);
+        return \DataTables::of(self::removeduplicate($data,'id'))->make(true);
     }
 
      public static function finddrug($data){
@@ -126,16 +126,14 @@ class medicationController extends Controller
           
           return self::removeduplicate($largedata,'id');
         }else{
-         $s  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+         $getresult  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
            ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
             ->select('medication_list.id','medication_list.name','medication_list.effect','medication_list.status_id','medication_list.strenght','medication_list.id','dosage_unit_list.dosage_unit_name')
          ->where('medication_list.id',$data)    
          ->where('medication_list.status_id',">",0) 
-         //->distinct('medication_list.mdu_id')   
          ->distinct('dosage_unit_list.dul_id')  
-         ->get();
-        
-        return $s;
+         ->first();        
+        return $getresult;
 }
     }
     public static function removeduplicate($data,$id){

@@ -24,6 +24,8 @@ class editorController extends Controller
           $table ="App\Models\Staff";
         }elseif ($request->input("table")=="PrescriptionList") {
           $arra =\App\Models\PrescriptionDetail::where('prescription_id',$request->input('id'))->update(['status_id'=>0]);
+         }elseif ($request->input("table")=="OrderMaster") {
+          $arra =\App\Models\OrderDetail::where('test_order_id',$request->input('id'))->update(['status_id'=>0]);
          }
     	$data  = $table::find($request->input("id"));
     	$data->status_id=0;

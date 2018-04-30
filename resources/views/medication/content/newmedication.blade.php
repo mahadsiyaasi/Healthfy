@@ -228,7 +228,7 @@ use App\Http\Controllers\medicationController;
 
                       <div class="navbar-right w3-padding">
                         <button type="button" class="btn btn-danger" style="display: inline-block; position: relative;" onclick="location.href='medication'">cancel</button>
-                          <button type="button" class="btn btn-info" onclick='var $this= $(this);  if(ajaxtoserv("#medicationfm",null,"form","savemedication?_token="+_token,this).success){setTimeout(function() {location.href="/medication";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
+                          <button type="button" class="btn btn-info" onclick='var $this= $(this);  if(ajaxtoserv("#medicationfm","form","savemedication?_token="+_token,this).success){setTimeout(function() {location.href="/medication";$this.button("reset");}, 1000);};' data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
 
                       </div> 
                        

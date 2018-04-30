@@ -66,7 +66,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/appoint.js',  
     'resources/assets/js/lab.js',   
     'resources/assets/js/medication.js', 
-    'resources/assets/js/precription.js',    
+    'resources/assets/js/customtable.js',  
+    'resources/assets/js/precription.js',  
+
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 
