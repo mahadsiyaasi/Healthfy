@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
+<title>@yield('title', 'Login | Health')</title>
 @section('content')
-<div class="container w3-light-gray" style="width: 100%">
+<div class="container " style="width: 100%">
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="/"><b>Healthso</b>.so</a>
+    <a href="/" class="w3-text-white"><b>Healthso</b><span class="w3-text-black">.so</span></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body w3-form w3-border w3-card-8 w3-around-large w3-padding">

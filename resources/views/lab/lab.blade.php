@@ -42,7 +42,7 @@
         </div>
         <div class="box-body">
         <div class="table-responsive">
-<table id="labtable"  class="table table-bordred w3-table-bordered table-bordred" style="width: 100%; height: 100%; overflow-y: auto">
+<table id="labtable"  class="table table-condensed table-hover table-bordered table-striped" style="width: 100%; height: 100%; display: none; overflow-y: auto">
             <tr class="border w3-border w3-table-bordered">             
               
               <th class="border w3-border  w3-table-bordered">Doctor </th>
@@ -104,8 +104,13 @@
         </tr>    
         </tfoot>
        </table>
+        <table class="table w3-table-bordered" id="testtab"></table>  
       </div>
-      </div>    
+      </div>  
+
+
+
+     
     </section>
   </div>
   </section>

@@ -31,7 +31,9 @@ function filterfn(){
          $('body').find("#oncreate select[name=doctor_filter]").append("<option value='"+item.id+"' tagcheckid='"+item.id+"'>"+item.name+"</option>");
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
-        if (re_define_lab(ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success)) {
+      var largearry = ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success;
+        if (re_define_lab(largearry)) {
+          alert(largearry[0].patient_name)
         setTimeout(function() {
              removebesmodal();
              
@@ -81,6 +83,11 @@ function re_define_lab(data){
                
             })
           $("#tablepagecounter").text(getcountofrows("lbredefine"))
+
+
+
+
+
          	return true;
 
 }
@@ -226,4 +233,35 @@ function statusController(status_id,status_name,id,patient_id,type){
 
 $(document).ready(function(){
   $("#tablepagecounter").text(getcountofrows("lbredefine"))
+
+
+
+
+   generaltable({
+              table:"#testtab",
+              ajax: {
+                type   : "POST",
+                url    : 'filter',
+                data:{_token:_token},
+                success: function() {
+                 return this.type+this.url;
+                },
+              },
+                paging: true,
+                sort: true,
+                info:true,
+                search: true,
+                pagelenght:[10,20,100,350,'All'],
+                colums:[
+                  {'title':"Tests",name:"patient_name"},
+                  {'title':"patient",name:"doctor_name"},
+                  {'title':"doctor",name:"testname"},
+                  {'title':"vilage",name:"amount"},
+                  {'title':"country",name:"datail_satus"},
+                  {'title':"city",name:"date"},
+                 ]
+
+            })
+
+
 })

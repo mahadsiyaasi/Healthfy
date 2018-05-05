@@ -1,36 +1,88 @@
-generaltable = function(array){
-switch(array) {
-    case array.paging:
+ function generaltable(array){
+     var listop = "";
+   
+       var rightAppend =""
+        var leftAppend=""
+     listop = "<option value='10'>10</option>";
+      listop += "<option value='50'>50</option>";
+      listop += "<option value='100'>50</option>";
+    
+if (array.paging){
        $(array.table).pageMe({pagerSelector:'#pagetablepage',showPrevNext:true,hidePageNumbers:false,perPage:10});
-        break;
-    case array.sort:
-        sortTable(n,table)
-        break;
-        case array.info:
-       getcountofrows(table)
-
-        break;
-        case array.search:
-        searchtable(id,table)
-        break;
-        case array.tfoot:
-        break;
+       if (array.pagelenght) {
+        listop=""
+        $.each(eval(array.pagelenght),function(i,item){
+                listop += "<option value='"+item+"'>"+item+"</option>";
+        })
+        }
+         leftAppend = '<div class="pull-left" style="position:relative;width:50%"><div class="dataTables_length" id="patientgrid_length"><label class="w3-padding">  Show <select name="patientgrid_length" aria-controls="patientgrid" class="form-control input-sm"> '+listop+' </select> entries</label></div></div>'          
+      }
+    if (array.sort){
+   
+        }
+      
+    if (array.info){
         
-        
-    default:
-        
-  }
+      }
+      if (array.search){
+         var tabname = array.table.replace("#","")
+       rightAppend = '<div class="pull-right" style="position:relative;width:50%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input pull-right customtable_search" placeholder="search" style="width: 50%; position: relative;display: inline-block;"></div>'    
+        }
+        if (array.tfoot){
+        }     
+    array.countRows = getcountofrows(5);
+    array.searchhtml =  "<div class='' style='width:100%; position:relative;'>"+leftAppend+rightAppend+"</div>";
+      if (array.ajax) {
+        ajaxdefiner(array);
+     }
+    
+   
 }
-function searchtable(id,table) {
- var $rows = $('#labtable tbody tr');
+function columngenarator(array){
+    console.log(array)
+    var tabname = array.table.replace("#","")
+    //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered  no-footer">'
+    $(array.table).html("");
+    var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap no-footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
+    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+array.countRows+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers" id="'+tabname+'_paginate"><ul class="pagination"><li class="paginate_button first disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_first"><a href="#">First</a></li><li class="paginate_button previous disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="patientgrid" tabindex="0"><a href="#">1</a></li><li class="paginate_button next disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_next"><a href="#">Next</a></li><li class="paginate_button last disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_last"><a href="#">Last</a></li></ul></div></div></div></div>'
+    $(array.table).prepend("<caption>"+array.searchhtml+"</caption>");
+    var thead = "<thead><tr>"
+    $.each(eval(array.colums),function(i,item){
+    $.each(eval(array.largedata),function(iner,dataitem){
+        if (i==iner) {
+             thead +="<th>"+item.title+"</th>";
+         }  
+    })
+    })
+    thead +="</tr></thead>"
+    var tbody = "<tbody><tr>"
+    
+         $.each(eval(array.largedata),function(iner,dt){
+            $.each(eval(array.colums),function(i,item){
+        if (i==iner) {
+             tbody +="<td>"+dt+"</td>";
+         }  
+    })
+    
+       
+    })
+    tbody +="</tr></tbody>"
+    var lastall =htmmain+tablem+thead+tbody+"</table>"+end;  
+   var $parent = $(array.table).parent("div");
+   $parent.find($(array.table)).remove();
+   $parent.append(lastall)
+}
+function searchtable(tthis) {
 
-    var val = $.trim($("#"+id).val()).replace(/ +/g, ' ').toLowerCase();
+ var $rows = $($(tthis).attr("tagtable")).find("tbody tr");
+
+    var val = $.trim($(tthis).val()).replace(/ +/g, ' ').toLowerCase();
 
      $rows.show().filter(function() {
         var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
         setTimeout(function() {
-          $("#tablepagecounter").text(getcountofrows("lbredefine"));
-        }, 10);
+         }, 10);
         return !~text.indexOf(val);
     }).hide()
     
@@ -93,8 +145,7 @@ function sortTable(n,table) {
   }
 }
 
-function getcountofrows(table){
-var rows = document.getElementById(table).getElementsByTagName("tr").length;
+function getcountofrows(rows){
 return "Showing 1 of "+rows+" rows";
 }
 $.fn.pageMe = function(opts){
@@ -200,3 +251,16 @@ $.fn.pageMe = function(opts){
     }
 
 };
+function ajaxdefiner(array){
+        $.ajax({
+            url:array.ajax.url,
+            type:array.ajax.type,
+            datatype:"json",
+            data:array.ajax.data,
+           async: false,
+            success:function(data){
+                array.largedata = data;
+                columngenarator(array);
+            }
+        })
+}

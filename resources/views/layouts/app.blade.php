@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', Route::currentRouteName())</title>
+    <title>@if(Auth::check()) @yield('title', Route::currentRouteName())  @endif</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
@@ -35,7 +35,7 @@
    
      @if (Auth::guest())  
       
-    @else
+    @elseif (Auth::check())
   <header class="main-header">
 
     <a href="/" class="logo">
@@ -96,10 +96,9 @@
   @yield('content')
   </div>
 </div>
-   @push('scripts')
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/all.js') }}"></script>
-   
+ <script src="{{ asset('js/app.js') }}"></script>
+   @push('scripts')   
+    <script src="{{ asset('js/all.js') }}"></script>   
    <script>
   $(document).ready(function () {
       populateCountries("nationality", "city");     
@@ -110,7 +109,12 @@
 </script>
 
 @endpush
+ @if (Auth::check())
 @stack('scripts')
+@endif
+<script type="text/javascript">
+  $(".wrapper").css("background","#B03060")
+</script>
 </body>
 </html>
 
