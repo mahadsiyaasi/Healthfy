@@ -114,6 +114,12 @@
 @endif
 <script type="text/javascript">
   $(".wrapper").css("background","#B03060")
+  $(".skin-blue .main-header .logo").css("background","#B03060")
+  $(".main-header .logo").css("background","#B03060")
+  $(".logo").css("background","#B03060")
+  $(".navbar").css("background","#B03060")
+  
+  
 </script>
 </body>
 </html>

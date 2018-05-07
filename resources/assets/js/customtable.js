@@ -1,4 +1,7 @@
- function generaltable(array){
+var maxcount;
+var tblecount;
+var jsonmap;
+  $.fn.dtab = function(array) {
      var listop = "";
    
        var rightAppend =""
@@ -6,17 +9,16 @@
      listop = "<option value='10'>10</option>";
       listop += "<option value='50'>50</option>";
       listop += "<option value='100'>50</option>";
-    
-if (array.paging){
-       $(array.table).pageMe({pagerSelector:'#pagetablepage',showPrevNext:true,hidePageNumbers:false,perPage:10});
+        var  Tab_name = array.table.replace("#","")
+        tblecount = array.table;
        if (array.pagelenght) {
         listop=""
         $.each(eval(array.pagelenght),function(i,item){
                 listop += "<option value='"+item+"'>"+item+"</option>";
         })
         }
-         leftAppend = '<div class="pull-left" style="position:relative;width:50%"><div class="dataTables_length" id="patientgrid_length"><label class="w3-padding">  Show <select name="patientgrid_length" aria-controls="patientgrid" class="form-control input-sm"> '+listop+' </select> entries</label></div></div>'          
-      }
+         leftAppend = '<div class="pull-left" style="position:relative;width:50%"><div class="dataTables_length" id="patientgrid_length"><label class="w3-padding">  Show <select name="'+Tab_name+'_length"  onchange="lengthchanger(this)" aria-controls="grid" class="form-control input-sm"> '+listop+' </select> entries</label></div></div>'          
+     
     if (array.sort){
    
         }
@@ -30,49 +32,108 @@ if (array.paging){
         }
         if (array.tfoot){
         }     
-    array.countRows = getcountofrows(5);
-    array.searchhtml =  "<div class='' style='width:100%; position:relative;'>"+leftAppend+rightAppend+"</div>";
+      array.searchhtml =  "<div class='' style='width:100%; position:relative;'>"+leftAppend+rightAppend+"</div>";
       if (array.ajax) {
         ajaxdefiner(array);
      }
     
    
 }
-function columngenarator(array){
-    console.log(array)
+function columngenarator(array,largedata){
+    var colormain =array.tabledata === "undefined"  ? array.tabledata.textFontClass:'w3-text-gray';
     var tabname = array.table.replace("#","")
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered  no-footer">'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered  '+colormain+' no-footer "><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
     var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap no-footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
-    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+array.countRows+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers" id="'+tabname+'_paginate"><ul class="pagination"><li class="paginate_button first disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_first"><a href="#">First</a></li><li class="paginate_button previous disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="patientgrid" tabindex="0"><a href="#">1</a></li><li class="paginate_button next disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_next"><a href="#">Next</a></li><li class="paginate_button last disabled" aria-controls="patientgrid" tabindex="0" id="patientgrid_last"><a href="#">Last</a></li></ul></div></div></div></div>'
+    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':null))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
     $(array.table).prepend("<caption>"+array.searchhtml+"</caption>");
-    var thead = "<thead><tr>"
-    $.each(eval(array.colums),function(i,item){
-    $.each(eval(array.largedata),function(iner,dataitem){
-        if (i==iner) {
-             thead +="<th>"+item.title+"</th>";
-         }  
-    })
-    })
-    thead +="</tr></thead>"
-    var tbody = "<tbody><tr>"
-    
-         $.each(eval(array.largedata),function(iner,dt){
-            $.each(eval(array.colums),function(i,item){
-        if (i==iner) {
-             tbody +="<td>"+dt+"</td>";
-         }  
-    })
-    
-       
-    })
-    tbody +="</tr></tbody>"
-    var lastall =htmmain+tablem+thead+tbody+"</table>"+end;  
+     var lastall =htmmain+tablem+end;  
    var $parent = $(array.table).parent("div");
    $parent.find($(array.table)).remove();
    $parent.append(lastall)
+   maxcount = largedata.length;
+
+    var thead = "<tr>"    
+    $.each(eval(array.colums),function(i,item){
+      if (item.title) {
+      if (item.visible) {
+            thead +="<th thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
+      }
+      else{
+            thead +="<th thead_id='"+item.name+"'>"+item.title+"</th>";   
+
+      }   
+    }   
+    })
+    thead +="</tr>"
+    $(array.table+" thead").append(thead)
+    var tbody = ""
+    largedata.__proto__ =null;  
+    $.each(eval(largedata),function(iname,dt){
+      json = $.parseJSON(JSON.stringify(dt));
+      jsonmap = json;
+      tbody +="<tr>";
+       $.each(eval(array.colums),function(iner,dataitem){
+          $.each(json, function(i, n){              
+                if (dataitem.name==i) {  
+                  if (dataitem.visible) {                
+                      tbody +="<td style='display:none'> "+dataitem.money+" "+n+"</td>";
+                  }else if (dataitem.money && dataitem.name && n) {                
+                      tbody +="<td> "+dataitem.money+" "+n+"</td>";
+                  }
+                  else if (dataitem.status) {
+                        tbody +="<td><a class=''><span class='badge  "+dataitem.classColor+"'> " +n+ "</span></a></td>";
+                    }else if (dataitem.icon) {
+                        tbody +="<td><a class=''><span class='badge  "+dataitem.icon+"'> " +n+ "</span></a></td>";
+                    }else{
+                       tbody +="<td>"+n+"</td>"; 
+                     }
+              }
+              
+              
+          }) 
+          if (dataitem.icon) {
+                  tbody +="<td><a class=''></a></td>";
+              }
+        }) 
+        tbody +="</tr>";
+    })
+
+    $(array.table+" tbody").html(tbody)
+  
+    
+    
+     $.each(eval(largedata),function(iname,dt){     
+    $.each(eval(array.columndefs),function(i,item){  
+         
+    $(array.table+" tbody tr td").each(function(){
+       if ($(this).index()==item.targets) {
+        $this =$(this);            
+         $this.html(item.render(dt))        
+      }
+   })
+      })
+    })
+    
+    if (array.paging) {
+      $(array.table+" tbody").pageMe({pagerSelector:array.table+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:10});
+    }
+   
+    
 }
+function lengthchanger(th){
+  $(tblecount+"_paginate").html("");
+  
+  if ($(th).val()=="All") {
+        
+             $(tblecount+" tbody").pageMe({pagerSelector:tblecount+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:maxcount});
+  }else
+       { 
+        
+             $(tblecount+" tbody").pageMe({pagerSelector:tblecount+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:$(th).val()});
+           }
+   }
 function searchtable(tthis) {
 
  var $rows = $($(tthis).attr("tagtable")).find("tbody tr");
@@ -81,10 +142,13 @@ function searchtable(tthis) {
 
      $rows.show().filter(function() {
         var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+
         setTimeout(function() {
          }, 10);
         return !~text.indexOf(val);
     }).hide()
+    
+    rowcount($(tthis).attr("tagtable")+"_info",$(tthis).attr("tagtable").replace("#",''));
     
 }
 
@@ -131,7 +195,7 @@ function sortTable(n,table) {
       and mark that a switch has been done: */
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
       switching = true;
-      $("#tablepagecounter").text(getcountofrows("lbredefine"))
+     // $("#tablepagecounter").text(getcountofrows("lbredefine"))
       // Each time a switch is done, increase this count by 1:
       switchcount ++; 
     } else {
@@ -145,10 +209,9 @@ function sortTable(n,table) {
   }
 }
 
-function getcountofrows(rows){
-return "Showing 1 of "+rows+" rows";
-}
+
 $.fn.pageMe = function(opts){
+
     var $this = this,
         defaults = {
             perPage: 7,
@@ -156,8 +219,7 @@ $.fn.pageMe = function(opts){
             hidePageNumbers: false
         },
         settings = $.extend(defaults, opts);
-    
-    var listElement = $this;
+         var listElement = $this;
     var perPage = settings.perPage; 
     var children = listElement.children();
     var pager = $('.pager');
@@ -165,7 +227,6 @@ $.fn.pageMe = function(opts){
     if (typeof settings.childSelector!="undefined") {
         children = listElement.find(settings.childSelector);
     }
-    
     if (typeof settings.pagerSelector!="undefined") {
         pager = $(settings.pagerSelector);
     }
@@ -212,7 +273,7 @@ $.fn.pageMe = function(opts){
         next();
         return false;
     });
-    
+    rowcount("#"+$this.parent("table").attr("id")+"_info",$this.parent("table").attr("id"));
     function previous(){
         var goToPage = parseInt(pager.data("curr")) - 1;
         goTo(goToPage);
@@ -246,8 +307,8 @@ $.fn.pageMe = function(opts){
         pager.data("curr",page);
         pager.children().removeClass("active");
         pager.children().eq(page+1).addClass("active");
-         $("#tablepagecounter").text(getcountofrows("lbredefine"))
-    
+        rowcount("#"+$this.parent("table").attr("id")+"_info",$this.parent("table").attr("id"));
+       
     }
 
 };
@@ -259,8 +320,18 @@ function ajaxdefiner(array){
             data:array.ajax.data,
            async: false,
             success:function(data){
-                array.largedata = data;
-                columngenarator(array);
+              data = $.each(eval(data),function(i,dt){
+                if (dt.__proto__) {          
+                dt.__proto__ = null;            
+              }
+              })
+                columngenarator(array,data);
             }
         })
 }
+
+ function rowcount(paginate, tab){
+  var rows = $("#"+tab+' tbody tr:visible').length;
+  var strin =  'Showing '+rows+' of'+maxcount+' entries';
+  return $(paginate).text(strin);
+ }

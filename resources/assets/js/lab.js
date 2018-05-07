@@ -82,7 +82,7 @@ function re_define_lab(data){
               
                
             })
-          $("#tablepagecounter").text(getcountofrows("lbredefine"))
+         //$("#tablepagecounter").text(getcountofrows("lbredefine"))
 
 
 
@@ -159,7 +159,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
  if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
            location.reload();
-            $("#tablepagecounter").text(getcountofrows("lbredefine"));
+            //$("#tablepagecounter").text(getcountofrows("lbredefine"));
      },1000)
     }
 
@@ -230,14 +230,8 @@ function statusController(status_id,status_name,id,patient_id,type){
                     '</div>'
                   }
 }
-
 $(document).ready(function(){
-  $("#tablepagecounter").text(getcountofrows("lbredefine"))
-
-
-
-
-   generaltable({
+  $("#testtab").dtab({
               table:"#testtab",
               ajax: {
                 type   : "POST",
@@ -251,17 +245,56 @@ $(document).ready(function(){
                 sort: true,
                 info:true,
                 search: true,
+                //tabledata: {textFontClass:'w3-text-gray'},
                 pagelenght:[10,20,100,350,'All'],
                 colums:[
-                  {'title':"Tests",name:"patient_name"},
-                  {'title':"patient",name:"doctor_name"},
-                  {'title':"doctor",name:"testname"},
-                  {'title':"vilage",name:"amount"},
-                  {'title':"country",name:"datail_satus"},
-                  {'title':"city",name:"date"},
-                 ]
+                  {'title': "Action",   name:"icon", icon:true},
+                  {'title': "Tests",   name:"testname"},
+                  {'title': "patient", name:"patient_name"},
+                  {'title': "Doctor",  name:"doctor_name"},
+                  {'title': "Amount",  name:"amount",         money:'$'},                  
+                  {'title': "Date",    name:"date"},
+                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green'},
+                 ],
+                 columndefs:[                   
+                      {
+                        "render": function (data) {
+                          return '<a > <i class="fa fa-edit"></i><i class="fa fa-trash w3-padding"></i></a>';
+                        },
+                        "targets": 0
+                      },
+                      {
+                        "render": function (data) {
+                          return '<a  href="'+data.id+'"> '+data.doctor_name+'</a>';
+                         },
+                        "targets": 3
+                      },
+                  ],
+                  "drawCallback": function ( settings ) {
+                  var api = this.api();
+                  var rows = api.rows( {page:'current'} ).nodes();
+                  var last=null;
+ 
+                  api.column(8, {page:'current'} ).data().each( function ( group, i ) {
+                    if ( last !== group ) {
+                  var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+                  var data =  test_view.row(i).data();
+                  var htmsddd= "<div class='w3-padding'><a  href='"+_id+"/add?new=test' id='addstyle'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''>  <i class='fa fa-plus' aria-hidden='true'></i> Add</a>   <a  id='justprint'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''> | <i class='fa fa-print' aria-hidden='true'></i> print</a></div>";
+                    grouphtm = emptyraw+'<tr class="w3-text-white w3-light-blue w3-medium" style="padding:0px 0px 0px"><td><div class="w3-row"><div class="w3-half"> <p class="w3-large" style="position:relative;top:-4px">  <span class="w3-text-black">Dr.</span> '+data.doctor_name+' </p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+data.patient_name+'(order id(# <strong class="w3-text-black">'+data.test_order_id+'</strong>)) </p></div> <div class="w3-half ">Tested from  <strong>'+data.date+'</strong></div></div></td><td> Total $'+data.total_amount+'</td><td id='+data.doctor_name+'> '+htmsddd+'</td></tr>';
+               
+                    $(rows).eq( i ).before(
+
+                     grouphtm
+                    
+
+                    );
+
+                    last = group;
+                }
+            } );
+        }
 
             })
 
-
 })
+

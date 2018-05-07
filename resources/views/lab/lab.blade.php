@@ -41,8 +41,8 @@
           </div>
         </div>
         <div class="box-body">
-        <div class="table-responsive">
-<table id="labtable"  class="table table-condensed table-hover table-bordered table-striped" style="width: 100%; height: 100%; display: none; overflow-y: auto">
+        <div class="table-responsive" style="overflow-x: hidden;">
+<table id="labtable"  class="table table-condensed table-hover table-bordered table-striped" style="width: 100%; height: 100%; display: block; overflow-y: auto">
             <tr class="border w3-border w3-table-bordered">             
               
               <th class="border w3-border  w3-table-bordered">Doctor </th>
@@ -107,13 +107,10 @@
         <table class="table w3-table-bordered" id="testtab"></table>  
       </div>
       </div>  
-
-
-
-     
-    </section>
+  </section>
   </div>
   </section>
+  
 </div>
 
   @endsection
