@@ -13921,6 +13921,7 @@ function profileviewappointent(){
     });
 }
 
+var datadtab;
 function filterfn(){
 		modalmakeup({
 	title:"Filter lab lists",
@@ -13955,13 +13956,13 @@ function filterfn(){
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
       var largearry = ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success;
-        if (re_define_lab(largearry)) {
-          alert(largearry[0].patient_name)
-        setTimeout(function() {
+        
+          datadtab.SearchApi(largearry)
+          setTimeout(function() {
              removebesmodal();
              
          }, 1000);
-        }
+       
 			
 		
         })
@@ -14014,12 +14015,6 @@ function re_define_lab(data){
          	return true;
 
 }
-
-function cancelpayment(data){
-alert($(data).attr("tagid"))
-}
-
-
 ////////////////////////////////////////
 function paymentpopup(datas){
 var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","filter?_token="+_token,this);
@@ -14092,7 +14087,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 }
 ///filter with pop up
 function filterbody(id) {
-  re_define_lab(ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success)
+ datadtab.SearchApi((ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success))
 }
 $(document).ready(function(){
   //inner trs with detail
@@ -14153,16 +14148,15 @@ function statusController(status_id,status_name,id,patient_id,type){
                     '</div>'
                   }
 }
+
 $(document).ready(function(){
-  $("#testtab").dtab({
+
+   datadtab = $("#testtab").dtab({
               table:"#testtab",
               ajax: {
                 type   : "POST",
                 url    : 'filter',
                 data:{_token:_token},
-                success: function() {
-                 return this.type+this.url;
-                },
               },
                 paging: true,
                 sort: true,
@@ -14171,54 +14165,68 @@ $(document).ready(function(){
                 //tabledata: {textFontClass:'w3-text-gray'},
                 pagelenght:[10,20,100,350,'All'],
                 colums:[
-                  {'title': "Action",   name:"icon", icon:true},
+                  
                   {'title': "Tests",   name:"testname"},
-                  {'title': "patient", name:"patient_name"},
-                  {'title': "Doctor",  name:"doctor_name"},
+                  {'title': "patient", name:"patient_name", visible:false},
+                  {'title': "Doctor",  name:"doctor_name", visible:false},
                   {'title': "Amount",  name:"amount",         money:'$'},                  
                   {'title': "Date",    name:"date"},
-                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green'},
+                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green', align:"center"},
+                  {'title': "Doctor # id",    name:"doctor_id", visible:false},
+                  {'title': "Action",   name:"master_id", visible:false},
+                  {'title': "Action",   name:"id", visible:false},
+                  {'title': "Action",   name:"detail_status", visible:false},
+                  {'title': "Action",   name:"total_amount", visible:false},
+                  {'title': "Action",   name:"detail_status_id", visible:false},
+                  {'title': "Action",   name:"master_status_id", visible:false},
+                  {'title': "Action",   name:"patient_id", visible:false},
                  ],
+                 align:'left',
                  columndefs:[                   
                       {
-                        "render": function (data) {
-                          return '<a > <i class="fa fa-edit"></i><i class="fa fa-trash w3-padding"></i></a>';
+                        "render": function (inner) {
+                          return statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail");
                         },
-                        "targets": 0
+                        "targets": 5
                       },
                       {
-                        "render": function (data) {
-                          return '<a  href="'+data.id+'"> '+data.doctor_name+'</a>';
+                        "render": function (data) {                                          
+                            
+                          return '<a  href="'+data.doctor_id+'"> '+data.doctor_name+'</a>';
                          },
-                        "targets": 3
+                        "targets": 2
                       },
                   ],
+                  "order": {'sort':7 , 'sorttype':'asc'},
                   "drawCallback": function ( settings ) {
-                  var api = this.api();
-                  var rows = api.rows( {page:'current'} ).nodes();
-                  var last=null;
- 
-                  api.column(8, {page:'current'} ).data().each( function ( group, i ) {
-                    if ( last !== group ) {
-                  var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
-                  var data =  test_view.row(i).data();
-                  var htmsddd= "<div class='w3-padding'><a  href='"+_id+"/add?new=test' id='addstyle'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''>  <i class='fa fa-plus' aria-hidden='true'></i> Add</a>   <a  id='justprint'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''> | <i class='fa fa-print' aria-hidden='true'></i> print</a></div>";
-                    grouphtm = emptyraw+'<tr class="w3-text-white w3-light-blue w3-medium" style="padding:0px 0px 0px"><td><div class="w3-row"><div class="w3-half"> <p class="w3-large" style="position:relative;top:-4px">  <span class="w3-text-black">Dr.</span> '+data.doctor_name+' </p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+data.patient_name+'(order id(# <strong class="w3-text-black">'+data.test_order_id+'</strong>)) </p></div> <div class="w3-half ">Tested from  <strong>'+data.date+'</strong></div></div></td><td> Total $'+data.total_amount+'</td><td id='+data.doctor_name+'> '+htmsddd+'</td></tr>';
-               
-                    $(rows).eq( i ).before(
-
-                     grouphtm
-                    
-
-                    );
-
-                    last = group;
-                }
-            } );
+                    //console.log(settings)
+                  var tx = ''; 
+                  var last=""; 
+                 $(this.table).find('tbody tr').each(function() {
+                  var $this = $(this);
+                   var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+                 var data =  tabletojson(settings,$this)
+                header= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>'
+                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></td>'
+                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></td>'
+                  +'  </tr>'
+                  $(this).children().each(function(i){
+                      if ($(this).index()==settings.order.sort && last != $(this).text()) {
+                          //$(this).parent("tbody").prepend()
+                          $this.before(header);
+                          last = $(this).text();
+                      }
+                     
+                      ///tabletojson(opts,$this)
+                      
+                  })
+                 })
+                  
+           
         }
 
-            })
-
+    })
 })
 
 
@@ -14280,15 +14288,28 @@ function loadmedications(){
 var maxcount;
 var tblecount;
 var jsonmap;
-  $.fn.dtab = function(array) {
-     var listop = "";
-   
+$.fn.dtab = function(array) {
+ var ajax = {
+        reload:function(){ajaxdefiner()},
+        rows:function(){
+
+        },
+        colums:function(){},
+        Api:function(){},
+        SearchApi:function(searcharray){columngenarator(array,searcharray)}
+  }
+
+var  Tab_name = array.table.replace("#","")
+  var $parent = $(array.table).parent("div");
+  $(array.table).remove();
+  $parent.append("<div id='"+Tab_name+"_main'></div>")
+    var listop = "";   
        var rightAppend =""
         var leftAppend=""
      listop = "<option value='10'>10</option>";
       listop += "<option value='50'>50</option>";
       listop += "<option value='100'>50</option>";
-        var  Tab_name = array.table.replace("#","")
+        
         tblecount = array.table;
        if (array.pagelenght) {
         listop=""
@@ -14296,15 +14317,13 @@ var jsonmap;
                 listop += "<option value='"+item+"'>"+item+"</option>";
         })
         }
+        if (array.info) {
          leftAppend = '<div class="pull-left" style="position:relative;width:50%"><div class="dataTables_length" id="patientgrid_length"><label class="w3-padding">  Show <select name="'+Tab_name+'_length"  onchange="lengthchanger(this)" aria-controls="grid" class="form-control input-sm"> '+listop+' </select> entries</label></div></div>'          
-     
+     }
     if (array.sort){
    
         }
-      
-    if (array.info){
-        
-      }
+
       if (array.search){
          var tabname = array.table.replace("#","")
        rightAppend = '<div class="pull-right" style="position:relative;width:50%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input pull-right customtable_search" placeholder="search" style="width: 50%; position: relative;display: inline-block;"></div>'    
@@ -14315,29 +14334,31 @@ var jsonmap;
       if (array.ajax) {
         ajaxdefiner(array);
      }
-    
    
+   return ajax;
 }
 function columngenarator(array,largedata){
     var colormain =array.tabledata === "undefined"  ? array.tabledata.textFontClass:'w3-text-gray';
     var tabname = array.table.replace("#","")
+    var aligner  = (array.align =='center'?'text-center' : array.align =='right'?'text-right' : 'text-left')
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered  '+colormain+' no-footer "><thead></thead><tbody></tbody></table>'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
-    var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap no-footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
-    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':null))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
+    var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
+    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':''))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
     $(array.table).prepend("<caption>"+array.searchhtml+"</caption>");
      var lastall =htmmain+tablem+end;  
-   var $parent = $(array.table).parent("div");
-   $parent.find($(array.table)).remove();
-   $parent.append(lastall)
+     $(array.table+"_main").html(lastall)
    maxcount = largedata.length;
 
     var thead = "<tr>"    
     $.each(eval(array.colums),function(i,item){
       if (item.title) {
-      if (item.visible) {
+      if (item.visible==false) {
             thead +="<th thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
+      }else if (item.align) {
+        var aligner  = (item.align =='center'?'text-center' : item.align =='right'?'text-right' : 'text-left')
+            thead +="<th class='"+aligner+"' thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
       }
       else{
             thead +="<th thead_id='"+item.name+"'>"+item.title+"</th>";   
@@ -14353,12 +14374,16 @@ function columngenarator(array,largedata){
       json = $.parseJSON(JSON.stringify(dt));
       jsonmap = json;
       tbody +="<tr>";
-       $.each(eval(array.colums),function(iner,dataitem){
-          $.each(json, function(i, n){              
-                if (dataitem.name==i) {  
-                  if (dataitem.visible) {                
-                      tbody +="<td style='display:none'> "+dataitem.money+" "+n+"</td>";
-                  }else if (dataitem.money && dataitem.name && n) {                
+      $.each(eval(array.colums),function(iner,dataitem){                
+            
+           $.each(json, function(i, n){              
+                if (dataitem.name==i) {                        
+                  if (dataitem.visible==false) {                
+                      tbody +="<td style='display:none'>"+n+"</td>";
+                  }else if (dataitem.align) {
+                var aligner  = (dataitem.align =='center'?'text-center' : dataitem.align =='right'?'text-right' : 'text-left')
+                tbody +="<td class='"+aligner+"'>"+n+"</td>";
+           }else if (dataitem.money && dataitem.name && n) {                
                       tbody +="<td> "+dataitem.money+" "+n+"</td>";
                   }
                   else if (dataitem.status) {
@@ -14370,36 +14395,46 @@ function columngenarator(array,largedata){
                      }
               }
               
-              
-          }) 
-          if (dataitem.icon) {
-                  tbody +="<td><a class=''></a></td>";
+              })        
+             if (dataitem.icon && dataitem.visible) {
+                  tbody +="<td ><a class=''></a></td>";
+              }else if(dataitem.icon && dataitem.visible==false){
+                   tbody +="<td style='display:none'><a class=''></a></td>";
               }
-        }) 
-        tbody +="</tr>";
-    })
 
-    $(array.table+" tbody").html(tbody)
+            }) 
+            tbody +="</tr>";
+        }) 
+       
   
-    
-    
-     $.each(eval(largedata),function(iname,dt){     
-    $.each(eval(array.columndefs),function(i,item){  
-         
+    $(array.table+" tbody").append(tbody)   
+    var newpush = [];
+    $.each(eval(array.colums),function(iname,dt){
+           newpush.push(dt.name)
+    })   
+    //var $this;  
+    array.col = newpush;
+    $.each(eval(array.columndefs),function(i,item){           
     $(array.table+" tbody tr td").each(function(){
-       if ($(this).index()==item.targets) {
-        $this =$(this);            
-         $this.html(item.render(dt))        
+       if ($(this).index()==item.targets) {     
+       //console.log($(this).css("display"))
+         $(this).html(item.render(tabletojson(array,$(this).parent('tr:first'))))   
       }
    })
       })
-    })
-    
+   /// })
+     
     if (array.paging) {
       $(array.table+" tbody").pageMe({pagerSelector:array.table+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:10});
     }
-   
-    
+    if ($(array.table+" tbody td")) {
+    sortTable(array);
+    }
+    if (array.drawCallback) {
+      
+      array.drawCallback(array);
+  }
+  //$(array.table).Groupizer(array);
 }
 function lengthchanger(th){
   $(tblecount+"_paginate").html("");
@@ -14432,12 +14467,13 @@ function searchtable(tthis) {
 }
 
 
-function sortTable(n,table) {
+function sortTable(tables) {
+  n = tables.order.sort;
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById(table);
+  table = document.getElementById(tables.table.replace('#',''));
   switching = true;
   // Set the sorting direction to ascending:
-  dir = "asc"; 
+  dir = tables.order.sorttype; 
   /* Make a loop that will continue until
   no switching has been done: */
   while (switching) {
@@ -14614,6 +14650,23 @@ function ajaxdefiner(array){
   var strin =  'Showing '+rows+' of'+maxcount+' entries';
   return $(paginate).text(strin);
  }
+ function tabletojson(array,tr) {
+   var jsn ;
+   var otArr = [];
+  // var i = 1;
+   var tbl2 = $(tr).each(function(e) {        
+      x = $(this).children();
+      var itArr = [];
+      var keys =array.col;
+      x.each(function(i) {
+         itArr.push('"' + keys[i] + '":"' + $(this).text() + '"');
+      });
+      otArr.push('{' + itArr.join(',') + '}');
+   })
+  /// console.log(JSON.parse(otArr))
+   return JSON.parse(otArr);
+ }
+
 var checkarray  = [];
 var index =0;
 //jQuery.inArray($(this).attr("tagid"),checkarray)==-1

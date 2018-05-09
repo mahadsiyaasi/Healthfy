@@ -1,3 +1,4 @@
+var datadtab;
 function filterfn(){
 		modalmakeup({
 	title:"Filter lab lists",
@@ -32,13 +33,13 @@ function filterfn(){
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
       var largearry = ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success;
-        if (re_define_lab(largearry)) {
-          alert(largearry[0].patient_name)
-        setTimeout(function() {
+        
+          datadtab.SearchApi(largearry)
+          setTimeout(function() {
              removebesmodal();
              
          }, 1000);
-        }
+       
 			
 		
         })
@@ -91,12 +92,6 @@ function re_define_lab(data){
          	return true;
 
 }
-
-function cancelpayment(data){
-alert($(data).attr("tagid"))
-}
-
-
 ////////////////////////////////////////
 function paymentpopup(datas){
 var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","filter?_token="+_token,this);
@@ -169,7 +164,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 }
 ///filter with pop up
 function filterbody(id) {
-  re_define_lab(ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success)
+ datadtab.SearchApi((ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success))
 }
 $(document).ready(function(){
   //inner trs with detail
@@ -230,16 +225,15 @@ function statusController(status_id,status_name,id,patient_id,type){
                     '</div>'
                   }
 }
+
 $(document).ready(function(){
-  $("#testtab").dtab({
+
+   datadtab = $("#testtab").dtab({
               table:"#testtab",
               ajax: {
                 type   : "POST",
                 url    : 'filter',
                 data:{_token:_token},
-                success: function() {
-                 return this.type+this.url;
-                },
               },
                 paging: true,
                 sort: true,
@@ -248,53 +242,67 @@ $(document).ready(function(){
                 //tabledata: {textFontClass:'w3-text-gray'},
                 pagelenght:[10,20,100,350,'All'],
                 colums:[
-                  {'title': "Action",   name:"icon", icon:true},
+                  
                   {'title': "Tests",   name:"testname"},
-                  {'title': "patient", name:"patient_name"},
-                  {'title': "Doctor",  name:"doctor_name"},
+                  {'title': "patient", name:"patient_name", visible:false},
+                  {'title': "Doctor",  name:"doctor_name", visible:false},
                   {'title': "Amount",  name:"amount",         money:'$'},                  
                   {'title': "Date",    name:"date"},
-                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green'},
+                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green', align:"center"},
+                  {'title': "Doctor # id",    name:"doctor_id", visible:false},
+                  {'title': "Action",   name:"master_id", visible:false},
+                  {'title': "Action",   name:"id", visible:false},
+                  {'title': "Action",   name:"detail_status", visible:false},
+                  {'title': "Action",   name:"total_amount", visible:false},
+                  {'title': "Action",   name:"detail_status_id", visible:false},
+                  {'title': "Action",   name:"master_status_id", visible:false},
+                  {'title': "Action",   name:"patient_id", visible:false},
                  ],
+                 align:'left',
                  columndefs:[                   
                       {
-                        "render": function (data) {
-                          return '<a > <i class="fa fa-edit"></i><i class="fa fa-trash w3-padding"></i></a>';
+                        "render": function (inner) {
+                          return statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail");
                         },
-                        "targets": 0
+                        "targets": 5
                       },
                       {
-                        "render": function (data) {
-                          return '<a  href="'+data.id+'"> '+data.doctor_name+'</a>';
+                        "render": function (data) {                                          
+                            
+                          return '<a  href="'+data.doctor_id+'"> '+data.doctor_name+'</a>';
                          },
-                        "targets": 3
+                        "targets": 2
                       },
                   ],
+                  "order": {'sort':7 , 'sorttype':'asc'},
                   "drawCallback": function ( settings ) {
-                  var api = this.api();
-                  var rows = api.rows( {page:'current'} ).nodes();
-                  var last=null;
- 
-                  api.column(8, {page:'current'} ).data().each( function ( group, i ) {
-                    if ( last !== group ) {
-                  var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
-                  var data =  test_view.row(i).data();
-                  var htmsddd= "<div class='w3-padding'><a  href='"+_id+"/add?new=test' id='addstyle'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''>  <i class='fa fa-plus' aria-hidden='true'></i> Add</a>   <a  id='justprint'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''> | <i class='fa fa-print' aria-hidden='true'></i> print</a></div>";
-                    grouphtm = emptyraw+'<tr class="w3-text-white w3-light-blue w3-medium" style="padding:0px 0px 0px"><td><div class="w3-row"><div class="w3-half"> <p class="w3-large" style="position:relative;top:-4px">  <span class="w3-text-black">Dr.</span> '+data.doctor_name+' </p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+data.patient_name+'(order id(# <strong class="w3-text-black">'+data.test_order_id+'</strong>)) </p></div> <div class="w3-half ">Tested from  <strong>'+data.date+'</strong></div></div></td><td> Total $'+data.total_amount+'</td><td id='+data.doctor_name+'> '+htmsddd+'</td></tr>';
-               
-                    $(rows).eq( i ).before(
-
-                     grouphtm
-                    
-
-                    );
-
-                    last = group;
-                }
-            } );
+                    //console.log(settings)
+                  var tx = ''; 
+                  var last=""; 
+                 $(this.table).find('tbody tr').each(function() {
+                  var $this = $(this);
+                   var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+                 var data =  tabletojson(settings,$this)
+                header= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>'
+                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></td>'
+                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></td>'
+                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></td>'
+                  +'  </tr>'
+                  $(this).children().each(function(i){
+                      if ($(this).index()==settings.order.sort && last != $(this).text()) {
+                          //$(this).parent("tbody").prepend()
+                          $this.before(header);
+                          last = $(this).text();
+                      }
+                     
+                      ///tabletojson(opts,$this)
+                      
+                  })
+                 })
+                  
+           
         }
 
-            })
-
+    })
 })
 

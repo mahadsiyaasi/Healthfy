@@ -1,15 +1,28 @@
 var maxcount;
 var tblecount;
 var jsonmap;
-  $.fn.dtab = function(array) {
-     var listop = "";
-   
+$.fn.dtab = function(array) {
+ var ajax = {
+        reload:function(){ajaxdefiner()},
+        rows:function(){
+
+        },
+        colums:function(){},
+        Api:function(){},
+        SearchApi:function(searcharray){columngenarator(array,searcharray)}
+  }
+
+var  Tab_name = array.table.replace("#","")
+  var $parent = $(array.table).parent("div");
+  $(array.table).remove();
+  $parent.append("<div id='"+Tab_name+"_main'></div>")
+    var listop = "";   
        var rightAppend =""
         var leftAppend=""
      listop = "<option value='10'>10</option>";
       listop += "<option value='50'>50</option>";
       listop += "<option value='100'>50</option>";
-        var  Tab_name = array.table.replace("#","")
+        
         tblecount = array.table;
        if (array.pagelenght) {
         listop=""
@@ -17,15 +30,13 @@ var jsonmap;
                 listop += "<option value='"+item+"'>"+item+"</option>";
         })
         }
+        if (array.info) {
          leftAppend = '<div class="pull-left" style="position:relative;width:50%"><div class="dataTables_length" id="patientgrid_length"><label class="w3-padding">  Show <select name="'+Tab_name+'_length"  onchange="lengthchanger(this)" aria-controls="grid" class="form-control input-sm"> '+listop+' </select> entries</label></div></div>'          
-     
+     }
     if (array.sort){
    
         }
-      
-    if (array.info){
-        
-      }
+
       if (array.search){
          var tabname = array.table.replace("#","")
        rightAppend = '<div class="pull-right" style="position:relative;width:50%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input pull-right customtable_search" placeholder="search" style="width: 50%; position: relative;display: inline-block;"></div>'    
@@ -36,29 +47,31 @@ var jsonmap;
       if (array.ajax) {
         ajaxdefiner(array);
      }
-    
    
+   return ajax;
 }
 function columngenarator(array,largedata){
     var colormain =array.tabledata === "undefined"  ? array.tabledata.textFontClass:'w3-text-gray';
     var tabname = array.table.replace("#","")
+    var aligner  = (array.align =='center'?'text-center' : array.align =='right'?'text-right' : 'text-left')
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered  '+colormain+' no-footer "><thead></thead><tbody></tbody></table>'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
-    var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap no-footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
-    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':null))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
+    var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
+    var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':''))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
     $(array.table).prepend("<caption>"+array.searchhtml+"</caption>");
      var lastall =htmmain+tablem+end;  
-   var $parent = $(array.table).parent("div");
-   $parent.find($(array.table)).remove();
-   $parent.append(lastall)
+     $(array.table+"_main").html(lastall)
    maxcount = largedata.length;
 
     var thead = "<tr>"    
     $.each(eval(array.colums),function(i,item){
       if (item.title) {
-      if (item.visible) {
+      if (item.visible==false) {
             thead +="<th thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
+      }else if (item.align) {
+        var aligner  = (item.align =='center'?'text-center' : item.align =='right'?'text-right' : 'text-left')
+            thead +="<th class='"+aligner+"' thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
       }
       else{
             thead +="<th thead_id='"+item.name+"'>"+item.title+"</th>";   
@@ -74,12 +87,16 @@ function columngenarator(array,largedata){
       json = $.parseJSON(JSON.stringify(dt));
       jsonmap = json;
       tbody +="<tr>";
-       $.each(eval(array.colums),function(iner,dataitem){
-          $.each(json, function(i, n){              
-                if (dataitem.name==i) {  
-                  if (dataitem.visible) {                
-                      tbody +="<td style='display:none'> "+dataitem.money+" "+n+"</td>";
-                  }else if (dataitem.money && dataitem.name && n) {                
+      $.each(eval(array.colums),function(iner,dataitem){                
+            
+           $.each(json, function(i, n){              
+                if (dataitem.name==i) {                        
+                  if (dataitem.visible==false) {                
+                      tbody +="<td style='display:none'>"+n+"</td>";
+                  }else if (dataitem.align) {
+                var aligner  = (dataitem.align =='center'?'text-center' : dataitem.align =='right'?'text-right' : 'text-left')
+                tbody +="<td class='"+aligner+"'>"+n+"</td>";
+           }else if (dataitem.money && dataitem.name && n) {                
                       tbody +="<td> "+dataitem.money+" "+n+"</td>";
                   }
                   else if (dataitem.status) {
@@ -91,36 +108,46 @@ function columngenarator(array,largedata){
                      }
               }
               
-              
-          }) 
-          if (dataitem.icon) {
-                  tbody +="<td><a class=''></a></td>";
+              })        
+             if (dataitem.icon && dataitem.visible) {
+                  tbody +="<td ><a class=''></a></td>";
+              }else if(dataitem.icon && dataitem.visible==false){
+                   tbody +="<td style='display:none'><a class=''></a></td>";
               }
-        }) 
-        tbody +="</tr>";
-    })
 
-    $(array.table+" tbody").html(tbody)
+            }) 
+            tbody +="</tr>";
+        }) 
+       
   
-    
-    
-     $.each(eval(largedata),function(iname,dt){     
-    $.each(eval(array.columndefs),function(i,item){  
-         
+    $(array.table+" tbody").append(tbody)   
+    var newpush = [];
+    $.each(eval(array.colums),function(iname,dt){
+           newpush.push(dt.name)
+    })   
+    //var $this;  
+    array.col = newpush;
+    $.each(eval(array.columndefs),function(i,item){           
     $(array.table+" tbody tr td").each(function(){
-       if ($(this).index()==item.targets) {
-        $this =$(this);            
-         $this.html(item.render(dt))        
+       if ($(this).index()==item.targets) {     
+       //console.log($(this).css("display"))
+         $(this).html(item.render(tabletojson(array,$(this).parent('tr:first'))))   
       }
    })
       })
-    })
-    
+   /// })
+     
     if (array.paging) {
       $(array.table+" tbody").pageMe({pagerSelector:array.table+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:10});
     }
-   
-    
+    if ($(array.table+" tbody td")) {
+    sortTable(array);
+    }
+    if (array.drawCallback) {
+      
+      array.drawCallback(array);
+  }
+  //$(array.table).Groupizer(array);
 }
 function lengthchanger(th){
   $(tblecount+"_paginate").html("");
@@ -153,12 +180,13 @@ function searchtable(tthis) {
 }
 
 
-function sortTable(n,table) {
+function sortTable(tables) {
+  n = tables.order.sort;
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById(table);
+  table = document.getElementById(tables.table.replace('#',''));
   switching = true;
   // Set the sorting direction to ascending:
-  dir = "asc"; 
+  dir = tables.order.sorttype; 
   /* Make a loop that will continue until
   no switching has been done: */
   while (switching) {
@@ -334,4 +362,20 @@ function ajaxdefiner(array){
   var rows = $("#"+tab+' tbody tr:visible').length;
   var strin =  'Showing '+rows+' of'+maxcount+' entries';
   return $(paginate).text(strin);
+ }
+ function tabletojson(array,tr) {
+   var jsn ;
+   var otArr = [];
+  // var i = 1;
+   var tbl2 = $(tr).each(function(e) {        
+      x = $(this).children();
+      var itArr = [];
+      var keys =array.col;
+      x.each(function(i) {
+         itArr.push('"' + keys[i] + '":"' + $(this).text() + '"');
+      });
+      otArr.push('{' + itArr.join(',') + '}');
+   })
+  /// console.log(JSON.parse(otArr))
+   return JSON.parse(otArr);
  }
