@@ -3,7 +3,12 @@ var tblecount;
 var jsonmap;
 $.fn.dtab = function(array) {
  var ajax = {
-        reload:function(){ajaxdefiner()},
+        reload:function()
+        {
+          console.log(array)
+          ajaxdefiner(array)
+
+        },
         rows:function(){
 
         },
@@ -138,7 +143,9 @@ function columngenarator(array,largedata){
    /// })
      
     if (array.paging) {
+      setTimeout(function() {
       $(array.table+" tbody").pageMe({pagerSelector:array.table+"_paginate",showPrevNext:true,hidePageNumbers:false,perPage:10});
+      }, 500);
     }
     if ($(array.table+" tbody td")) {
     sortTable(array);
@@ -360,7 +367,10 @@ function ajaxdefiner(array){
 
  function rowcount(paginate, tab){
   var rows = $("#"+tab+' tbody tr:visible').length;
-  var strin =  'Showing '+rows+' of'+maxcount+' entries';
+  var tg =  $("#"+tab+' tbody tr .tgroup:visible').length;
+  var def =(rows*1) - (tg*1)
+  var lastr = tg?" and "+tg+"  group headers ":""
+  var strin =  'Showing '+def+' of '+(maxcount*1)+' entries '+lastr;
   return $(paginate).text(strin);
  }
  function tabletojson(array,tr) {

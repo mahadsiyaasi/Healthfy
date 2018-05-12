@@ -26,7 +26,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/vendor/datatables-responsive/dataTables.responsive.css',
     'resources/assets/vendor/datatables/buttons/css/buttons.bootstrap.min.css',
 	"resources/assets/dist/css/AdminLTE.min.css",
-	"resources/assets/dist/css/skins/_all-skins.min.css",
+	"resources/assets/dist/css/skins/_all-skins.css",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.css",
     
 	], 'public/css/all.css')

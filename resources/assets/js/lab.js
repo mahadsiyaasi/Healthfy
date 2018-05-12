@@ -44,54 +44,7 @@ function filterfn(){
 		
         })
 }
-function re_define_lab(data){
-//  alert("w")
-	var last = 0 ;
-	var detail_id = 0;
-	$("#lbredefine").html("")
 
-          $.each(eval(data), function(i,item){
-              var header ="";
-                  if( item.master_id  !=  last){
-                     header+= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+item.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>'
-                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+item.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></td>'
-                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+item.total_amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(item.master_status_id,item.master_status,item.master_id,item.patient_id,"test_master")+'  </span></td>'
-                  +'  </tr>'
-                   $("#lbredefine").append(header);
-                    last = item.master_id;
-                       $.each(eval(data), function(it,inner){
-                  var htm = ""
-                if(inner.test_order_id == item.master_id && detail_id != inner.id){
-                   htm +=  ' <tr>'+
-                   '<td>'+inner.testname+'</td>'+
-                   '<td> <a href="/patients/'+inner.patient_id+'"> '+inner.patient_name+'</a> </td>'+
-                   '<td> $'+inner.amount+' </td>'+
-                   '<td class="text-center" style="align-text: center">'+
-                   statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail")+'</td>'+
-                   '</tr>';
-
-                    $("#lbredefine").append(htm);
-                    
-                   
-                    detail_id = inner.id;
-                }
-                
-                })
-                  }
-
-              
-               
-            })
-         //$("#tablepagecounter").text(getcountofrows("lbredefine"))
-
-
-
-
-
-         	return true;
-
-}
 ////////////////////////////////////////
 function paymentpopup(datas){
 var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","filter?_token="+_token,this);
@@ -153,7 +106,8 @@ modalmakeup({
 $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
  if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","labpayment?_token="+_token+"&tagtype="+$(datas).attr("tagtype"),this).success){
       setTimeout(function(){ 
-           location.reload();
+          removebesmodal()
+           datadtab.reload();
             //$("#tablepagecounter").text(getcountofrows("lbredefine"));
      },1000)
     }
@@ -166,27 +120,7 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 function filterbody(id) {
  datadtab.SearchApi((ajaxtoserv({status_id:id},"not form","filter?_token="+_token,this).success))
 }
-$(document).ready(function(){
-  //inner trs with detail
-	$("body").find(".gentd").each(function(){
-	$(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_detail"));
-		
-	})
 
-  //header tr update with status and payment
-  $("body").find(".maintrgentd").each(function(){
-   $(this).append(statusController($(this) .attr("status_id"),$(this) .attr("status_name"),$(this) .attr("tagid"),$(this) .attr("tagpaient_id"),"test_master"));
-    
-  })
-$("#labtable").on("click","th",function(){
-  sortTable($(this).index(),"labtable")
-})
-
-
- $('#lbredefine').pageMe({pagerSelector:'#pagetablepage',showPrevNext:true,hidePageNumbers:false,perPage:10});
-    
-
-})
 function discounts(th){
       var disc = $('input[name=discount]').val();
       var total = $('input[name=total_amount]').val();
@@ -201,7 +135,8 @@ function statusController(status_id,status_name,id,patient_id,type){
               var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
               var pref = type =="test_master"?"Status":""
                 if( status_id==2  && type == "test_master" ) {
-                   return 'Status ' + ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                  //alert(status_name)
+                   return ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                       +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
                         +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
@@ -260,12 +195,7 @@ $(document).ready(function(){
                  ],
                  align:'left',
                  columndefs:[                   
-                      {
-                        "render": function (inner) {
-                          return statusController(inner.detail_status_id,inner.detail_status,inner.id,inner.patient_id,"test_detail");
-                        },
-                        "targets": 5
-                      },
+                   
                       {
                         "render": function (data) {                                          
                             
@@ -283,11 +213,11 @@ $(document).ready(function(){
                   var $this = $(this);
                    var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
                  var data =  tabletojson(settings,$this)
-                header= '<tr><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>'
-                        +'<td class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></td>'
-                       + '<td class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></td>'
-                        +'<td class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></td>'
-                  +'  </tr>'
+                  header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
+                        +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
+                       + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
+                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></th>'
+                  +'  </tgroup></tr>'
                   $(this).children().each(function(i){
                       if ($(this).index()==settings.order.sort && last != $(this).text()) {
                           //$(this).parent("tbody").prepend()
