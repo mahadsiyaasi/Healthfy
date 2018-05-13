@@ -98,13 +98,7 @@ function editgroup(data){
    e.stopPropagation();
  })
 }
-function removebesmodal(){
 
-  $('body').find("#oncreate").modal('hide');
-  $('body').find("#oncreate").on('hidden.bs.modal', function () {
-      $(this).data('bs.modal', null);
-});
-}
 function edititem(data){
   removebesmodal();
  var tr = $(data).closest('tr');

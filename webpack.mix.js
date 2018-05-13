@@ -55,6 +55,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/vendor/datatables/buttons/js/buttons.print.js',
     "resources/assets/files/moment/min/moment.min.js",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.js",
+    'resources/assets/js/Markaps.js',
     'resources/assets/js/patients.js',
     'resources/assets/js/doctor.js',
     'resources/assets/js/editor.js',

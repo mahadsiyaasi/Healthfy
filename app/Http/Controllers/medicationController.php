@@ -142,7 +142,7 @@ class medicationController extends Controller
       return $data;
     }
     public function getfrequencylist(){
-      return Response::json(['success'=>DB::table("frequency_list")->get()]);
+      return response()->json(['success'=>DB::table("frequency_list")->get()],200);
     }
 public function saveprescriptionprofile(Request $request){
     //if ($request->input("actiontype")=="register") {

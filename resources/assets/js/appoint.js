@@ -32,6 +32,7 @@ loadappoint('loadappoint');
 function loadappoint(url){
      $.ajax({
             url:url,
+            type:"POST",
             data:{_token:_token,id:"h"},
             datatype:"json",
             success:function(data){  
@@ -155,15 +156,6 @@ function viewappoint(event){
     buttontext:"print",
     buttoneventclass:"saveappoint",
     buttoncolor:"w3-blue",
-    buttons: {
-                saveg: function() {
-                    alert("this paresed")
-                    
-                },
-                "Cancel": function() {
-                    $(this).dialog("close");
-                }
-            },
     body:'<div class="w3-row">'
    +'<table class="w3-table table table-stripped table-bordered">'
     +'<tr><td><p class="w3-text-blue">patient</p><h4>'+(event.patient?event.patient:event.patient_name)+'</h4><small>'+'Registered date('+moment(event.date).format("YYYY/MM/DD")+')'+'</small></td></tr>'

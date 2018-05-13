@@ -138,7 +138,7 @@ class labController extends Controller
 
 
 
-    return Response::json($data);
+    return  response()->json($data,200);
 }
 public function labpayment(Request $data){
     $valid =  Validator::make($data->all(),[

@@ -45,6 +45,26 @@ function filterfn(){
         })
 }
 
+
+function proccedtoSpicement(th){
+  $("body").DeteilView({
+     title:' Sure To Procced',
+    width:"50%",
+    color:"w3-white",
+    fade:"w3-animate-zoom",
+    buttontext:"print",
+    buttoneventclass:"saveappoint",
+    buttoncolor:"w3-blue",
+    savebtn:false,
+    cancelbtn:false,
+    submitData: function(){
+        alert("wow")
+
+    }
+  })
+
+}
+
 ////////////////////////////////////////
 function paymentpopup(datas){
 var data  = ajaxtoserv({tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","filter?_token="+_token,this);
@@ -145,7 +165,12 @@ function statusController(status_id,status_name,id,patient_id,type){
                   
                 }
                     else if(  status_id==3){
-                    return '<span class="badge w3-yellow">  '+ status_name+'</span>'
+                   return ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="proccedtoSpicement(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-check"></i> Done</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                       +' </ul>'+
+                    '</div>'
                     }else if( status_id==4){
                     return '<span class="badge w3-green">  '+ status_name+'</span>'
                    }else if(  status_id==5){
@@ -202,6 +227,13 @@ $(document).ready(function(){
                           return '<a  href="'+data.doctor_id+'"> '+data.doctor_name+'</a>';
                          },
                         "targets": 2
+                      },
+                      {
+                        "render": function (data) {                                          
+                            
+                          return '<span class="badge w3-green">'+data.detail_status+'</span>';
+                         },
+                        "targets": 5
                       },
                   ],
                   "order": {'sort':7 , 'sorttype':'asc'},
