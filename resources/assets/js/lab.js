@@ -46,19 +46,24 @@ function filterfn(){
 }
 
 
-function proccedtoSpicement(th){
-  $("body").DeteilView({
-     title:' Sure To Procced',
+function proccedtoSpicement(datas){
+  var dism = $("body").DeteilView({
+     title:' Lab spicement',
     width:"50%",
     color:"w3-white",
     fade:"w3-animate-zoom",
-    buttontext:"print",
-    buttoneventclass:"saveappoint",
+    buttontext:"Procced",
+    buttoneventclass:"OK",
     buttoncolor:"w3-blue",
-    savebtn:false,
-    cancelbtn:false,
+    body:"<h1>Are sure lab spicement was done success fully ?</h1><p class='badge w3-green'><td>it will be procced to Result entry</td></p>",
+    savebtn:true,
+    cancelbtn:true,
     submitData: function(){
-        alert("wow")
+      var data  = ajaxtoserv({_token:_token,tagtype:$(datas).attr("tagtype"),order_id:$(datas).attr("tagid"),patient_id:$(datas).attr("tagpatient_id")},"not form","spicement",null);
+        if (data) {
+          datadtab.reload();
+          return true;
+          }
 
     }
   })
@@ -172,7 +177,12 @@ function statusController(status_id,status_name,id,patient_id,type){
                        +' </ul>'+
                     '</div>'
                     }else if( status_id==4){
-                    return '<span class="badge w3-green">  '+ status_name+'</span>'
+                    return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                       +' </ul>'+
+                    '</div>'
                    }else if(  status_id==5){
                     return '<span class="badge w3-teal">  '+ status_name+'</span>'
                    
@@ -200,19 +210,19 @@ $(document).ready(function(){
                 info:true,
                 search: true,
                 //tabledata: {textFontClass:'w3-text-gray'},
-                pagelenght:[10,20,100,350,'All'],
+                pagelenght:[10,20,100,350],
                 colums:[
                   
                   {'title': "Tests",   name:"testname"},
-                  {'title': "patient", name:"patient_name", visible:false},
-                  {'title': "Doctor",  name:"doctor_name", visible:false},
-                  {'title': "Amount",  name:"amount",         money:'$'},                  
+                  {'title': "patient", name:"patient_name",   visible:false},
+                  {'title': "Doctor",  name:"doctor_name",    visible:false},
+                  {'title': "Amount",  name:"amount",          money:'$'},                  
                   {'title': "Date",    name:"date"},
-                  {'title': "Status",  name:"master_status",  status:true, classColor:'w3-green', align:"center"},
+                  {'title': "Status",  name:"detail_status",  status:false, classColor:'w3-green', align:"center",visible:true},
                   {'title': "Doctor # id",    name:"doctor_id", visible:false},
                   {'title': "Action",   name:"master_id", visible:false},
                   {'title': "Action",   name:"id", visible:false},
-                  {'title': "Action",   name:"detail_status", visible:false},
+                  {'title': "Action",   name:"master_status", visible:false},
                   {'title': "Action",   name:"total_amount", visible:false},
                   {'title': "Action",   name:"detail_status_id", visible:false},
                   {'title': "Action",   name:"master_status_id", visible:false},
@@ -228,13 +238,7 @@ $(document).ready(function(){
                          },
                         "targets": 2
                       },
-                      {
-                        "render": function (data) {                                          
-                            
-                          return '<span class="badge w3-green">'+data.detail_status+'</span>';
-                         },
-                        "targets": 5
-                      },
+                      
                   ],
                   "order": {'sort':7 , 'sorttype':'asc'},
                   "drawCallback": function ( settings ) {

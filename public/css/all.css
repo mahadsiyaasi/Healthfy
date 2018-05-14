@@ -1804,7 +1804,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
  * ----------
  */
 .skin-blue .main-header .navbar {
-  background-color: #B03060 !important;
+  background-color: #910a76 !important;
 }
 .skin-blue .main-header .navbar .nav > li > a {
   color: #ffffff;
@@ -1816,7 +1816,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
 .skin-blue .main-header .navbar .nav .open > a:hover,
 .skin-blue .main-header .navbar .nav .open > a:focus,
 .skin-blue .main-header .navbar .nav > .active > a {
-  background: #B03060;
+  background: #910a76;
   color: #f6f6f6;
 }
 .skin-blue .main-header .navbar .sidebar-toggle {
@@ -1824,17 +1824,17 @@ table.dataTable > tbody > tr.child span.dtr-title {
 }
 .skin-blue .main-header .navbar .sidebar-toggle:hover {
   color: #f6f6f6;
-  background: #B03060;
+  background: #910a76;
 }
 .skin-blue .main-header .navbar .sidebar-toggle {
   color: #fff;
 }
 .skin-blue .main-header .navbar .sidebar-toggle:hover {
-  background-color: #B030609;
+  background-color: #910a769;
 }
 @media (max-width: 767px) {
   .skin-blue .main-header .navbar .dropdown-menu li.divider {
-    background-color: #B03060;
+    background-color: #910a76;
   }
   .skin-blue .main-header .navbar .dropdown-menu li a {
     color: #fff;
@@ -1844,15 +1844,15 @@ table.dataTable > tbody > tr.child span.dtr-title {
   }
 }
 .skin-blue .main-header .logo {
-  background-color: #B03060;
+  background-color: #910a76;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
 .skin-blue .main-header .logo:hover {
-  background-color: #B03060;
+  background-color: #910a76;
 }
 .skin-blue .main-header li.user-header {
-  background-color: #B03060;
+  background-color: #910a76;
 }
 .skin-blue .content-header {
   background: transparent;
@@ -1860,7 +1860,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
 .skin-blue .wrapper,
 .skin-blue .main-sidebar,
 .skin-blue .left-side {
-  background-color: #B03060;
+  background-color: #910a76;
 }
 .skin-blue .user-panel > .info,
 .skin-blue .user-panel > .info > a {
@@ -1877,14 +1877,14 @@ table.dataTable > tbody > tr.child span.dtr-title {
 .skin-blue .sidebar-menu > li.active > a,
 .skin-blue .sidebar-menu > li.menu-open > a {
   color: #ffffff;
-  background: #B03060;
+  background: #910a76;
 }
 .skin-blue .sidebar-menu > li.active > a {
-  border-left-color: #B03060;
+  border-left-color: #910a76;
 }
 .skin-blue .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
-  background: #B03060;
+  background: #910a76;
 }
 .skin-blue .sidebar a {
   color: #ffffff;
@@ -1934,7 +1934,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   border-bottom-left-radius: 0;
 }
 .skin-blue.layout-top-nav .main-header > .logo {
-  background-color: #B03060;
+  background-color: #910a76;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
@@ -1946,7 +1946,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
  * ----------
  */
 .skin-blue-light .main-header .navbar {
-  background-color: #B03060;
+  background-color: #910a76;
 }
 .skin-blue-light .main-header .navbar .nav > li > a {
   color: #ffffff;
@@ -1986,7 +1986,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   }
 }
 .skin-blue-light .main-header .logo {
-  background-color: #B03060;
+  background-color: #910a76;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
@@ -1994,7 +1994,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   background-color: #3b8ab8;
 }
 .skin-blue-light .main-header li.user-header {
-  background-color: #B03060;
+  background-color: #910a76;
 }
 .skin-blue-light .content-header {
   background: transparent;
@@ -2030,7 +2030,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   background: #f4f4f5;
 }
 .skin-blue-light .sidebar-menu > li.active {
-  border-left-color: #B03060;
+  border-left-color: #910a76;
 }
 .skin-blue-light .sidebar-menu > li.active > a {
   font-weight: 600;
@@ -2097,7 +2097,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   border-top-color: #d2d6de;
 }
 .skin-blue.layout-top-nav .main-header > .logo {
-  background-color: #B03060;
+  background-color: #910a76;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }

@@ -16,7 +16,6 @@
       html {
     overflow-x: hidden;
 }
-
 @font-face {
          font-family: 'ChunkFiveRegular';
          src: url('Chunkfive-webfont.eot');
@@ -26,6 +25,9 @@
          url('Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
          font-weight: normal;
          font-style: normal;
+}
+.allback {
+    background: #910a76 !important;
 }
     </style>
 </head>

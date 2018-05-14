@@ -12,7 +12,7 @@
 */
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-	Route::any('/', 'HomeController@index')->name(config('app.name').' | Home');
+	Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
 	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/medication','medicationController@home')->name('Medicaion | '.config('app.name'));;
 	Route::any('/savemedication','medicationController@savemedication');
 	Route::any('/loadmedication','medicationController@loadmedication');
-	Route::any('/lab', 'labController@lab')->name('Labs | '.config('app.name'));
+	Route::any('/lab', 'labController@lab')->name(__('titles.Lab').' | '.config('app.name'));
 	Route::any('/filter', 'labController@filter')->name('lab');
 	Route::any('/payment', 'paymentController@home')->name('Payment Method | '.config('app.name'));
 	Route::any('/savepayment','paymentController@savepayment');
@@ -48,7 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');
 	Route::any('/labpayment','labController@labpayment');
 	Route::any('/labpayment','labController@labpayment');
-	
+	Route::any('/spicement','labController@spicement');
+	Route::any('/lab/editor','labController@findhome')->name('Lab Editor | '.config('app.name'));
 		/*Route::any('/',array('as' =>'index' ,'uses'=>'patientController@create' ));
 		Route::any('/pregister','patientController@showregister');
 		Route::any('/save','patientController@save');

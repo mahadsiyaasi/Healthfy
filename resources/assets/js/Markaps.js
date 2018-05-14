@@ -1,38 +1,50 @@
 $.fn.DeteilView = function(array){
+  var BS = {
+    BSMDestroy:function(){
+      setTimeout(function() {
+      $('body').find("#DeteilView").modal('hide');
+      $('body').find("#DeteilView").on('hidden.bs.modal', function () {
+      $(this).data('bs.modal', null);
+    })
+    }, 500);
+    }
+  }
   var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
-  var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="DeteilView">'
-              +'<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:'+array.width+'">'
+  var modal = '<div class="modal fade modal-fullscreen"  tabindex="-1" role="dialog" aria-labelledby="modalLabel" id="DeteilView">'
+              +'<div class="modal-dialog w3-border " style="width:'+array.width+'">'
               +'<div class="modal-content '+array.color+'">'
                 +'<div class="modal-header" style="border: none;">'
                 +'<button type="button" onclick= "BSMRemover()" class="close" data-dismiss="modal" aria-label="Close">'
-                +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title">'+array.title+'</h4></div>'
+                +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title w3-text-gray">'+array.title+'</h4></div>'
                 +'<div class="modal-body">'
                 +array.body+
                 '</div><div class="modal-footer" style="border: none;">';
-                  if (array.savebtn) {
-                    modal +='<button type="button" class="btn  '+array.buttoneventclass+' w3-text-blue" style="background:inherit" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button>';
-                  }
                   if (array.cancelbtn) {
                     modal +='<button type="button" onclick= "BSMRemover()" class="btn w3-text-red dismism" data-dismiss="modal" style="background:inherit">Close</button>'
                   }
+                  if (array.savebtn) {
+                    modal +='<button onclick="" type="button" class="btn  '+array.buttoneventclass+' w3-text-blue" style="background:inherit" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button>';
+                  }
+                
                   modal +='</div></div></div></div>' 
                
                 $(".specialmodal").html(modal);
                 $(".specialmodal").find("#DeteilView").modal("show");
-                if (array.submitData) {
-                      array.submitData();
-                      setTimeout(function() {
-                      BSMRemover();
-                      }, 500);
-                }
+               
+                      $("."+array.buttoneventclass).click(function(){
+                       if (array.submitData()){
+                        BS.BSMDestroy();
+                       }
+
+
+
+                      })
+                      
+                      
+                return BS;
                
 }
-function BSMRemover(){
-$('body').find("#DeteilView").modal('hide');
-  $('body').find("#DeteilView").on('hidden.bs.modal', function () {
-      $(this).data('bs.modal', null);
-})
-}
+
 function modalmakeup(array){
 	var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
 	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate">'

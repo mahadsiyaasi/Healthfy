@@ -60,7 +60,7 @@ function columngenarator(array,largedata){
     var tabname = array.table.replace("#","")
     var aligner  = (array.align =='center'?'text-center' : array.align =='right'?'text-right' : 'text-left')
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="  table-hovered table-hover table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
     var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
     var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':''))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'
@@ -69,16 +69,20 @@ function columngenarator(array,largedata){
      $(array.table+"_main").html(lastall)
    maxcount = largedata.length;
 
-    var thead = "<tr>"    
+    var thead = "<tr class=''>"    
     $.each(eval(array.colums),function(i,item){
       if (item.title) {
       if (item.visible==false) {
             thead +="<th thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
       }else if (item.align) {
         var aligner  = (item.align =='center'?'text-center' : item.align =='right'?'text-right' : 'text-left')
-            thead +="<th class='"+aligner+"' thead_id='"+item.name+"' style='display:none'>"+item.title+"</th>";  
+            thead +="<th class='"+aligner+"' thead_id='"+item.name+"'>"+item.title+"</th>";  
+      }else if (item.status) {
+        thead +="<th><a class=''><span class='badge  "+item.classColor+"' thead_id='"+item.name+"'> " +item.title+ "</span></a></th>";
+
       }
       else{
+
             thead +="<th thead_id='"+item.name+"'>"+item.title+"</th>";   
 
       }   
@@ -99,9 +103,9 @@ function columngenarator(array,largedata){
                   if (dataitem.visible==false) {                
                       tbody +="<td style='display:none'>"+n+"</td>";
                   }else if (dataitem.align) {
-                var aligner  = (dataitem.align =='center'?'text-center' : dataitem.align =='right'?'text-right' : 'text-left')
-                tbody +="<td class='"+aligner+"'>"+n+"</td>";
-           }else if (dataitem.money && dataitem.name && n) {                
+                  var aligner  = (dataitem.align =='center'?'text-center' : dataitem.align =='right'?'text-right' : 'text-left')
+                  tbody +="<td class='"+aligner+"'>"+n+"</td>";
+                  }else if (dataitem.money && dataitem.name && n) {                
                       tbody +="<td> "+dataitem.money+" "+n+"</td>";
                   }
                   else if (dataitem.status) {
