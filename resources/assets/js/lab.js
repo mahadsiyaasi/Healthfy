@@ -154,7 +154,7 @@ function discounts(th){
       
       
 }
-function statusController(status_id,status_name,id,patient_id,type){
+function statusController(status_id,status_name,id,patient_id,type,test_id){
   
               var color =  type =="test_master"?"w3-green":"w3-blue"
               var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
@@ -179,7 +179,7 @@ function statusController(status_id,status_name,id,patient_id,type){
                     }else if( status_id==4){
                     return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
+                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
                        +' </ul>'+
                     '</div>'
@@ -227,6 +227,7 @@ $(document).ready(function(){
                   {'title': "Action",   name:"detail_status_id", visible:false},
                   {'title': "Action",   name:"master_status_id", visible:false},
                   {'title': "Action",   name:"patient_id", visible:false},
+                  {'title': "test_id",   name:"test_id", visible:false},
                  ],
                  align:'left',
                  columndefs:[                   
@@ -252,7 +253,7 @@ $(document).ready(function(){
                   header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
                         +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
                        + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
-                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></th>'
+                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
                   +'  </tgroup></tr>'
                   $(this).children().each(function(i){
                       if ($(this).index()==settings.order.sort && last != $(this).text()) {

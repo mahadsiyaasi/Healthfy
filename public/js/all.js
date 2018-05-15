@@ -13363,7 +13363,7 @@ function grouplist(){
               +'<i class="fa fa-minus"></i></button></div></div>'
         +'<div class="box-body"></div></div>');
  	 			$("select[name=group]").append('<option value="'+item.id+'">'+item.name+'</option>');
- 	 			$(".listholder").append(' <li class="list-group-item"><div class="w3-row-padding" style="width:100%; padding: 0px 0px 0px 0px"><div class="w3-half" style="width:50%"><b>'+item.name+'</b></div><div class="w3-half pull-right" style="width:50%"> <a class="pull-right"><span class="badge w3-black w3-hover-red" style="cursor:pointer" data-toggle="tooltip" data-placement="top" onclick="rangemodal(this)" grouptag="'+item.id+'" title="click to add range"><i class="fa fa-plus"></i></span>| <span style="cursor:pointer" class="badge w3-green w3-hover-red" id="'+item.id+'" itemname="'+item.name+'"  data-toggle="tooltip" data-placement="top" title="Edit this test name" onclick="editgroup(this)"><i class="w3-small fa fa-edit "></i></span><span data-placement="top" title="click to delete this test " class="badge w3-red w3-hover-green" data-toggle="modal" data-target="#modal-warn" id="'+item.id+'" mytag="Tests" onclick="directdel(this)"> <i class="fa fa-trash" style="cursor:pointer"></i></span></a></div></li>');
+ 	 			$(".listholder").append(' <li class="list-group-item w3-medium"><div class="w3-row-padding" style="width:100%; padding: 0px 0px 0px 0px"><div class="w3-half" style="width:50%"><b>'+item.name+'</b></div><div class="w3-half pull-right" style="width:50%"> <a class="pull-right"><span class="badge w3-black w3-hover-red" style="cursor:pointer" data-toggle="tooltip" data-placement="top" onclick="rangemodal(this)" grouptag="'+item.id+'" title="click to add range"><i class="fa fa-plus"></i></span>| <span style="cursor:pointer" class="badge w3-green w3-hover-red" id="'+item.id+'" itemname="'+item.name+'"  data-toggle="tooltip" data-placement="top" title="Edit this test name" onclick="editgroup(this)"><i class="w3-small fa fa-edit "></i></span><span data-placement="top" title="click to delete this test " class="badge w3-red w3-hover-green" data-toggle="modal" data-target="#modal-warn" id="'+item.id+'" mytag="Tests" onclick="directdel(this)"> <i class="fa fa-trash" style="cursor:pointer"></i></span></a></div></li>');
  	 			})
  	 			
  	 			
@@ -14119,7 +14119,7 @@ function discounts(th){
       
       
 }
-function statusController(status_id,status_name,id,patient_id,type){
+function statusController(status_id,status_name,id,patient_id,type,test_id){
   
               var color =  type =="test_master"?"w3-green":"w3-blue"
               var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
@@ -14144,7 +14144,7 @@ function statusController(status_id,status_name,id,patient_id,type){
                     }else if( status_id==4){
                     return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
+                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
                        +' </ul>'+
                     '</div>'
@@ -14192,6 +14192,7 @@ $(document).ready(function(){
                   {'title': "Action",   name:"detail_status_id", visible:false},
                   {'title': "Action",   name:"master_status_id", visible:false},
                   {'title': "Action",   name:"patient_id", visible:false},
+                  {'title': "test_id",   name:"test_id", visible:false},
                  ],
                  align:'left',
                  columndefs:[                   
@@ -14217,7 +14218,7 @@ $(document).ready(function(){
                   header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
                         +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
                        + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
-                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master")+'  </span></th>'
+                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
                   +'  </tgroup></tr>'
                   $(this).children().each(function(i){
                       if ($(this).index()==settings.order.sort && last != $(this).text()) {
@@ -14355,7 +14356,7 @@ function columngenarator(array,largedata){
     var tabname = array.table.replace("#","")
     var aligner  = (array.align =='center'?'text-center' : array.align =='right'?'text-right' : 'text-left')
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="  table-hovered table-hover table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class=" table-condensed  table-hovered table-hover table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
     var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
     var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':''))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'

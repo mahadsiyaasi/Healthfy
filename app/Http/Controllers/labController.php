@@ -15,6 +15,9 @@ use Validator;
 use App\Http\Controller\medicationController;
 use DB;
 use App\Models\OrderDetail;
+use App\Models\Reference;
+use App\Models\Tests;
+use App\Models\Unit;
 use Lang;
 class labController extends Controller
 {
@@ -39,7 +42,7 @@ class labController extends Controller
     ->join("staff","staff.id","=","test_order_master.doctor_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
+    ->select("patients.patient_name","test_order_detail.test_id","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
 
 	->where("test_order_detail.status_id",">",0)
 	->where("test_order_master.status_id",">",0)
@@ -60,7 +63,7 @@ class labController extends Controller
     ->join("staff","staff.id","=","test_order_master.doctor_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
+    ->select("patients.patient_name","test_order_detail.test_id","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
     ->where("test_order_master.status_id","=",$filter->input('status_id'))
     ->where("test_order_detail.status_id",">",0)
     ->where("test_order_master.company_id",Auth::user()->company_id)
@@ -74,7 +77,7 @@ class labController extends Controller
     ->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
+    ->select("patients.patient_name","test_order_detail.test_id","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
     ->where("test_order_master.status_id",">",0)
     ->where("test_order_detail.status_id",">",0)
     ->where("test_order_detail.id","=",$filter->input('order_id'))
@@ -90,7 +93,7 @@ class labController extends Controller
     ->join("varaible_lists","varaible_lists.status_id","=","test_order_detail.status_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
+    ->select("patients.patient_name","test_order_detail.test_id","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name","varaible_lists.status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id")
     ->where("test_order_master.status_id",">",0)
     ->where("test_order_detail.status_id",">",0)
     ->where("test_order_master.id","=",$filter->input('order_id'))
@@ -114,7 +117,7 @@ class labController extends Controller
     ->join("staff","staff.id","=","test_order_master.doctor_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
+    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.test_id","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
     ->where("test_order_detail.status_id",$filter->input('status_filter')?$filter->input('status_filter'):null)
     ->where("test_order_master.status_id",">",0)
      ->where("test_order_master.doctor_id",$filter->input('doctor_filter'))
@@ -131,7 +134,7 @@ class labController extends Controller
         ->join("staff","staff.id","=","test_order_master.doctor_id")
         ->join("patients","patients.id","=","test_order_master.patient_id")
         ->join("tests","tests.id","=","test_order_detail.test_id")
-        ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
+        ->select("patients.patient_name","test_order_detail.test_id","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
         ->where("test_order_detail.status_id",">",0)
         ->where("test_order_master.status_id",">",0)
         ->where("test_order_master.company_id",Auth::user()->company_id)
@@ -206,8 +209,7 @@ public function findhome(Request $req)
     ->join("staff","staff.id","=","test_order_master.doctor_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
-
+    ->select("patients.patient_name","staff.name as doctor_name","test_order_detail.test_id","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
     ->where("test_order_master.status_id","=",$req->status_id)
     ->where("test_order_detail.status_id","=",$req->status_id)
     ->where("test_order_master.id","=",$req->_id)
@@ -215,7 +217,31 @@ public function findhome(Request $req)
     ->where("test_order_master.company_id",Auth::user()->company_id)
     ->distinct('test_order_detail.id')
     ->get();
-   return view("lab.Labcontent.result")->with('Result',$data);
+
+    $range = Reference::join('tests','tests.id','=','reference.group_id')
+    ->select("reference.min","reference.max",'tests.name','reference.group_id','reference.id')
+    ->where('reference.group_id',$req->test_id)
+    ->get();
+    $unit = Unit::join('tests','tests.id','=','units.group_id')
+    ->select("units.unit",'tests.name','units.group_id','units.id')
+    ->where('units.group_id',$req->test_id)
+    ->get();
+ return view("lab.Labcontent.result")->with('Result',$data)->with('ranges',$range)->with('units',$unit);
+}
+public static  function getRangeAndUnit($test_id)
+{
+   $req = Tests::find($test_id);
+   $data=new \stdClass();
+  $data->ranges = Reference::join('tests','tests.id','=','reference.group_id')
+    ->select("reference.min","reference.max",'tests.name','reference.group_id','reference.id')
+    ->where('reference.group_id',$req->parent_id)
+    ->get();
+    $data->units =  Unit::join('tests','tests.id','=','units.group_id')
+    ->select("units.unit",'tests.name','units.group_id','units.id')
+    ->where('units.group_id',$req->parent_id)
+    ->get();
+   return $data;
+
 }
 }
 

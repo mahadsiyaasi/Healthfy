@@ -113,9 +113,6 @@ class testsController extends Controller
            'unit'=>'required|min:1',
         ]);
     }
-
-
-
     if ($valid->fails()) {
        return Response::json($valid->messages());
     }else{
@@ -137,10 +134,10 @@ class testsController extends Controller
  }
   public function loadrange(){
     $range = Reference::join('tests','tests.id','=','reference.group_id')
-    ->select("reference.min","reference.max",'tests.name')
+    ->select("reference.min","reference.max",'tests.name','reference.group_id','reference.id')
     ->get();
     $unit = Unit::join('tests','tests.id','=','units.group_id')
-    ->select("units.unit",'tests.name')
+    ->select("units.unit",'tests.name','units.group_id','units.id')
     ->get();
     return Response::json([
         'range'=>$range,

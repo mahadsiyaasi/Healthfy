@@ -60,7 +60,7 @@ function columngenarator(array,largedata){
     var tabname = array.table.replace("#","")
     var aligner  = (array.align =='center'?'text-center' : array.align =='right'?'text-right' : 'text-left')
     //$(array.table).addClass("table table-condensed table-hover table-bordered table-striped");
-    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class="  table-hovered table-hover table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
+    var tablem = '<table id="'+tabname+'" role="grid" aria-describedby="'+tabname+'_info" class=" table-condensed  table-hovered table-hover table table-stripped table-bordered   '+colormain+' '+aligner+' no-footer " ><thead></thead><tbody></tbody></table>'
     $(array.table).html("");
     var htmmain = '<div id="'+tabname+'_wrapper" class=" form-inline dt-bootstrap footer"><div class="row">   '+array.searchhtml+' </div><div class="row"><div class="col-sm-12">'
     var end ='<div id="'+tabname+'_processing" class="" style="display: none;"></div></div></div><div class="row"><div class="col-sm-6"><div class="dataTables_info" id="'+tabname+'_info" role="status" aria-live="polite">'+((array.info?'Showing 10 of '+largedata.length+' entries ':''))+'</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_full_numbers pagination pagination-lg pager pull-right" id="'+tabname+'_paginate"></div></div></div></div>'

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<?php 
+    use App\http\Controllers\labController;
+ ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -42,15 +45,9 @@
         </div>
         <div class="box-body">
         <div class="table-responsive" style="overflow-x: hidden;">
-            <table id="labtable"  class="table table-condensed table-hover table-bordered table-striped" style="width: 100%; height: 100%; display: block; overflow-y: auto">
-            <tr class="border w3-border w3-table-bordered">             
-              
-              <th class="border w3-border  w3-table-bordered">Doctor </th>
-              <th class="border w3-border w3-table-bordered">patient</th>
-              <th class="border w3-border w3-table-bordered">Amount</th>
-              <th  class="text-center">Action & Status </th>
-              </tr>
-            <tbody id="lbredefine" class="w3-text-black w3-text-bold" style="">
+            <table id="labtable"  class="table  table-hover table-bordered table-striped">
+         
+            <tbody class="" style="position: relative;width: 100%">
                  <?php $last =0; 
                   $detail_id = 0;
                   $patient_check = 0;
@@ -60,8 +57,8 @@
                      <tr>
                         <td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  {{ $vals['doctor_name'] }} </span><a class="btn"><i class="fa fa-eye"></i> Detail</a></td>
                         <td class="w3-light-gray active"> Patient : <span class="badge w3-blue">{{ $vals['patient_name'] }}</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a> </td>
-                        <td class="w3-light-gray active">Total :  <span class="badge w3-green">$ {{ $vals['total_amount'] }} </span></td>
-                        <td class="text-center w3-light-gray active maintrgentd" tagid="{{$vals['master_id']}}"   status_id="{{$vals['master_status_id']}}" status_name="{{$vals['master_status']}}" tagpaient_id="{{$vals['patient_id']}}"></td>
+                        <td class="w3-light-gray active">Due to date :  <span class="badge w3-green"> {{ $vals['date'] }} </span></td>
+                        <td> Order # ID <span class="badge w3-black w3-text-white"> {{ $vals['master_id'] }} </span></td>
                     </tr>
                  
                 <?php $last = $vals['master_id']; 
@@ -71,48 +68,36 @@
                 <?php $detail_id = $vals['id']; ?>
                 @foreach($Result as $val)
                 @if($val['test_order_id'] == $vals['master_id'] && $detail_id == $val['id'] )
-                <tr>
-                 
+                <?php $unitAndRange = labController::getRangeAndUnit($val['test_id']) ?>
+                  <tr>                 
                   <td> {{ $val['testname'] }}</td>
-                  <td><a href="/patients/{{$val['patient_id']}}"> {{ $val['patient_name'] }}</a> </td>
-                  <td> ${{ $val['amount'] }} </td>
-                  <td class="gentd text-center" tagid="{{$val['id']}}"   status_id="{{$val['detail_status_id']}}" status_name="{{$val['detail_status']}}" tagpaient_id="{{$val['patient_id']}}"> 
-
-                    
-                    
-
-                  </td>
-                 
+                  <td><input type="text" class="form-control" name="result" placeholder="Entry result"> </td>
+                  <td> <select class="form-control">@foreach($unitAndRange->ranges as $range)<option value="{{$range->min}} - {{$range->max}}">{{$range->min}} - {{$range->max}}</option>@endforeach</select></td>
+                  <td> <select class="form-control">@foreach($unitAndRange->units as $unit)<option value="{{$unit->unit}}">{{$unit->unit}}</option>@endforeach</select></td>                 
                 </tr>
-
-                @endif
-                
+                @endif                
                  @endforeach
                  @endforeach
               </tbody>
-
              <tfoot class="main-footer">
               <tr>
-    
-        <ul class="pagination pagination-lg pager pull-left" id="pagetablepage" style="display: inline-block;top: -25px; position: relative;"></ul>
-       
-  
-        <div  style="display: inline-block;" class="pull-right">
-        <p id="tablepagecounter">Showing 1 of  <?php echo count($Result); ?> rows </p>
+                <td colspan="3">
+           
+               <textarea class="form-control w3-input w3-text-blue w3-border" name="note" placeholder="extra info" style="resize: none;"></textarea>
+            
+           </td>
+           <td class="=text-center  w3-text-white">
+             <button class=" btn button text-center w3-green" type="button" id="saveresult" style="width: 100%; background: inherit; height: 100%; margin-bottom: -30px">Save result</button>
+           </td>
+   </tr>
+  </tfoot>
+  </table>
+  </div>
+  </div>
+  </div>
+  </section>
 </div>
-
-
-</tr>
-</tfoot>
-</table>
-</div>
-</div>
-</div>
-</section>
-</div>
-
-
-  @endsection
+@endsection
 
 
 
