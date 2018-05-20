@@ -12,6 +12,8 @@ class OrderDetail extends Model
         'status_id',
         'test_id',  
         'test_order_id',
+        'ranges',
+        'units',
         'note',
         'amount',
         "result"

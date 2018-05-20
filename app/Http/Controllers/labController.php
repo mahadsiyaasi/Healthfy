@@ -243,5 +243,54 @@ public static  function getRangeAndUnit($test_id)
    return $data;
 
 }
+public function saveresult(Request $request)
+{
+    $input = $request->all();
+    $rules = [];
+    $messages = [];
+    foreach($input['resultinput'] as $key => $val){
+    $rules['range.'.$key] = 'required|min:1';
+    $rules['units.'.$key] = 'required|min:1';
+    $rules['detail_id.'.$key] = 'required|min:1';
+    $rules['master_id.'.$key] = 'required|min:1|numeric';
+    $rules['note'] = 'required|min:1';
+    }
+    $validate =Validator::make($input,$rules);
+    if ($validate->fails()) {
+        $error =  new \stdClass;
+            $error->errprplace = '.errorController';
+            $error->messages = $validate->messages();
+        return response()->json($error);
+        
+    }else{
+        $test_id =0;
+         foreach($input['resultinput'] as $key => $val){
+            $update_detail =  OrderDetail::find($input['detail_id'][$key]);
+            $update_detail->result = $val;
+            $update_detail->ranges = $input['range'][$key];
+            $update_detail->units = $input['units'][$key];
+            $update_detail->note = $input['note'];
+            $update_detail->status_id = 5;
+            $test_id = $update_detail->test_order_id;
+            $update_detail->save();
+
+        }
+        $check =  OrderDetail::where('test_order_id',$test_id)->where('status_id',4)->get();
+         if (empty($check[0])) {
+          $master = OrderMaster::find($input['master_id'][0]);
+          $master->status_id = 5;
+          $master->save();
+        }
+    }
+    
+     
+
+    return response()->json(getMessages('success','success.success'));
+
+}
+public static function getMessages($placeHolder,$request)
+{
+   return response()->json([$placeHolder=>Lang::get($request)]);
+}
 }
 

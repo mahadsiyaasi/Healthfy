@@ -50,6 +50,32 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/labpayment','labController@labpayment');
 	Route::any('/spicement','labController@spicement');
 	Route::any('/lab/editor','labController@findhome')->name(__('titles.LabEditor').' | '.config('app.name'));
+	Route::any('/lab/saveresult','labController@saveresult');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		/*Route::any('/',array('as' =>'index' ,'uses'=>'patientController@create' ));
 		Route::any('/pregister','patientController@showregister');
 		Route::any('/save','patientController@save');

@@ -12,12 +12,14 @@
         
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Lab > Editor</a></li>
         
       </ol>
     </section>
 
     <!-- Main content -->
+
+    @if(Request::get('_id'))
     <section class="content">
 
       <!-- Default box -->
@@ -44,8 +46,13 @@
           </div>
         </div>
         <div class="box-body">
-        <div class="table-responsive" style="overflow-x: hidden;">
-            <table id="labtable"  class="table  table-hover table-bordered table-striped">
+        <div class="table-responsive" style="">
+          <div class="errorController">
+            <div class="warner">
+              
+            </div>
+          
+            <table id="resultentrytable"  class="table  table-hover table-bordered table-striped">
          
             <tbody class="" style="position: relative;width: 100%">
                  <?php $last =0; 
@@ -69,11 +76,13 @@
                 @foreach($Result as $val)
                 @if($val['test_order_id'] == $vals['master_id'] && $detail_id == $val['id'] )
                 <?php $unitAndRange = labController::getRangeAndUnit($val['test_id']) ?>
-                  <tr>                 
+                  <tr>     
                   <td> {{ $val['testname'] }}</td>
-                  <td><input type="text" class="form-control" name="result" placeholder="Entry result"> </td>
-                  <td> <select class="form-control">@foreach($unitAndRange->ranges as $range)<option value="{{$range->min}} - {{$range->max}}">{{$range->min}} - {{$range->max}}</option>@endforeach</select></td>
-                  <td> <select class="form-control">@foreach($unitAndRange->units as $unit)<option value="{{$unit->unit}}">{{$unit->unit}}</option>@endforeach</select></td>                 
+                  <td style="display: none;"> <input type="hidden" name="detail_id[]" value="{{ $val['id'] }}"></td>
+                  <td style="display: none;"> <input type="hidden" name="master_id[]" value="{{ $val['test_order_id'] }}"></td>
+                  <td><input type="text" class="form-control" name="resultinput[]" placeholder="Entry result"> </td>
+                  <td> <select class="form-control" name="range[]">@foreach($unitAndRange->ranges as $range)<option value="{{$range->min}} - {{$range->max}}">{{$range->min}} - {{$range->max}}</option>@endforeach</select></td>
+                  <td> <select class="form-control" name="units[]">@foreach($unitAndRange->units as $unit)<option value="{{$unit->unit}}">{{$unit->unit}}</option>@endforeach</select></td>                 
                 </tr>
                 @endif                
                  @endforeach
@@ -83,20 +92,23 @@
               <tr>
                 <td colspan="3">
            
-               <textarea class="form-control w3-input w3-text-blue w3-border" name="note" placeholder="extra info" style="resize: none;"></textarea>
+               <textarea class="w3-input w3-text-blue w3-border" name="noteResult" placeholder="extra info" style="resize: none;"></textarea>
             
            </td>
            <td class="=text-center  w3-text-white">
-             <button class=" btn button text-center w3-green" type="button" id="saveresult" style="width: 100%; background: inherit; height: 100%; margin-bottom: -30px">Save result</button>
+             <button class=" btn button text-center w3-green" type="button" id="saveresult" style="width: 100%; background: inherit; height: 100%; margin-bottom: -30px" onclick="saveresult(this)">Save result</button>
            </td>
    </tr>
   </tfoot>
   </table>
   </div>
-  </div>
-  </div>
-  </section>
 </div>
+  </div>
+ </div>
+</section>
+@endif
+</div>
+
 @endsection
 
 

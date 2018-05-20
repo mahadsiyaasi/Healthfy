@@ -273,3 +273,27 @@ $(document).ready(function(){
     })
 })
 
+saveresult =  function(th){
+          var main_array_holder =  [];
+          main_array_holder.length = 0
+             
+   var tbl2 = $("#resultentrytable tbody tr").each(function(e) {        
+      x = $(this).children();
+      x.find("input,select").each(function(i) {
+      
+        if ($(this).val() !="")  {
+         main_array_holder.push({name:$(this).attr('name'), value:$(this).val()});
+       }
+      });
+
+      
+   })
+   main_array_holder.push({name:'_token', value:_token})
+   main_array_holder.push({name:'note', value:$("textarea[name=noteResult]").val()})
+   
+   var largearry = ajaxtoserv(main_array_holder,"not form","saveresult",th).success;
+   if (largearry) {
+    location.href="/lab"
+   }
+        
+}

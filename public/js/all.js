@@ -12678,14 +12678,13 @@ else{
       type:"POST",
       async: false,
       datatype:"json",
-      success:function(res){
-          
+      success:function(res){          
             if (url=="saveorder") {
              return location.href = "/patients/"+_id;
             }
             bools =  res;
           var tybol = res.success?1:0;      
-          warner(data,res,tybol)
+          warner(res.errprplace,res.messages,tybol)
           $(btn).button('reset');
           
         }
@@ -12701,19 +12700,26 @@ function warner(modal,message,type){
         }, 5000);
     }else if (type==0) {
     $.each(eval(message), function(i, item) {
-             
+      removeColorizeErrors(modal,i)
+        customColorizeErrors(modal,item,i)
           $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>    </strong>'+item+'.</div>');
-     setTimeout(function() {
+          setTimeout(function() {
           $(modal).find(".warner").html("")
+           $(modal).find("input[name="+i+"]").change(function(){
+            removeColorizeErrors(modal,i)
+           })
+           $(modal).find("input[textarea="+i+"]").change(function(){
+            removeColorizeErrors(modal,i)
+           })
+           $(modal).find("select[name="+i+"]").change(function(){
+            removeColorizeErrors(modal,i)
+           })
+            
+         
+
         }, 5000);
     });
-       
-     
-        
-         
-      
-     
-    }else{
+  }else{
       var msg =  message==""||message==null?"Eror exists server side. contact with developer or visit  go ..":message;
       $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>   </strong>'+msg+'<a href="/feedback">Feedback</a>.</div>');
         setTimeout(function() {
@@ -12730,6 +12736,22 @@ function removebesmodal(){
   $('body').find("#oncreate").on('hidden.bs.modal', function () {
       $(this).data('bs.modal', null);
 });
+}
+function customColorizeErrors(modal,item,i){
+ $(modal).find("input[name="+i+"]").addClass("w3-border-red")
+  $(modal).find("select[name="+i+"]").addClass("w3-red")
+  $(modal).find("textarea[name="+i+"]").addClass("w3-red")
+  $(modal).find("input[name="+i+"]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>"+item+"</label>")
+  $(modal).find("textarea[name="+i+"]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>"+item+"</label>")
+  $(modal).find("select[name="+i+"]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>"+item+"</label>")
+}
+function removeColorizeErrors(modal,i){
+ $(modal).find("input[name="+i+"]").removeClass("w3-border-red")
+  $(modal).find("select[name="+i+"]").removeClass("w3-red")
+  $(modal).find("textarea[name="+i+"]").removeClass("w3-red")
+  $(modal).find("input[name="+i+"]").parents("div:first").find("label").remove()
+  $(modal).find("select[name="+i+"]").parents("div:first").find("label").remove()
+  $(modal).find("textarea[name="+i+"]").parents("div:first").find("label").remove()
 }
 var _token =$('meta[name="csrf-token"]').attr('content');
 var _id =  $("input[name=patient_id]").val();
@@ -14238,7 +14260,30 @@ $(document).ready(function(){
     })
 })
 
+saveresult =  function(th){
+          var main_array_holder =  [];
+          main_array_holder.length = 0
+             
+   var tbl2 = $("#resultentrytable tbody tr").each(function(e) {        
+      x = $(this).children();
+      x.find("input,select").each(function(i) {
+      
+        if ($(this).val() !="")  {
+         main_array_holder.push({name:$(this).attr('name'), value:$(this).val()});
+       }
+      });
 
+      
+   })
+   main_array_holder.push({name:'_token', value:_token})
+   main_array_holder.push({name:'note', value:$("textarea[name=noteResult]").val()})
+   
+   var largearry = ajaxtoserv(main_array_holder,"not form","saveresult",th).success;
+   if (largearry) {
+    location.href="/lab"
+   }
+        
+}
 var medication_list;
 $(document).ready(function(){
 loadmedications();
