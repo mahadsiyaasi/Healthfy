@@ -30,13 +30,13 @@
     </ul>
 </div>
           <a  class="button btn" onclick="filterfn()"><i class="fa fa-filter"> filter</i></a>
-          <input type="search" onkeyup="searchtable($(this).attr('id'),'labtable')" id="searchtablein"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;">
-
+          <!---input type="search" onkeyup="searchtable($(this).attr('id'),'labtable')" id="searchtablein"  name="q-search" class="w3-input" placeholder="search" style="width: 20%; position: relative;display: inline-block;"!_------>
+          <a href="/lab"><i class="fa fa-refresh"></i> refresh</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
               <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+             <button type="button" class="btn btn-box-tool" onclick="location.href='/lab'" data-toggle="tooltip" title="Remove" >
               <i class="fa fa-times"></i></button>
           </div>
         </div>

@@ -158,41 +158,62 @@ function statusController(status_id,status_name,id,patient_id,type,test_id){
   
               var color =  type =="test_master"?"w3-green":"w3-blue"
               var btncolor = type =="test_master"?"w3-light-gray":"w3-white"
-              var pref = type =="test_master"?"Status":""
-                if( status_id==2  && type == "test_master" ) {
-                  //alert(status_name)
-                   return ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+              var pref = type =="test_master"?"":""
+                if( status_id==2) {
+                  if ( status_id==2  && type == "test_master" ) {
+                  return ' <div class="dropdown " style="display:inline-block;"><button type="button" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'"  class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">Make Payment</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                       +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
                         +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
-                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
                        +' </ul>'+
                     '</div>'
-                  
-                }
-                    else if(  status_id==3){
+                  }else{
+                      return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none"><span class="badge w3-blue">'+ status_name+'</span></button><button type="button"  style="border:none" class="btn '+btncolor+'" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                               +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                               //+' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+                                +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
+                                +' </ul></div>'
+                  }}else if(  status_id==3){
+                     if ( status_id==3  && type == "test_master" ) {
                    return ' <div class="dropdown " style="display:inline-block;"><button type="button" class=" btn '+btncolor+' w3-border w3-border-white " style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                       +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
                         +' <li class=""><a class="" onclick="proccedtoSpicement(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-check"></i> Done</a></li>'
-                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
+                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderMaster" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
                        +' </ul>'+
                     '</div>'
-                    }else if( status_id==4){
-                    return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
-                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-                        +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
-                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
-                       +' </ul>'+
-                    '</div>'
-                   }else if(  status_id==5){
-                    return '<span class="badge w3-teal">  '+ status_name+'</span>'
+                  }else{
+                     return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none"><span class="badge w3-blue">'+ status_name+'</span></button><button type="button"  style="border:none" class="btn '+btncolor+'" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                                         +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                                         //+' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+                                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
+                                          +' </ul></div>'
+                  }
+                    }else if(status_id==4){
+                      if ( status_id==4  && type == "test_master" ) {
+                          return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">Waiting Result</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                                  +' <li class=""><a class="" href="/lab/editor?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-flask" aria-hidden="true"></i>Result Entry</a></li>'
+                                  +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="if(docancels(this)){datadtab.reload();alert()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
+                                  +' </ul></div>'
+                            }else{
+                                 return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none"><span class="badge w3-blue">'+ status_name+'</span></button><button type="button"  style="border:none" class="btn '+btncolor+'" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                                         +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                                         //+' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
+                                          +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
+                                          +' </ul></div>'
+                            }
+                   }else if(status_id==5){
+                    if ( status_id==5  && type == "test_master" ) {
+                          return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none"><span class="badge w3-teal"> Completed</span></button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
+                                  +' <li class=""><a class="" href="/lab/editor?type=SeeResult&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-eye" aria-hidden="true"></i>See result</a></li>'
+                                  +' <li class=""><a class="" href="/print?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'"   ><i class="fa fa-print"></i> Print</a></li>'
+                                  +' </ul></div>'
+                            }else{
+                                  return '<span class="badge w3-teal">  '+ status_name+'</span>'
+                            }
                    
-                  }else if (type=="test_detail" && status_id ==2) {
-                  return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none">'+ status_name+'</button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
-                  +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
-                        +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-dollar"></i> Pay</a></li>'
-                         +' <li class=""><a class=""  tagid="'+id+'" tagpatient_id="'+patient_id+'"  tagtype="'+type+'" data-toggle="modal" data-target="#modal-warn" forid="'+id+'" tablename="OrderDetail" onclick="docancels(this)" htmtable="pateient_editor" ><i class="fa fa-trash"></i> Cancel</a></li>'
-                       +' </ul>'+
-                    '</div>'
+                   
                   }
 }
 
@@ -239,6 +260,13 @@ $(document).ready(function(){
                          },
                         "targets": 2
                       },
+                      {
+                        "render": function (data) {                                          
+                            
+                          return statusController(data.detail_status_id,data.detail_status,data.id,data.patient_id,"test_detail",data.test_id);
+                         },
+                        "targets": 5
+                      },
                       
                   ],
                   "order": {'sort':7 , 'sorttype':'asc'},
@@ -253,7 +281,7 @@ $(document).ready(function(){
                   header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
                         +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
                        + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
-                        +'<th class="w3-light-gray active"> Status <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
+                        +'<th class="w3-light-gray active"> <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
                   +'  </tgroup></tr>'
                   $(this).children().each(function(i){
                       if ($(this).index()==settings.order.sort && last != $(this).text()) {

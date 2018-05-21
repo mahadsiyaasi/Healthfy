@@ -128,9 +128,7 @@ class labController extends Controller
     ->get());
 }else{
     $data  = OrderMaster::join("test_order_detail","test_order_detail.test_order_id","=","test_order_master.id")
-       ->join("varaible_lists", function ($join) {
-        $join->on('varaible_lists.status_id', '=', 'test_order_detail.status_id');
-        })
+       ->join('varaible_lists','varaible_lists.status_id', '=', 'test_order_detail.status_id')
         ->join("staff","staff.id","=","test_order_master.doctor_id")
         ->join("patients","patients.id","=","test_order_master.patient_id")
         ->join("tests","tests.id","=","test_order_detail.test_id")
@@ -209,7 +207,7 @@ public function findhome(Request $req)
     ->join("staff","staff.id","=","test_order_master.doctor_id")
     ->join("patients","patients.id","=","test_order_master.patient_id")
     ->join("tests","tests.id","=","test_order_detail.test_id")
-    ->select("patients.patient_name","staff.name as doctor_name","test_order_detail.test_id","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status")
+    ->select("patients.patient_name","staff.name as doctor_name","test_order_detail.test_id","staff.id as doctor_id","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name as detail_status","test_order_detail.status_id as detail_status_id","test_order_detail.id","test_order_master.id as master_id","patients.id as patient_id","test_order_master.status_id as master_status_id","varaible_lists.status_name as master_status","test_order_detail.ranges","test_order_detail.units","test_order_detail.result","test_order_detail.note")
     ->where("test_order_master.status_id","=",$req->status_id)
     ->where("test_order_detail.status_id","=",$req->status_id)
     ->where("test_order_master.id","=",$req->_id)
@@ -285,7 +283,7 @@ public function saveresult(Request $request)
     
      
 
-    return response()->json(getMessages('success','success.success'));
+    return self::getMessages('success','success.success');
 
 }
 public static function getMessages($placeHolder,$request)

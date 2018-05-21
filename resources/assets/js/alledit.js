@@ -45,6 +45,7 @@ function directdel(tthis){
 })
 }
 function docancels(data){
+  var mybool;
   var ids  =  $(data).attr("forid");
   var table  =  $(data).attr("tablename");
   htmtable = $(data).attr("htmtable")
@@ -54,14 +55,21 @@ function docancels(data){
               url:"/cancels",
               datatype:"json",
               type:"POST",
+              async: false,
               data:{id:ids,_token:_token,table:table},
               success:function(data){
+                mybool = true;
                  $(".dismism").trigger("click")
-                 window[htmtable].ajax.reload();     
-                 
+                 if (htmtable) {
+                 window[htmtable].ajax.reload(); 
+                 }else{
+                  datadtab.reload()
+                 }
+                  return true;
               }
             })
 })
+              return mybool;
 }
 function editgroup(data){
   var id  =  $(data).attr("id");

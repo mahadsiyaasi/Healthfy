@@ -26,7 +26,22 @@ class editorController extends Controller
           $arra =\App\Models\PrescriptionDetail::where('prescription_id',$request->input('id'))->update(['status_id'=>0]);
          }elseif ($request->input("table")=="OrderMaster") {
           $arra =\App\Models\OrderDetail::where('test_order_id',$request->input('id'))->update(['status_id'=>0]);
+         }elseif ($request->input("table")=="OrderDetail") {
+          $arra =\App\Models\OrderDetail::find($request->id);
+          $arra->status_id = 0;
+          $arra->save();
+          $arra2 =\App\Models\OrderMaster::find($arra->test_order_id);
+          $arra2->total_amount = ($arra2->total_amount*1)-($arra->amount*1);
+          $arra2->save();
+          #check if this detail order is last then stop header att all 
+          $check =  \App\Models\OrderDetail::where('test_order_id',$arra->test_order_id)->where('status_id','>',0)->get();
+                 if (empty($check[0])) {
+                  $master = \App\Models\OrderMaster::find($arra->test_order_id);
+                  $master->status_id = 0;
+                  $master->save();
+                }
          }
+
     	$data  = $table::find($request->input("id"));
     	$data->status_id=0;
     	$data->save();
