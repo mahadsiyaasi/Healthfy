@@ -207,7 +207,8 @@ function statusController(status_id,status_name,id,patient_id,type,test_id){
                           return ' <div class="dropdown " style="display:inline-block"><button type="button" class=" '+btncolor+' btn btn-primary" style="border:none"><span class="badge w3-teal"> Completed</span></button><button type="button" class="btn '+btncolor+' w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                                   +'<ul class="dropdown-menu w3-card-8 w3-padding-8">'
                                   +' <li class=""><a class="" href="/lab/editor?type=SeeResult&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'" tagid="'+id+'"  tagpatient_id="'+patient_id+'"  tagtype="'+type+'" ><i class="fa fa-eye" aria-hidden="true"></i>See result</a></li>'
-                                  +' <li class=""><a class="" href="/print?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'"   ><i class="fa fa-print"></i> Print</a></li>'
+                                  +' <li class=""><a class="" target="_blank" href="/print?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'&action=print"   ><i class="fa fa-print"></i> Print</a></li>'
+                                   +' <li class=""><a class=""  href="/print?type=OrderMaster&_id='+id+'&patient_id='+patient_id+'&status_id='+status_id+'&test_id='+test_id+'&action=download"   ><i class="fa  fa-download" aria-hidden="true"></i> Download</a></li>'
                                   +' </ul></div>'
                             }else{
                                   return '<span class="badge w3-teal">  '+ status_name+'</span>'

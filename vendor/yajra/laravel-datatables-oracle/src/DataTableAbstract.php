@@ -3,8 +3,8 @@
 namespace Yajra\DataTables;
 
 use Illuminate\Support\Str;
+use Psr\Log\LoggerInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\Logging\Log;
 use Yajra\DataTables\Utilities\Helper;
 use Illuminate\Support\Traits\Macroable;
 use Yajra\DataTables\Contracts\DataTable;
@@ -32,7 +32,7 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     public $request;
 
     /**
-     * @var \Illuminate\Contracts\Logging\Log
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
@@ -135,6 +135,11 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
      * @var \Yajra\DataTables\Utilities\Config
      */
     protected $config;
+
+    /**
+     * @var mixed
+     */
+    protected $serializer;
 
     /**
      * Can the DataTable engine be created with these parameters.
@@ -409,6 +414,19 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     }
 
     /**
+     * Set filtered records manually.
+     *
+     * @param int $total
+     * @return $this
+     */
+    public function setFilteredRecords($total)
+    {
+        $this->filteredRecords = $total;
+
+        return $this;
+    }
+
+    /**
      * Skip pagination as needed.
      *
      * @return $this
@@ -536,6 +554,16 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     }
 
     /**
+     * Count filtered items.
+     *
+     * @return int
+     */
+    protected function filteredCount()
+    {
+        return $this->filteredRecords ? $this->filteredRecords : $this->count();
+    }
+
+    /**
      * Perform necessary filters.
      *
      * @return void
@@ -551,7 +579,7 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
         }
 
         $this->columnSearch();
-        $this->filteredRecords = $this->isFilterApplied ? $this->count() : $this->totalRecords;
+        $this->filteredRecords = $this->isFilterApplied ? $this->filteredCount() : $this->totalRecords;
     }
 
     /**
@@ -705,7 +733,7 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
 
         return new JsonResponse([
             'draw'            => (int) $this->request->input('draw'),
-            'recordsTotal'    => (int) $this->totalRecords,
+            'recordsTotal'    => $this->totalRecords,
             'recordsFiltered' => 0,
             'data'            => [],
             'error'           => $error ? __($error) : "Exception Message:\n\n" . $exception->getMessage(),
@@ -715,11 +743,11 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     /**
      * Get monolog/logger instance.
      *
-     * @return \Illuminate\Contracts\Logging\Log
+     * @return \Psr\Log\LoggerInterface
      */
     public function getLogger()
     {
-        $this->logger = $this->logger ?: app(Log::class);
+        $this->logger = $this->logger ?: app(LoggerInterface::class);
 
         return $this->logger;
     }
@@ -727,10 +755,10 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     /**
      * Set monolog/logger instance.
      *
-     * @param \Illuminate\Contracts\Logging\Log $logger
+     * @param \Psr\Log\LoggerInterface $logger
      * @return $this
      */
-    public function setLogger(Log $logger)
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
 

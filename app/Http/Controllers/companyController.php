@@ -17,7 +17,7 @@ class companyController extends Controller
     public static function company()
     {
        $datas=User::join("chealths","chealths.id","=","users.company_id")
-        ->select("chealths.name","chealths.logo")
+        ->select("chealths.*")
          ->where("users.id","=",Auth::user()->id)
         ->where("users.company_id",Auth::user()->company_id)
         ->first();

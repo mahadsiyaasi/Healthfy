@@ -109,16 +109,16 @@ class CollectionDataTable extends DataTableAbstract
                         if ($this->config->isCaseInsensitive()) {
                             if ($regex) {
                                 return preg_match('/' . $keyword . '/i', $value) == 1;
-                            } else {
-                                return strpos(Str::lower($value), Str::lower($keyword)) !== false;
                             }
-                        } else {
-                            if ($regex) {
-                                return preg_match('/' . $keyword . '/', $value) == 1;
-                            } else {
-                                return strpos($value, $keyword) !== false;
-                            }
+
+                            return strpos(Str::lower($value), Str::lower($keyword)) !== false;
                         }
+
+                        if ($regex) {
+                            return preg_match('/' . $keyword . '/', $value) == 1;
+                        }
+
+                        return strpos($value, $keyword) !== false;
                     }
                 );
             }
@@ -213,10 +213,9 @@ class CollectionDataTable extends DataTableAbstract
      */
     protected function globalSearch($keyword)
     {
-        $columns = $this->request->columns();
         $keyword = $this->config->isCaseInsensitive() ? Str::lower($keyword) : $keyword;
 
-        $this->collection = $this->collection->filter(function ($row) use ($columns, $keyword) {
+        $this->collection = $this->collection->filter(function ($row) use ($keyword) {
             $this->isFilterApplied = true;
 
             $data = $this->serialize($row);
@@ -226,9 +225,9 @@ class CollectionDataTable extends DataTableAbstract
                 if (! $value || is_array($value)) {
                     if (! is_numeric($value)) {
                         continue;
-                    } else {
-                        $value = (string) $value;
                     }
+
+                    $value = (string) $value;
                 }
 
                 $value = $this->config->isCaseInsensitive() ? Str::lower($value) : $value;

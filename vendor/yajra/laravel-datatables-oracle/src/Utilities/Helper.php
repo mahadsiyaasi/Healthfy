@@ -19,20 +19,20 @@ class Helper
     {
         if (self::isItemOrderInvalid($item, $array)) {
             return array_merge($array, [$item['name'] => $item['content']]);
-        } else {
-            $count = 0;
-            $last  = $array;
-            $first = [];
-            foreach ($array as $key => $value) {
-                if ($count == $item['order']) {
-                    return array_merge($first, [$item['name'] => $item['content']], $last);
-                }
+        }
 
-                unset($last[$key]);
-                $first[$key] = $value;
-
-                $count++;
+        $count = 0;
+        $last  = $array;
+        $first = [];
+        foreach ($array as $key => $value) {
+            if ($count == $item['order']) {
+                return array_merge($first, [$item['name'] => $item['content']], $last);
             }
+
+            unset($last[$key]);
+            $first[$key] = $value;
+
+            $count++;
         }
     }
 
@@ -156,10 +156,13 @@ class Helper
     public static function convertToArray($row)
     {
         $data = $row instanceof Arrayable ? $row->toArray() : (array) $row;
-        foreach (array_keys($data) as $key) {
-            if (is_object($data[$key]) || is_array($data[$key])) {
-                $data[$key] = self::convertToArray($data[$key]);
+
+        foreach ($data as &$value) {
+            if (is_object($value) || is_array($value)) {
+                $value = self::convertToArray($value);
             }
+
+            unset($value);
         }
 
         return $data;
@@ -259,9 +262,9 @@ class Helper
         if (! empty($matches)) {
             if ($wantsAlias) {
                 return array_pop($matches);
-            } else {
-                return array_shift($matches);
             }
+
+            return array_shift($matches);
         } elseif (strpos($str, '.')) {
             $array = explode('.', $str);
 

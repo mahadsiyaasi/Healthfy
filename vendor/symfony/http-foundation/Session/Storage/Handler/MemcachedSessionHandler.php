@@ -34,6 +34,8 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     private $prefix;
 
     /**
+     * Constructor.
+     *
      * List of available options:
      *  * prefix: The prefix to use for the memcached keys in order to avoid collision
      *  * expiretime: The time to live in seconds.
@@ -78,7 +80,9 @@ class MemcachedSessionHandler extends AbstractSessionHandler
      */
     public function updateTimestamp($sessionId, $data)
     {
-        return $this->memcached->touch($this->prefix.$sessionId, time() + $this->ttl);
+        $this->memcached->touch($this->prefix.$sessionId, time() + $this->ttl);
+
+        return true;
     }
 
     /**
