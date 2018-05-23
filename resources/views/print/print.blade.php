@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app()->getLocale() }}">
 <head>
-  <title></title>
-   <link href="{{ asset('css/w3.css') }}" rel="stylesheet">
-   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+<title>@if(Auth::check()) @yield('title', Route::currentRouteName())  @endif</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
+<link href="{{ asset('css/w3.css') }}" rel="stylesheet">
+<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <style type="text/css">
   @page  
@@ -36,8 +39,15 @@ body
     width: 40% !important;
     }
 }
-
-</style>
+.header,
+.footer {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+.pagenum:before {
+    content: counter(page);
+}   </style>
 <body>
 
 
@@ -47,12 +57,18 @@ body
     $company = companyController::company();
  ?>
 <div class="content-wrapper">
-  <div class="row">
+  <div class="pull-right">
+    Page <span class="pagenum"></span> of <span class="pagenum"></span>
+    <br>
+</div>
+  <div class="">
+  <div class="row w3-padding">
      <div class="col-sm-4">
     <div class="image img-circle" style="position: relative;width: 30%">
       <img src="{{asset(companyController::company()->logo)}}"  alt="User Image" class="img-circle" style="width: 100%">
     </div>
-    <p class="large"><strong>{{$company->name}}</strong></p>
+    <br>
+    <p class="large padding-16"><strong>{{$company->name}}</strong></p>
   </div>
   <div class="col-sm-4">
   </div> 
@@ -69,7 +85,7 @@ body
   </div>
   
   </div>
-   <div class="row">
+   <div class="row w3-padding">
  
       <div class="col-sm-4">        
        <p class="condensed">
@@ -109,13 +125,16 @@ body
          </div>
      
     </div>
+  </div>
     <section class="content">
       <div class="box  " style="padding: 0px 0px 0px 0px; background:inherit;">
-    
+      <div class="w3-padding" style="height: 20px">
+        
+      </div>
         <div class="box-body">
         <div class="table-responsive" style="">
           <div class="errorController">
-             <table id="resultentrytable"  class="table  table-hover w3-padding">
+             <table id="resultentrytable"  class="table w3-padding">
          
             <tbody class="" style="position: relative;width: 100%">
                  <?php $last =0; 
@@ -169,6 +188,24 @@ body
  </div>
 </section>
 
+</div>
+<div class="" style="position: absolute;bottom: 0px">
+    <p>This charge that counted as revenue of this service will not be possible to return
+    <hr>
+      <div class="row" class="w3-border w3-border-black">
+      <div style="width: 100%">
+        <div class="col-sm-8">
+        <p> Bill to             :   {{$company->name}}
+            <br> Bill ID        :   0000{{$Result[0]->id}}
+            <br>Invoice number  :   {{$Result[0]->account}}
+        </p>
+        </div>
+        <div class="col-sm-3">
+          <p class="w3-border w3-border-blue">Amount Due to USD: ${{$Result[0]->balance}}</p>
+        </div>
+      </div>
+      </div>
+      </p>
 </div>
 </body>
 </html>

@@ -51,9 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/spicement','labController@spicement');
 	Route::any('/lab/editor','labController@findhome')->name(__('titles.LabEditor').' | '.config('app.name'));
 	Route::any('/lab/saveresult','labController@saveresult');
-	Route::any('/print','printController@print');
+	Route::any('/print','printController@print')->name(__('titles.print').' | '.config('app.name'));
 
-
+	Route::any('/role','roleController@home')->name(__('titles.role').' | '.config('app.name'));
 
 
 
