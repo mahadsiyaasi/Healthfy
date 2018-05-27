@@ -203,7 +203,9 @@ function sortTable(tables) {
   while (switching) {
     // Start by saying: no switching is done:
     switching = false;
+    if (table){
     rows = table.getElementsByTagName("TR");
+    
     /* Loop through all table rows (except the
     first, which contains table headers): */
     for (i = 1; i < (rows.length - 1); i++) {
@@ -229,6 +231,7 @@ function sortTable(tables) {
         }
       }
     }
+  }
     if (shouldSwitch) {
       /* If a switch has been marked, make the switch
       and mark that a switch has been done: */

@@ -3,23 +3,7 @@ var _id =  $("input[name=patient_id]").val();
 $("#togglemenu").trigger("click");
 var patient_table;
 $(document).ready(function(){
-
 datereuse("#dateofbirth");
-$("#savepatient").click(function(){
-  commonvalidator("#patientfm")
-  if ($("#patientfm").valid()) {
-    if (ajaxtoserv("#patientfm","form","savepatient",this).success){
-
-
-       setTimeout(function(){ 
-           
-              location.href="patients"
-            
-          },1000)
-    }
-
-  }
-})
   patient_table = $('#patientgrid').DataTable({
         "initComplete": function( settings, json ) {
     $('div.loading').remove();
@@ -66,7 +50,18 @@ $("#savepatient").click(function(){
 
 });
 
+savepatient =  function(th){
+  commonvalidator("#patientfm")
+  if ($("#patientfm").valid()) {
+    if (ajaxtoserv("#patientfm","form","savepatient",th).success){
+       setTimeout(function(){ 
+        location.href="patients"
+      },1000)
+    }
 
+  }
+
+}
 
 
 

@@ -102,7 +102,7 @@ function datereuse(control){
          });
 }
 function ajaxtoserv(data,type,url,btn){
-  var bools;
+  var bools = false;
   if (type=="form") {
    commonvalidator(data);
   var datsend = $(data).serialize();
