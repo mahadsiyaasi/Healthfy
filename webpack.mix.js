@@ -28,7 +28,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	"resources/assets/dist/css/AdminLTE.min.css",
 	"resources/assets/dist/css/skins/_all-skins.css",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.css",
-    
+     'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css',    
 	], 'public/css/all.css')
 .scripts([    
     //"files/jquery/dist/jquery.min.js",
@@ -55,6 +55,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/vendor/datatables/buttons/js/buttons.print.js',
     "resources/assets/files/moment/min/moment.min.js",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.js",
+    'resources/assets/files/fancy/jquery-ui.custom.js',
+    'resources/assets/files/fancy/jquery.fancytree.js',
     'resources/assets/js/Markaps.js',
     'resources/assets/js/patients.js',
     'resources/assets/js/doctor.js',
@@ -69,7 +71,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/medication.js', 
     'resources/assets/js/customtable.js',  
     'resources/assets/js/precription.js',  
-
+    'resources/assets/js/role.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 

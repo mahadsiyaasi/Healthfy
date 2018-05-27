@@ -29,6 +29,9 @@
 .allback {
     background: #910a76 !important;
 }
+.mafont {
+  color: #910a76 !important;
+}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -107,7 +110,7 @@
       $('.sidebar-menu').tree();
       $('.selectpicker').selectpicker();
      })
-  
+    
 </script>
 
 @endpush

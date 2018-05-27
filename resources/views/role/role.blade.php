@@ -42,7 +42,7 @@
           <div class="errorController">
             @if(Request::get("new"))
             <div class="warner">
-              
+              @include('role.content.addrole')
             </div>
             
             @else

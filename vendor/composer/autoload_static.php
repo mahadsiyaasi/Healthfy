@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7
+class ComposerStaticInit715bdb867a3cc5080fe162d227f14383
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -13,8 +13,8 @@ class ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
@@ -122,8 +122,8 @@ class ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -3902,10 +3902,10 @@ class ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0fc81c27c0924c11c565a7adddf310f7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit715bdb867a3cc5080fe162d227f14383::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit715bdb867a3cc5080fe162d227f14383::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit715bdb867a3cc5080fe162d227f14383::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit715bdb867a3cc5080fe162d227f14383::$classMap;
 
         }, null, ClassLoader::class);
     }

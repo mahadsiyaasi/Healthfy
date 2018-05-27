@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/print','printController@print')->name(__('titles.print').' | '.config('app.name'));
 
 	Route::any('/role','roleController@home')->name(__('titles.role').' | '.config('app.name'));
-
+Route::any('/saverole','roleController@saverole');
 
 
 
