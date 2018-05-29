@@ -32,7 +32,7 @@ function filterfn(){
          $('body').find("#oncreate select[name=doctor_filter]").append("<option value='"+item.id+"' tagcheckid='"+item.id+"'>"+item.name+"</option>");
         })
 		 $('body').find("#oncreate").on("click",".btnfilter",function(){
-      var largearry = ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success;
+      var largearry =ajaxtoserv($("body").find("#fmfilter"),"form","filter?_token="+_token,this).success;
         
           datadtab.SearchApi(largearry)
           setTimeout(function() {

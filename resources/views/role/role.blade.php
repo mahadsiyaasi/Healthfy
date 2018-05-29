@@ -46,7 +46,7 @@
             </div>
             
             @else
-
+            <table id="role_table"></table>
 
             @endif
           

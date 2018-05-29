@@ -7,6 +7,8 @@ use Validator;
 use App\Models\Roles;
 use App\Models\permissionMaping;
 use Lang;
+use DB;
+use Auth;
 use App\Http\Controllers\LabController;
 class roleController extends Controller
 {
@@ -65,12 +67,21 @@ class roleController extends Controller
     	}
         permissionMaping::insert($save);
     }
-    return response()->json(labController::getMessages('success','success.success'));
-}
-    	
-}
+    return labController::getMessages('success','success.success');
+        }
+            	
+        }
 
 
     }
 
+public function getRoleView()
+    {
+    $data = Roles::join('permission_maping','permission_maping.entity_id','=','roles.id')
+            ->select(DB::raw("count(permission_maping.entity_id) as count"),'roles.name as name','roles.id as id','roles.description as description')
+            ->where('roles.status_id','>',0)
+            ->groupBy('roles.id')
+            ->get();
+    return response()->json($data,200);
+    }
 }
