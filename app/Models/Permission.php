@@ -1,6 +1,6 @@
 <?php
 
-namespace Health\Models;
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {

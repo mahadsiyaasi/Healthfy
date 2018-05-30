@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/role','roleController@home')->name(__('titles.role').' | '.config('app.name'));
 	Route::any('/saverole','roleController@saverole');
 	Route::any('/getroleview','roleController@getRoleView');
+	
 
 
 

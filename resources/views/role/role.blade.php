@@ -2,7 +2,7 @@
 
 @section('content')
 <?php 
-    use App\http\Controllers\labController;
+    use App\http\Controllers\roleController;
  ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -27,7 +27,7 @@
         <div class="box-header with-border">
       
         <a  class="button btn" href="/role"><strong>Roles</strong></a>
-        <a  class="button btn" href="/role?new=role"><i class="fa fa-plus"> add</i></a>
+        <a  class="button btn" href="/role?type=new_role"><i class="fa fa-plus"> add</i></a>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -40,7 +40,7 @@
         <div class="box-body">
         <div class="table-responsive" style="">
           <div class="errorController">
-            @if(Request::get("new"))
+            @if(Request::get("type"))
             <div class="warner">
               @include('role.content.addrole')
             </div>

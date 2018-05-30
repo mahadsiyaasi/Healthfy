@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Roles;
 use App\Models\permissionMaping;
+use App\Models\Permission;
 use Lang;
 use DB;
 use Auth;
@@ -74,7 +75,6 @@ class roleController extends Controller
 
 
     }
-
 public function getRoleView()
     {
     $data = Roles::join('permission_maping','permission_maping.entity_id','=','roles.id')
@@ -83,5 +83,28 @@ public function getRoleView()
             ->groupBy('roles.id')
             ->get();
     return response()->json($data,200);
+    }
+    public static function getupdateRole($finddata)
+    {
+        ///DB::raw("count(permission_maping.entity_id) as count"),
+       $data = new \stdclass;
+       $data->role =Roles::find($finddata);
+       $data->permission = Roles::join('permission_maping','permission_maping.entity_id','=','roles.id')
+            ->select('permission_maping.*')
+            ->where('roles.status_id','>',0)
+            ->where('roles.id','=',$finddata)
+            ->get();  
+            return $data;
+    }
+     public static function getRolecheck($finddata)
+    {
+        ///DB::raw("count(permission_maping.entity_id) as count"),
+       $data[]=Permission::find($finddata);
+       if ($data[0]) {
+           return true;
+       }else{
+        return false;
+       }
+        
     }
 }
