@@ -29,12 +29,11 @@ class roleController extends Controller
                 if ($valid->fails()) {
             return response()->json($valid->messages());
         }else{
-            if($request->has("id")){
-            permissionMaping::where("entity_id",$request->Input("id"))->delete();
+            if($request->has("_id")){
+            permissionMaping::where("entity_id",$request->Input("_id"))->delete();
             $id = Roles::find($request->Input("id"));
             $id->name=$request->Input("name");
-             $id->description=$request->Input("desc");
-            
+             $id->description=$request->Input("desc");            
              if ($request->has("child_id")) {
             $save = [];
         foreach ($request->Input("child_id") as $key => $value) {
@@ -48,8 +47,7 @@ class roleController extends Controller
         permissionMaping::insert($save);
     }
      $id->save();
-        $success = array('success' =>'success full updated!');
-        return response()->json($success);
+        labController::getMessages('success','success.update');
             }else{
     	$id = Roles::insertGetId([
     		"name"=>$request->Input("name"),
@@ -96,14 +94,16 @@ public function getRoleView()
             ->get();  
             return $data;
     }
-     public static function getRolecheck($finddata)
+     public static function getRolecheck($finddata,$role_id)
     {
         ///DB::raw("count(permission_maping.entity_id) as count"),
-       $data[]=Permission::find($finddata);
-       if ($data[0]) {
-           return true;
+       $data=permissionMaping::where('permission_id',$finddata)
+        ->where("entity_id",$role_id)
+       ->get();
+       if (!empty($data[0])) {
+           return 'true';
        }else{
-        return false;
+        return 'false';
        }
         
     }

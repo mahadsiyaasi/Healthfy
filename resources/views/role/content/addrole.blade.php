@@ -7,6 +7,7 @@
     
   </div>
   @if(Request::get('type')=="new_role")
+  <input type="hidden" name="_id" value="{{Request::get('id')}}">
    <div class="w3-row w3-section">
             <div class="w3-col" style="width: 100px">
               <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Name</label>
@@ -27,9 +28,7 @@
             <div class="w3-col" style="width: 100px">
               <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Permissions</label>
             </div>
-              <div class="w3-rest">
-            
-             
+<div class="w3-rest">
   <div id="roletree" class="" style="width: 96%; position: relative;">
     <ul id="treeData" class="w3-ul w3-li w3-list w3-panel-8 li ul" style="display: none;">
       @foreach($licheck as $val)
@@ -78,17 +77,16 @@
             </div>
               <div class="w3-rest">
             
-            <?php $id = 0 ; ?> 
+  <?php $id = 0 ; ?> 
   <div id="roletree" class="" style="width: 96%; position: relative;">
     <ul id="treeData" class="w3-ul w3-li w3-list w3-panel-8 li ul" style="display: none;">
       @foreach($licheck as $val)
       @if($val->parent_id==0)
       <li id="{{$val->id}}" class="folder {{$val->icon}}" key="{{$val->id}}" title="{{$val->id}}">{{$val->name}}<ul>  
           @foreach($licheck as $vals)
-          @if($val->id==$vals->parent_id && roleController::getRolecheck($vals->id))
-          <li id="{{$vals->id}}"  key="{{$vals->id}}" data-selected="true" title="{{$vals->id}}">{{$vals->name}}</li>@endif 
-          }
-          }
+          @if($val->id==$vals->parent_id)
+          <li id="{{$vals->id}}"  key="{{$vals->id}}" data-selected="{{roleController::getRolecheck($vals->id,Request::get('id'))}}" title="{{$vals->id}}">{{$vals->name}}</li>
+          @endif 
           @endforeach
         </ul>
              

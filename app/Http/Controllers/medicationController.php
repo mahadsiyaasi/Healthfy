@@ -136,6 +136,24 @@ class medicationController extends Controller
         return $getresult;
 }
     }
+
+ public static function check_id_for_drug($data,$another){
+      $getresult  = MedicationList::join('medication_dosage_units','medication_dosage_units.medication_id','=','medication_list.id')
+           ->join("dosage_unit_list","dosage_unit_list.dul_id","=","medication_dosage_units.dosage_unit_id")
+          ->select('dosage_unit_list.*')
+         ->where('medication_list.id',$data)    
+         ->where('medication_list.status_id',">",0) 
+         ->where('dosage_unit_list.dul_id',$another)
+         //->distinct('dosage_unit_list.dul_id')  
+         ->get();
+         if (empty($getresult[0])) {
+          return 'false';
+         }else{
+          return 'true';
+         }
+        
+}
+
     public static function removeduplicate($data,$id){
       $data= $data->unique($id);
       $data = array_slice($data->values()->all(), 0, 5, true);

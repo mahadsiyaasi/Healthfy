@@ -97,7 +97,7 @@ function datereuse(control){
    $(function () {
         $(control).datetimepicker({
         timepicker:false,
-        //format:'y-m-d',
+        format:'y-m-d',
         });
          });
 }

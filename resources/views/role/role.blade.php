@@ -13,8 +13,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Lab > Editor</a></li>
-        
-      </ol>
+       </ol>
     </section>
 
     <!-- Main content -->
@@ -30,10 +29,8 @@
         <a  class="button btn" href="/role?type=new_role"><i class="fa fa-plus"> add</i></a>
 
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" onclick="location.href='/'" data-toggle="tooltip" title="Remove" >
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" ><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" onclick="location.href='/'" data-toggle="tooltip">
               <i class="fa fa-times"></i></button>
           </div>
         </div>

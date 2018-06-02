@@ -2,19 +2,19 @@ var _token =$('meta[name="csrf-token"]').attr('content');
 var _id =  $("input[name=patient_id]").val();
 $("#togglemenu").trigger("click");
 var patient_table;
-$(document).ready(function(){
-datereuse("#dateofbirth");
-  patient_table = $('#patientgrid').DataTable({
+  $(document).ready(function(){
+    datereuse("#dateofbirth");
+      patient_table = $('#patientgrid').DataTable({
         "initComplete": function( settings, json ) {
-    $('div.loading').remove();
+          $('div.loading').remove();
          },
-    paging: true,
-    searching: { "regex": true },
-    lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
-    pageLength: 10,
+      paging: true,
+      searching: { "regex": true },
+      lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+      pageLength: 10,
      "bProcessing": true,
      "bPaginate":true,
-          "sPaginationType":"full_numbers",
+      "sPaginationType":"full_numbers",
              ajax:{
         url: "sendgriddata", // Change this URL to where your json data comes from
         type: "POST", // This is the default value, could also be POST, or anything you want.
@@ -46,27 +46,17 @@ datereuse("#dateofbirth");
             { "visible": false,  "targets": [ 0 ] }
         ]
     });
-
-
 });
-
 savepatient =  function(th){
   commonvalidator("#patientfm")
-  if ($("#patientfm").valid()) {
+  if ($("#patientfm").valid()){
     if (ajaxtoserv("#patientfm","form","savepatient",th).success){
        setTimeout(function(){ 
         location.href="patients"
       },1000)
     }
-
   }
-
 }
-
-
-
-
-
 /* $(form).trigger("reset");
           setTimeout(function(){ 
             if (form=="#patientfm") {

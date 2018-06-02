@@ -36848,7 +36848,7 @@ function datereuse(control){
    $(function () {
         $(control).datetimepicker({
         timepicker:false,
-        //format:'y-m-d',
+        format:'y-m-d',
         });
          });
 }
@@ -36970,19 +36970,19 @@ var _token =$('meta[name="csrf-token"]').attr('content');
 var _id =  $("input[name=patient_id]").val();
 $("#togglemenu").trigger("click");
 var patient_table;
-$(document).ready(function(){
-datereuse("#dateofbirth");
-  patient_table = $('#patientgrid').DataTable({
+  $(document).ready(function(){
+    datereuse("#dateofbirth");
+      patient_table = $('#patientgrid').DataTable({
         "initComplete": function( settings, json ) {
-    $('div.loading').remove();
+          $('div.loading').remove();
          },
-    paging: true,
-    searching: { "regex": true },
-    lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
-    pageLength: 10,
+      paging: true,
+      searching: { "regex": true },
+      lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+      pageLength: 10,
      "bProcessing": true,
      "bPaginate":true,
-          "sPaginationType":"full_numbers",
+      "sPaginationType":"full_numbers",
              ajax:{
         url: "sendgriddata", // Change this URL to where your json data comes from
         type: "POST", // This is the default value, could also be POST, or anything you want.
@@ -37014,27 +37014,17 @@ datereuse("#dateofbirth");
             { "visible": false,  "targets": [ 0 ] }
         ]
     });
-
-
 });
-
 savepatient =  function(th){
   commonvalidator("#patientfm")
-  if ($("#patientfm").valid()) {
+  if ($("#patientfm").valid()){
     if (ajaxtoserv("#patientfm","form","savepatient",th).success){
        setTimeout(function(){ 
         location.href="patients"
       },1000)
     }
-
   }
-
 }
-
-
-
-
-
 /* $(form).trigger("reset");
           setTimeout(function(){ 
             if (form=="#patientfm") {
@@ -37312,7 +37302,7 @@ function directdel(tthis){
 })
 }
 function docancels(data){
-  var mybool;
+  var mybool =false;
   var ids  =  $(data).attr("forid");
   var table  =  $(data).attr("tablename");
   htmtable = $(data).attr("htmtable")
@@ -37329,10 +37319,8 @@ function docancels(data){
                  $(".dismism").trigger("click")
                  if (htmtable) {
                  window[htmtable].ajax.reload(); 
-                 }else{
-                  datadtab.reload()
                  }
-                  return true;
+                  mybool =  true;
               }
             })
 })
@@ -39218,7 +39206,7 @@ function getroleview(){
                        {
                         "render": function (data) {                                          
                             
-                          return '<a href="/role?id='+data.id+'&type=update">'+data.name+'</a>';
+                          return data.name + '<div class="w3-container pull-right" style="display: inline-block"><a href="/role?id='+data.id+'&type=update"><i class="fa fa-edit badge w3-green"> edit </i> </a> |  <i class="fa fa-trash badge allback" data-toggle="modal" data-target="#modal-warn" forid="'+data.id+'" tablename="Roles" onclick="if(docancels(this)){alert()}" style="cursor:pointer"> cancel </i></div>';
                          },
                         "targets": 0
                       },

@@ -71,7 +71,7 @@ function getroleview(){
                        {
                         "render": function (data) {                                          
                             
-                          return '<a href="/role?id='+data.id+'&type=update">'+data.name+'</a>';
+                          return data.name + '<div class="w3-container pull-right" style="display: inline-block"><a href="/role?id='+data.id+'&type=update"><i class="fa fa-edit badge w3-green"> edit </i> </a> |  <i class="fa fa-trash badge allback" data-toggle="modal" data-target="#modal-warn" forid="'+data.id+'" tablename="Roles" onclick="if(docancels(this)){alert()}" style="cursor:pointer"> cancel </i></div>';
                          },
                         "targets": 0
                       },

@@ -45,7 +45,7 @@ function directdel(tthis){
 })
 }
 function docancels(data){
-  var mybool;
+  var mybool =false;
   var ids  =  $(data).attr("forid");
   var table  =  $(data).attr("tablename");
   htmtable = $(data).attr("htmtable")
@@ -62,10 +62,8 @@ function docancels(data){
                  $(".dismism").trigger("click")
                  if (htmtable) {
                  window[htmtable].ajax.reload(); 
-                 }else{
-                  datadtab.reload()
                  }
-                  return true;
+                  mybool =  true;
               }
             })
 })

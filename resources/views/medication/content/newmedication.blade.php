@@ -80,7 +80,7 @@ use App\Http\Controllers\medicationController;
                     <div class="w3-rest">
                     <select class="w3-select w3-border" name="dosage[]"   multiple="multiple" required>
                 @foreach(medicationController::getdata("dosage_unit_list") as $val)
-                <option value="{{$val->dul_id }}">{{$val->dosage_unit_name }}</option>
+                <option value="{{$val->dul_id }}" selected="false">{{$val->dosage_unit_name }}</option>
                 @endforeach
                
               </select>
