@@ -92,7 +92,7 @@ class doctorsController extends Controller
     ->where("company_id",Auth::user()->company_id)
     ->where("type",$request->input("filter")?$request->input("filter"):"Doctor")
     ->get();
-    return datatables()->of($data)->toJson();
+    return response::json($data,200);
     }
      public static function getdoctor($id){
       $data  = Staff::where("id",$id)

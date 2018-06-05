@@ -23,7 +23,7 @@ public function patient(Request $request){
 	$validator = Validator::make($request->all(),
             [
                 'patientname' => 'required|string|min:5',
-                'phone' => 'required|min:9:|numeric',
+                'phone' => 'required|min:9|numeric',
                 'Address' => 'required|min:5',
                 'Gender' => 'required|min:4',
                 'countrys' => 'required|min:5',

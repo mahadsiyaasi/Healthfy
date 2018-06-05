@@ -36853,12 +36853,14 @@ function datereuse(control){
          });
 }
 function ajaxtoserv(data,type,url,btn){
+ //var btn = $.fn.button.noConflict() // reverts $.fn.button to jqueryui btn
+  //$.fn.btnBootstrap = btn;
   var bools = false;
   if (type=="form") {
    commonvalidator(data);
   var datsend = $(data).serialize();
   if ($(data).valid()) { 
-    $(btn).button('loading');
+    //$(btn).btnBootstrap('loading');
     $.ajax({
       url:url,
       data:datsend,
@@ -36872,11 +36874,11 @@ function ajaxtoserv(data,type,url,btn){
       $(data).trigger("reset")
       }
       bools =  res;
-       $(btn).button("reset")
+       //$(btn).btnBootstrap('reset');
       },
       error: function(xhr){ 
       warner(data,xhr.responseJSON.message,05454)
-       $(btn).button("reset")
+       //$(btn).btnBootstrap('reset');
       bools = "error";
       }
     })
@@ -36898,7 +36900,7 @@ else{
             bools =  res;
           var tybol = res.success?1:0;      
           warner(res.errprplace,res.messages,tybol)
-          $(btn).button('reset');
+         // $(btn).btnBootstrap('reset');
           
         }
         });
@@ -37061,64 +37063,51 @@ $(document).ready(function(){
   }
 })
 
-	doctors_table = $('#doctors_table').DataTable({
-        "initComplete": function( settings, json ) {
-    $('div.loading').remove();
-         },
-    paging: true,
-    searching: { "regex": true },
-    lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
-    pageLength: 10,
-     "bProcessing": true,
-     "bPaginate":true,
-          "sPaginationType":"full_numbers",
-             ajax:{
-        url: "loaddoctors", // Change this URL to where your json data comes from
-        type: "POST", // This is the default value, could also be POST, or anything you want.
-        data: function(d) {
-            //d.patient_ids = $("input[name=patient_ids]").val(),
-            //d.status = 4,
-            d._token  = $('meta[name="csrf-token"]').attr('content')
-            },
+	doctors_table = $('#doctors_table').dtab({
+   table:"#doctors_table",
+              ajax: {
+                type   : "POST",
+                url    : 'loaddoctors',
+                data:{_token:_token},
+              },
 
-    },
-           //"sAjaxSource":'?_token='+$('meta[name="csrf-token"]').attr('content'),
+                paging: true,
+                sort: true,
+                info:true,
+                search: true,
+                //tabledata: {textFontClass:'w3-text-gray'},
+                pagelenght:[10,20,100,350],         //"sAjaxSource":'?_token='+$('meta[name="csrf-token"]').attr('content'),
            
-          columns: [
+          colums:[
           	//{ title:"Action", data: 'action ', name: 'action' },
-            {title:"#ID", data: 'user_id', name: 'user_id' },
-            { title:"Name",data: 'name', name: 'name' },
-            {title:"Tell", data: 'tell', name: 'tell' },
-            {title:"E-mail", data: 'email', name: 'email' },
-            { title:"Nationality",data: 'nationality', name: 'nationality' },
-            { title:"Address",data: 'address', name: 'address' },
-            {title:"Speciality", data: 'specialization', name: 'specialization' }
+            {title:"#ID", name: 'id',visible:false },
+            { title:"Name",name: 'name' },
+            {title:"Tell",name: 'tell' },
+            {title:"E-mail",name: 'email' },
+            { title:"Nationality", name: 'nationality' },
+            { title:"Address", name: 'address' },
+            {title:"Speciality", name: 'specialization' }
             
         ],
-        "columnDefs": [
-        /*{
-         'targets': 0,
-         'searchable': false,
-         'orderable': false,
-         'width': '10%',
-         "bJQueryUI": true,     
-          "bAutoWidth": true,
-         'className': 'dt-body-center',
-         'render': function (data, type, full, meta){
-             return '<a class="w3-padding" ><i id="updatepat" class=" w3-large w3-hover-w3-pale-blue w3-panel-8 w3-hover-opacity w3-animate-zoom fa fa-pencil-square-o" aria-hidden="true" style="cursor:pointer"></i></a>' + 
-             '<a><i id="dellpat" class="fa fa-trash-o w3-large w3-hover-w3-pale-blue w3-panel-8 w3-hover-opacity w3-animate-zoom warn" style="cursor:pointer" data-title="Goto twitter?" aria-hidden="true"></i></a>';
-         }
-      },*/
-            {
-                "render": function ( data, type, row ) {
+        columndefs: [
+          {
+            render: function (row) { 
                     return "<a href='doctors/" + row.id+"'>"+row.name+"</a>";
                 },
                 "targets": 1
             },
-            { "visible": false,  "targets": [ 0 ] }
-        ]
-    });
-  
+             {
+            render: function (row) { 
+                if (row.user_id==null) {
+                    return "<a style='cursor:pointer'> <i class='fa fa-plus' > Add Outh</a>";
+            }
+            },
+                "targets": 3
+            },
+
+        ],
+         order: {'sort':1 , 'sorttype':'asc'},
+        });  
 	})
 var pateient_editor;
 var doctor_editor;
@@ -37255,78 +37244,81 @@ function alleditdata(tableid,url,columns,updateid,delid){
 }
 
 
-var mtable;
-var mpayment;
-var doctortable;
-$(document).ready(function(){
+  var mtable;
+  var mpayment;
+  var doctortable;
+  $(document).ready(function(){
 
 
-})
-function testthis(tthis){
-              $(".gosave").click(function(){
-               $.ajax({
-              url:"cancels",
-              datatype:"json",
-              type:"POST",
-              data:datasu,
-              success:function(data){
-                 $(".dismism").trigger("click")
-                 doctortable.ajax.reload();
-                 if(table=="Measurement"){
-                  loadmeasure();
-                 }
-                 
-              }
-            })
-})
-}
-function directdel(tthis){
-         var datasu = [];
-        datasu.lenght = 0;
-        datasu.push({name:"_token", value : _token});
-        datasu.push({name:"table", value :$(tthis).attr("mytag")});
-        datasu.push({name:"id", value :$(tthis).attr("id")});
-          
-            $(".gosave").click(function(){
-               $.ajax({
-              url:"cancels",
-              datatype:"json",
-              type:"POST",
-              data:datasu,
-              success:function(data){
-                
-                 grouplist();
-                 $(".dismism").trigger("click")
-              }
-            })
-})
-}
-function docancels(data){
+  })
+  function testthis(tthis){
+  $(".gosave").click(function(){
+  $.ajax({
+  url:"cancels",
+  datatype:"json",
+  type:"POST",
+  data:datasu,
+  success:function(data){
+   $(".dismism").trigger("click")
+   doctortable.ajax.reload();
+   if(table=="Measurement"){
+    loadmeasure();
+   }
+   
+  }
+  })
+  })
+  }
+  function directdel(tthis){
+  var datasu = [];
+  datasu.lenght = 0;
+  datasu.push({name:"_token", value : _token});
+  datasu.push({name:"table", value :$(tthis).attr("mytag")});
+  datasu.push({name:"id", value :$(tthis).attr("id")});
+
+  $(".gosave").click(function(){
+  $.ajax({
+  url:"cancels",
+  datatype:"json",
+  type:"POST",
+  data:datasu,
+  success:function(data){
+
+   grouplist();
+   $(".dismism").trigger("click")
+  }
+  })
+  })
+  }
+  function docancels(data){
   var mybool =false;
   var ids  =  $(data).attr("forid");
   var table  =  $(data).attr("tablename");
   htmtable = $(data).attr("htmtable")
-  
-              $(".gosave").click(function(){
-               $.ajax({
-              url:"/cancels",
-              datatype:"json",
-              type:"POST",
-              async: false,
-              data:{id:ids,_token:_token,table:table},
-              success:function(data){
-                mybool = true;
-                 $(".dismism").trigger("click")
-                 if (htmtable) {
-                 window[htmtable].ajax.reload(); 
-                 }
-                  mybool =  true;
-              }
-            })
-})
-              return mybool;
-}
-function editgroup(data){
+  var anoth = $(data).attr("tabletoreload");
+
+  $(".gosave").click(function(){
+  $.ajax({
+  url:"/cancels",
+  datatype:"json",
+  type:"POST",
+  async: false,
+  data:{id:ids,_token:_token,table:table},
+  success:function(data){
+  mybool = true;
+   $(".dismism").trigger("click")
+   if (htmtable) {
+   window[htmtable].ajax.reload(); 
+   }else if (anoth) {
+    window[anoth].reload();
+   }
+    mybool =  true;
+  }
+  })
+  })
+  return mybool;
+  }
+  function editgroup(data){
   var id  =  $(data).attr("id");
   var datatos  =  $(data).attr("itemname");
   //alert(datatos)
@@ -37339,34 +37331,34 @@ function editgroup(data){
   buttoneventclass:"updatebtn",
   buttoncolor:"w3-blue",
   buttons: {
-                
-            },
+
+  },
   body :' <div class="form-group"><label for="inputName" class=" control-label">Group name</label><div class=""><input type="text" pattern="[a-z 0-9]{3,}" name="groupname" value="'+datatos+'" class="form-control" id="inputName" placeholder="group name "></div></div>'
   });
-   $("#oncreate").on("click",".updatebtn",function(e){
-   var $this = $(this);
-    if ($("body").find("input[name=groupname]").val() !="") {
-    $this.button('loading');
-    $.ajax({
-      url:"savegroup",
-      data:{_token:_token,gn:$("body").find("input[name=groupname]").val(),id:id},
-      datatype:"json",
-      success:function(data){
-        $this.button('reset');
-        removebesmodal()
-        grouplist();
-        }
-    })
-   }
-   e.stopPropagation();
- })
-}
+  $("#oncreate").on("click",".updatebtn",function(e){
+  var $this = $(this);
+  if ($("body").find("input[name=groupname]").val() !="") {
+  $this.button('loading');
+  $.ajax({
+  url:"savegroup",
+  data:{_token:_token,gn:$("body").find("input[name=groupname]").val(),id:id},
+  datatype:"json",
+  success:function(data){
+  $this.button('reset');
+  removebesmodal()
+  grouplist();
+  }
+  })
+  }
+  e.stopPropagation();
+  })
+  }
 
-function edititem(data){
+  function edititem(data){
   removebesmodal();
- var tr = $(data).closest('tr');
- var row = viewonedit.row(tr); 
- var remodi = '<form class="form-horizontal" id="dasd">'+$('#testform').html()+'</form>';
+  var tr = $(data).closest('tr');
+  var row = viewonedit.row(tr); 
+  var remodi = '<form class="form-horizontal" id="dasd">'+$('#testform').html()+'</form>';
   modalmakeup({
   title:"Update Item",
   width:"60%",
@@ -37387,56 +37379,56 @@ function edititem(data){
   findOption($('body').find("#oncreate"),'lowcheck',row.data().low)
   findOption($('body').find("#oncreate"),'report',row.data().report)
   findOption($('body').find("#oncreate"),'group',row.data().parent_name)
-    $('body').find("#oncreate").on("click",".updateitem",function(e){
-      var $this = $(this);
-    if (ajaxtoserv($('body').find("#dasd"),"form","savetestorder?_token="+_token,this).success){
-      setTimeout(function() {
-        $('body').find("#oncreate").find("#dasd").trigger("reset")
-         removebesmodal();
-         viewonedit.ajax.reload()
-         $this.button('reset');
-      }, 1000);
-     
-   }
- })
-}
-function removebesmodal(){
+  $('body').find("#oncreate").on("click",".updateitem",function(e){
+  var $this = $(this);
+  if (ajaxtoserv($('body').find("#dasd"),"form","savetestorder?_token="+_token,this).success){
+  setTimeout(function() {
+  $('body').find("#oncreate").find("#dasd").trigger("reset")
+  removebesmodal();
+  viewonedit.ajax.reload()
+  $this.button('reset');
+  }, 1000);
+
+  }
+  })
+  }
+  function removebesmodal(){
   $('body').find("#oncreate").modal('hide');
   $('body').find("#oncreate").on('hidden.bs.modal', function () {
-      $(this).data('bs.modal', null);
-});
-}
-function findOption(element,selectname,row){
+  $(this).data('bs.modal', null);
+  });
+  }
+  function findOption(element,selectname,row){
   $(element).find("select[name="+selectname+"]").find("option").each(function(){
-   if ($(this).val()==row) {
-      $(this).prop("selected",true);
-    }
-    
+  if ($(this).val()==row) {
+  $(this).prop("selected",true);
+  }
+
 
   })
-}
-function editappoint(row){
-   var tr = $(row).closest('tr');
- var row = appoin_table.row(tr); 
- var data = row.data();
-modalmakeup({
-    title:data.patient_name+"`s new appointment",
-    width:"60%",
-    color:"w3-white",
-    fade:"w3-animate-zoom",
-    buttontext:"update",
-    buttoneventclass:"updateapp",
-    buttoncolor:"w3-blue",
-    buttons: {
-                saveg: function() {
-                    alert("this paresed")
-                    
-                },
-                "Cancel": function() {
-                    $(this).dialog("close");
-                }
-            },
-    body :'<form method="post" action="" id="apdateap"><div class="warner"></div><div class="form-group"><label for="inputName" class=" control-label">Disease</label><div class=""><select type="text" name="disease" class="form-control" id="inputName" placeholder="Unit eg : mg "></select></div></div>'
+  }
+  function editappoint(row){
+  var tr = $(row).closest('tr');
+  var row = appoin_table.row(tr); 
+  var data = row.data();
+  modalmakeup({
+  title:data.patient_name+"`s new appointment",
+  width:"60%",
+  color:"w3-white",
+  fade:"w3-animate-zoom",
+  buttontext:"update",
+  buttoneventclass:"updateapp",
+  buttoncolor:"w3-blue",
+  buttons: {
+  saveg: function() {
+      alert("this paresed")
+      
+  },
+  "Cancel": function() {
+      $(this).dialog("close");
+  }
+  },
+  body :'<form method="post" action="" id="apdateap"><div class="warner"></div><div class="form-group"><label for="inputName" class=" control-label">Disease</label><div class=""><select type="text" name="disease" class="form-control" id="inputName" placeholder="Unit eg : mg "></select></div></div>'
   +'<div class="w3-row-padding">'
   +'<div class="w3-half"><div class="form-group"><label for="inputName" class=" control-label">doctor</label><div class=""><input type="text" name="doctor" class="form-control" id="inputName" placeholder="doctor" required readonly="true"></div></div>'
   +'<div class="form-group"><label for="inputName" class=" control-label">start date</label><div class=""><input type="text" name="start_date" value="'+data.start_date+'" class="form-control" id="inputName" placeholder="date from" required ></div></div>'
@@ -37445,23 +37437,23 @@ modalmakeup({
   +'<div class="form-group"><label for="inputName" class=" control-label">end date</label><div class=""><input type="text" value="'+data.end_date+'" name="end_date" class="form-control" id="inputName" value="'+data.end_date+'" placeholder="end date"></div></div>'
   +'<div class="form-group"><label for="inputName" class=" control-label">end time</label><div class=""><input type="text" name="end_time" value="'+data.end_time+'" class="form-control" id="inputName" placeholder="end time" required></div></div></div><div><div class="form-group"><label for="inputName" class=" control-label">description</label><div class=""><textarea type="text"  name="description" class="form-control" id="inputName" placeholder="reasone about this appointment"  required>'+data.note+'</textarea></div></div>'
   +'</div></div><div></form>'
-    });
-        timereuse($("body").find("input[name=end_time]"))
-        timereuse($("body").find("input[name=start_time]"))
-        datereuse($("body").find("input[name=start_date]"))
-        datereuse($("body").find("input[name=end_date]"))
-        loadappoint('/loadappoint');
-        $("body").on("click",".updateapp",function(){
-        if(ajaxtoserv($("body").find("#apdateap"),"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
-        setTimeout(function() {
-          appoin_table.ajax.reload();
-          removebesmodal();
-        }, 1000);
-        
-      }
-    });
-        
-}
+  });
+  timereuse($("body").find("input[name=end_time]"))
+  timereuse($("body").find("input[name=start_time]"))
+  datereuse($("body").find("input[name=start_date]"))
+  datereuse($("body").find("input[name=end_date]"))
+  loadappoint('/loadappoint');
+  $("body").on("click",".updateapp",function(){
+  if(ajaxtoserv($("body").find("#apdateap"),"form",$("input[name=patient_id]").val()+"/newappoint?_token="+_token+"&patient_id="+$("input[name=patient_id]").val()+"&id="+data.id+"&doctor_id="+$("body").find("#apdateap input[name=doctor]").attr('doctortag'),this).success){
+  setTimeout(function() {
+  appoin_table.ajax.reload();
+  removebesmodal();
+  }, 1000);
+
+  }
+  });
+
+  }
 var test_view;
 var viewonedit ;
 $(document).ready(function(){
@@ -38443,12 +38435,11 @@ $(document).ready(function(){
                   {'title': "test_id",   name:"test_id", visible:false},
                  ],
                  align:'left',
-                 columndefs:[                   
-                   
-                      {
+                 columndefs:[               
+                     {
                         "render": function (data) {                                          
                             
-                          return '<a  href="'+data.doctor_id+'"> '+data.doctor_name+'</a>';
+                          return '<a  href="'+data.id+'"> '+data.doctor_name+'</a>';
                          },
                         "targets": 2
                       },
@@ -38618,7 +38609,7 @@ var  Tab_name = array.table.replace("#","")
 
       if (array.search){
          var tabname = array.table.replace("#","")
-       rightAppend = '<div class="pull-right" style="position:relative;width:50%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input pull-right customtable_search" placeholder="search" style="width: 50%; position: relative;display: inline-block;"></div>'    
+       rightAppend = '<div class="w3-right w3-padding" style="width:15%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input w3-border" placeholder="search" style="width: 100%;position:relative"></div>'    
         }
         if (array.tfoot){
         }     
@@ -39133,114 +39124,111 @@ function datatitle(element,message){
    $(element).attr("title",message);
 
 }
-$(document).ready(function() {
-$("#roletree").fancytree({ 
-       checkbox: true,
-      selectMode: 3,
-      icon: function(event, data){
-      if(data.node.isFolder() ) {  
-      	var classe = data.node.extraClasses;
-      	var child = data.node.children;
-      	$.each(data.node.children,function(i){
-      		child[i].icon = "fa fa-folder mafont" 
-      	})
-      	data.node.extraClasses = null;  	
-     	return classe+" mafont" ;
-    
-	}
-    },
-   });
-  getroleview();
-})
-saveRole = function(th){
-	formdata = [];
-	formdata.length=0;
-	var form = '#role_form';
-commonvalidator(form); 
-if($(form).valid()){
-	
-var allKeys = $.map($('#roletree').fancytree('getRootNode').getChildren(), function (node) {
+        $(document).ready(function() {
+        $("#roletree").fancytree({ 
+        checkbox: true,
+        selectMode: 3,
+        icon: function(event, data){
+        if(data.node.isFolder() ) {  
+        var classe = data.node.extraClasses;
+        var child = data.node.children;
+        $.each(data.node.children,function(i){
+        child[i].icon = "fa fa-folder mafont" 
+        })
+        data.node.extraClasses = null;  	
+        return classe+" mafont" ;
+
+        }
+        },
+        });
+        getroleview();
+        })
+        saveRole = function(th){
+        formdata = [];
+        formdata.length=0;
+        var form = '#role_form';
+        commonvalidator(form); 
+        if($(form).valid()){
+
+        var allKeys = $.map($('#roletree').fancytree('getRootNode').getChildren(), function (node) {
         return node;
-    });
-$.each(allKeys, function (event, data) {	
-$.each(data.children, function (event, data2) {
-if (data2.selected) {
-	formdata.push({name:"child_id[]", value:data2.key});
-}
-});
-});
-$(form).find("input").each(function(){
-	formdata.push({name:$(this).attr("name"), value:$(this).val()})
-})
-formdata.push({name:"_token", value:_token})
-if(ajaxtoserv(formdata,"not form","saverole",th).success){
-	location.href="/role"
-}
-}
-}
-var Roletable;
-function getroleview(){
-  Roletable = $("#role_table").dtab({
-              table:"#role_table",
-              ajax: {
-                type   : "POST",
-                url    : 'getroleview',
-                data:{_token:_token},
-              },
-                paging: true,
-                sort: true,
-                info:true,
-                search: true,
-                //tabledata: {textFontClass:'w3-text-gray'},
-                pagelenght:[10,20,100,350],
-                colums:[
-                  
-                  {'title': "id",   name:"id"},
-                  {'title': "Name", name:"name",visible:false},
-                  {'title': "Description",  name:"description"},
-                  {'title': "Permission Count",  name:"count", status:true}
-                 ],
-                 align:'left',
-                 columndefs:[           
-                   
-                       {
-                        "render": function (data) {                                          
-                            
-                          return data.name + '<div class="w3-container pull-right" style="display: inline-block"><a href="/role?id='+data.id+'&type=update"><i class="fa fa-edit badge w3-green"> edit </i> </a> |  <i class="fa fa-trash badge allback" data-toggle="modal" data-target="#modal-warn" forid="'+data.id+'" tablename="Roles" onclick="if(docancels(this)){alert()}" style="cursor:pointer"> cancel </i></div>';
-                         },
-                        "targets": 0
-                      },
-                      
-                  ],
-                  "order": {'sort':0 , 'sorttype':'asc'},
-                 /* "drawCallback": function ( settings ) {
-                    //console.log(settings)
-                  var tx = ''; 
-                  var last=""; 
-                 $(this.table).find('tbody tr').each(function() {
-                  var $this = $(this);
-                   var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
-                 var data =  tabletojson(settings,$this)
-                  header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
-                        +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
-                       + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
-                        +'<th class="w3-light-gray active"> <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
-                  +'  </tgroup></tr>'
-                  $(this).children().each(function(i){
-                      if ($(this).index()==settings.order.sort && last != $(this).text()) {
-                          //$(this).parent("tbody").prepend()
-                          $this.before(header);
-                          last = $(this).text();
-                      }
-                     
-                      ///tabletojson(opts,$this)
-                      
-                  })
-                 })
-                  
-           
+        });
+        $.each(allKeys, function (event, data) {	
+        $.each(data.children, function (event, data2) {
+        if (data2.selected) {
+        formdata.push({name:"child_id[]", value:data2.key});
+        }
+        });
+        });
+        $(form).find("input").each(function(){
+        formdata.push({name:$(this).attr("name"), value:$(this).val()})
+        })
+        formdata.push({name:"_token", value:_token})
+        if(ajaxtoserv(formdata,"not form","saverole",th).success){
+        location.href="/role"
+        }
+        }
+        }
+        var Roletable;
+        function getroleview(){
+        Roletable = $("#role_table").dtab({
+        table:"#role_table",
+        ajax: {
+        type   : "POST",
+        url    : 'getroleview',
+        data:{_token:_token},
+        },
+        paging: true,
+        sort: true,
+        info:true,
+        search: true,
+        //tabledata: {textFontClass:'w3-text-gray'},
+        pagelenght:[10,20,100,350],
+        colums:[
+        {'title': "Name",   name:"id"},
+        {'title': "Name", name:"name",visible:false},
+        {'title': "Description",  name:"description"},
+        {'title': "Permission Count",  name:"count", status:true}
+        ],
+        align:'left',
+        columndefs:[       
+        {
+        "render": function (data) {                                     
+        return data.name + '<div class="w3-container pull-right" style="display: inline-block"><a href="/role?id='+data.id+'&type=update"><i class="fa fa-edit badge w3-green"> edit </i> </a> |  <i class="fa fa-trash badge allback" data-toggle="modal" data-target="#modal-warn" forid="'+data.id+'" tablename="Roles" onclick="docancels(this)" tabletoreload="Roletable" style="cursor:pointer"> cancel </i></div>';
+        },
+        "targets": 0
+        },
+
+        ],
+        "order": {'sort':0 , 'sorttype':'asc'},
+        /* "drawCallback": function ( settings ) {
+        //console.log(settings)
+        var tx = ''; 
+        var last=""; 
+        $(this.table).find('tbody tr').each(function() {
+        var $this = $(this);
+        var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+        var data =  tabletojson(settings,$this)
+        header= '<tr><tgroup><td class="w3-light-gray active"> Lab Dr : <span class="badge blue">  '+data.doctor_name+' </span><a class="btn"><i class="fa fa-eye"></i> Detail</a> </th>'
+        +'<th class="w3-light-gray active"> Patient : <span class="badge w3-blue">'+data.patient_name+'</span> <a class="btn"><i class="fa fa-eye"></i> Detail</a></th>'
+        + '<th class="w3-light-gray active">Total :  <span class="badge w3-green">$ '+data.total_amount+' </span></th>'
+        +'<th class="w3-light-gray active"> <span class=""> '+statusController(data.master_status_id,data.master_status,data.master_id,data.patient_id,"test_master",data.test_id)+'  </span></th>'
+        +'  </tgroup></tr>'
+        $(this).children().each(function(i){
+        if ($(this).index()==settings.order.sort && last != $(this).text()) {
+        //$(this).parent("tbody").prepend()
+        $this.before(header);
+        last = $(this).text();
+        }
+
+        ///tabletojson(opts,$this)
+
+        })
+        })
+
+
         }*/
 
-    })
-}
+        })
+        }
 

@@ -33,6 +33,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 .scripts([    
     //"files/jquery/dist/jquery.min.js",
 	//"files/bootstrap/dist/js/bootstrap.min.js",
+    
 	"resources/assets/js/countries.js",
 	'resources/assets/datepicker/build/jquery.datetimepicker.full.js',
 	 'resources/assets/select/dist/js/bootstrap-select.js',

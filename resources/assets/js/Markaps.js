@@ -102,12 +102,14 @@ function datereuse(control){
          });
 }
 function ajaxtoserv(data,type,url,btn){
+ //var btn = $.fn.button.noConflict() // reverts $.fn.button to jqueryui btn
+  //$.fn.btnBootstrap = btn;
   var bools = false;
   if (type=="form") {
    commonvalidator(data);
   var datsend = $(data).serialize();
   if ($(data).valid()) { 
-    $(btn).button('loading');
+    //$(btn).btnBootstrap('loading');
     $.ajax({
       url:url,
       data:datsend,
@@ -121,11 +123,11 @@ function ajaxtoserv(data,type,url,btn){
       $(data).trigger("reset")
       }
       bools =  res;
-       $(btn).button("reset")
+       //$(btn).btnBootstrap('reset');
       },
       error: function(xhr){ 
       warner(data,xhr.responseJSON.message,05454)
-       $(btn).button("reset")
+       //$(btn).btnBootstrap('reset');
       bools = "error";
       }
     })
@@ -147,7 +149,7 @@ else{
             bools =  res;
           var tybol = res.success?1:0;      
           warner(res.errprplace,res.messages,tybol)
-          $(btn).button('reset');
+         // $(btn).btnBootstrap('reset');
           
         }
         });

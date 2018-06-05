@@ -14,14 +14,14 @@
           </div>
         </div>
         <div class="box-body">
+          <div>
           <table class="table table-stripped table-bordered" id="doctors_table">
             
           </table>
+          </div>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
+    
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->

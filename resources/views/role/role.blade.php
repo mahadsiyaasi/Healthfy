@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="box-body">
-        <div class="table-responsive" style="">
+        <div class="table-responsive" style="overflow: hidden;">
           <div class="errorController">
             @if(Request::get("type"))
             <div class="warner">

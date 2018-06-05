@@ -252,12 +252,11 @@ $(document).ready(function(){
                   {'title': "test_id",   name:"test_id", visible:false},
                  ],
                  align:'left',
-                 columndefs:[                   
-                   
-                      {
+                 columndefs:[               
+                     {
                         "render": function (data) {                                          
                             
-                          return '<a  href="'+data.doctor_id+'"> '+data.doctor_name+'</a>';
+                          return '<a  href="'+data.id+'"> '+data.doctor_name+'</a>';
                          },
                         "targets": 2
                       },

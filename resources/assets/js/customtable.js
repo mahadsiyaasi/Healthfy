@@ -44,7 +44,7 @@ var  Tab_name = array.table.replace("#","")
 
       if (array.search){
          var tabname = array.table.replace("#","")
-       rightAppend = '<div class="pull-right" style="position:relative;width:50%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input pull-right customtable_search" placeholder="search" style="width: 50%; position: relative;display: inline-block;"></div>'    
+       rightAppend = '<div class="w3-right w3-padding" style="width:15%"><input type="search" tagtable="'+array.table+'" onkeyup="searchtable(this)"   name="q-search" class="w3-input w3-border" placeholder="search" style="width: 100%;position:relative"></div>'    
         }
         if (array.tfoot){
         }     
