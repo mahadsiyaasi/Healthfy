@@ -111,7 +111,7 @@ use App\Http\Controllers\customerController;
             <div class="w3-third" style="position: relative;right: -10px">
                <div class="w3-row w3-section">
                   <div class="w3-col" style="width: 60px">
-                    <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">District</label>
+                    <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Distruct</label>
                   </div>
                     <div class="w3-rest">
                        <input type="tex" name="district" class="w3-input w3-border-bottom" placeholder="district" value="{{customerController::getcustomer(Request::get('patient'))->district}}" required>

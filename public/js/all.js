@@ -1,3 +1,25 @@
+/*1528531870,,JIT Construction: v3990129,en_US*/
+
+/**
+ * Copyright (c) 2017-present, Facebook, Inc. All rights reserved.
+ *
+ * You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+ * copy, modify, and distribute this software in source code or binary form for use
+ * in connection with the web services and APIs provided by Facebook.
+ *
+ * As with any software that integrates with the Facebook platform, your use of
+ * this software is subject to the Facebook Platform Policy
+ * [http://developers.facebook.com/policy/]. This copyright notice shall be
+ * included in all copies or substantial portions of the software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+(function _(a,b){var c=24*60*60,d=7*c,e="https://developers.facebook.com/docs/accountkit/integratingweb#configureloginhtml";e="Please ensure the AccountKit SDK is hotlinked directly. See "+e;b=Math.floor(new Date().getTime()/1e3)-b;if(b>d)throw new Error("The SDK is more than 7 days old. "+e);else if(b>c){d=window.console;d&&d.warn("The SDK is more than 1 day old. "+e)}window.AccountKit||(window.AccountKit={doNotLinkToSDKDirectly:"doNotLinkToSDKDirectly"});b=document.createElement("script");b.src=a;b.async=!0;c=document.getElementsByTagName("script")[0];c.parentNode&&c.parentNode.insertBefore(b,c)})("https:\/\/sdk.accountkit.com\/en_US\/sdk.js?hash=8e4eac031e6575f99cc6486f69866ba6", 1528531870);
 
 var country_arr = new Array("Afghanistan", "Albania", "Algeria", "American Samoa", "Angola", "Anguilla", "Antartica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Ashmore and Cartier Island", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burma", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Clipperton Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo, Democratic Republic of the", "Congo, Republic of the", "Cook Islands", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czeck Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Europa Island", "Falkland Islands (Islas Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern and Antarctic Lands", "Gabon", "Gambia, The", "Gaza Strip", "Georgia", "Germany", "Ghana", "Gibraltar", "Glorioso Islands", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (Vatican City)", "Honduras", "Hong Kong", "Howland Island", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Ireland, Northern", "Israel", "Italy", "Jamaica", "Jan Mayen", "Japan", "Jarvis Island", "Jersey", "Johnston Atoll", "Jordan", "Juan de Nova Island", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia, Former Yugoslav Republic of", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Man, Isle of", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Midway Islands", "Moldova", "Monaco", "Mongolia", "Montserrat", "Morocco", "Mozambique", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcaim Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romainia", "Russia", "Rwanda", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Scotland", "Senegal", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and South Sandwich Islands", "Spain", "Spratly Islands", "Sri Lanka", "Sudan", "Suriname", "Svalbard", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Tobago", "Toga", "Tokelau", "Tonga", "Trinidad", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "Uruguay", "USA", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Virgin Islands", "Wales", "Wallis and Futuna", "West Bank", "Western Sahara", "Yemen", "Yugoslavia", "Zambia", "Zimbabwe");
 
@@ -37086,21 +37108,21 @@ $(document).ready(function(){
             {title:"E-mail",name: 'email' },
             { title:"Nationality", name: 'nationality' },
             { title:"Address", name: 'address' },
-            {title:"Speciality", name: 'specialization' }
+            {title:"Speciality", name: 'specialization' },
+            {title:"#ID", name: 'user_id',visible:false },
             
         ],
         columndefs: [
           {
-            render: function (row) { 
+            "render": function (row) { 
                     return "<a href='doctors/" + row.id+"'>"+row.name+"</a>";
                 },
                 "targets": 1
             },
              {
-            render: function (row) { 
-                if (row.user_id==null) {
-                    return "<a style='cursor:pointer'> <i class='fa fa-plus' > Add Outh</a>";
-            }
+            'render': function (row) {               
+                var returner =  "<a style='cursor:pointer' onclick='addAuth(this)' _id='"+row.id+"'> <i class='fa fa-plus' > Add Outh</a>";
+                 return row.user_id=='null'?returner:row.email;             
             },
                 "targets": 3
             },
@@ -37109,6 +37131,7 @@ $(document).ready(function(){
          order: {'sort':1 , 'sorttype':'asc'},
         });  
 	})
+
 var pateient_editor;
 var doctor_editor;
 var columns=[];
@@ -39232,3 +39255,73 @@ function datatitle(element,message){
         })
         }
 
+        function addAuth(th){
+            var attrId = $(th).attr("_id")
+            var closeafterwork = $("body").DeteilView({
+             title:' Authentication',
+            width:"50%",
+            color:"w3-white",
+            fade:"w3-animate-zoom",
+            buttontext:"Save",
+            buttoneventclass:"OK",
+            buttoncolor:"w3-blue",
+            body:'<form method="POST" action="/checkoutFBkit" id="authform"><input type="hidden" value="'+_token+'" name="_token"> <input type="hidden" value="manualy" name="registered_by"><input type="hidden" value="'+attrId+'" name="id"><div class="warner"></div><div class="modal-body mx-4"><div class="md-form mb-5"><input type="email" placeholder="email" name="email" id="email" class="form-control validate" required><label data-error="wrong" data-success="right" for="Form-email1">Your email</label></div><div class="md-form pb-3"><input type="password" id="Form-pass1" name="password" class="form-control validate" required> <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label></div></form><div class="text-center mb-3"></div>'+
+            '<div class="w3-padding"> <div class="row my-3 d-flex justify-content-center w3-padding"> Or Sign up with <button type="button" class="btn btn-white w3-padding btn-rounded mr-md-3 z-depth-1a w3-btn button  w3-blue" onclick="emailLogin();"><i class="fa fa-facebook text-center"></i></button><button type="button" class="btn w3-padding button w3-btn w3-red btn-white btn-rounded z-depth-1a"><i class="fa fa-google-plus"></i></button></div></div></div>',
+            savebtn:true,
+            cancelbtn:true,
+            submitData: function(){
+              var data  = ajaxtoserv($("body").find("#authform"),"form","saveUserdata",null);
+                if (data.success) {
+                  doctors_table.reload();
+                  return true;
+                  }
+
+            }
+          })
+
+        }
+$(document).ready(function(){
+  //AccountKit_OnInteractive();
+  })
+  AccountKit_OnInteractive = function(){
+    AccountKit.init(
+      {
+        appId:"971019509631086", 
+        state:_token, //'67281349073c3e2126a204217a6b25a1', 
+        version:"v1.1",
+       }
+    );
+  };
+function loginCallback(response) {
+  console.log(response);
+
+  if (response.status === "PARTIALLY_AUTHENTICATED") {
+    document.getElementById('code').value = response.code;
+    document.getElementById('_token').value = response.state;
+    document.getElementById('form').submit();
+  }
+
+  else if (response.status === "NOT_AUTHENTICATED") {
+      // handle authentication failure
+      alert('You are not Authenticated');
+  }
+  else if (response.status === "BAD_PARAMS") {
+    // handle bad parameters
+    alert('wrong inputs');
+  }
+}
+
+function smsLogin() {
+  var countryCode = document.getElementById('country').value;
+  var phoneNumber = document.getElementById('phone').value;
+  AccountKit.login(
+    'PHONE',
+    {countryCode: countryCode, phoneNumber: phoneNumber},
+    loginCallback
+  );
+}
+// email form submission handler
+function emailLogin() {
+  var emailAddress = document.getElementById("email").value;
+  AccountKit.login('EMAIL', {emailAddress: emailAddress}, loginCallback);
+}

@@ -7,8 +7,7 @@
     <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@if(Auth::check()) @yield('title', Route::currentRouteName())  @endif</title>
+    <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title', __('titles.welcome')) @endif</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
@@ -34,12 +33,12 @@
 }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini allback">
     <div id="app">
         <div class="wrapper">
    
      @if (Auth::guest())  
-      
+      @include('auth.innerlogin')
     @elseif (Auth::check())
   <header class="main-header">
 
@@ -91,7 +90,7 @@
     </nav>
 
   </header>
-
+@yield('content')
  @include("aside.aside")
  @include("confirm.confirm")
  <div  class="specialmodal">
@@ -100,7 +99,7 @@
   @endif
 
 
-  @yield('content')
+  
   </div>
 </div>
  <script src="{{ asset('js/app.js') }}"></script>
@@ -119,6 +118,7 @@
  @if (Auth::check())
 @stack('scripts')
 @endif
+
 <script type="text/javascript">
   //$(".wrapper").css("background","#B03060")
   //$(".skin-blue .main-header .logo").css("background","#B03060")

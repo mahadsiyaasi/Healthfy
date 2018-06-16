@@ -35,21 +35,21 @@ $(document).ready(function(){
             {title:"E-mail",name: 'email' },
             { title:"Nationality", name: 'nationality' },
             { title:"Address", name: 'address' },
-            {title:"Speciality", name: 'specialization' }
+            {title:"Speciality", name: 'specialization' },
+            {title:"#ID", name: 'user_id',visible:false },
             
         ],
         columndefs: [
           {
-            render: function (row) { 
+            "render": function (row) { 
                     return "<a href='doctors/" + row.id+"'>"+row.name+"</a>";
                 },
                 "targets": 1
             },
              {
-            render: function (row) { 
-                if (row.user_id==null) {
-                    return "<a style='cursor:pointer'> <i class='fa fa-plus' > Add Outh</a>";
-            }
+            'render': function (row) {               
+                var returner =  "<a style='cursor:pointer' onclick='addAuth(this)' _id='"+row.id+"'> <i class='fa fa-plus' > Add Outh</a>";
+                 return row.user_id=='null'?returner:row.email;             
             },
                 "targets": 3
             },

@@ -349,6 +349,20 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
     }
 
     /**
+     * Add with query callback value on response.
+     *
+     * @param string   $key
+     * @param callable $value
+     * @return $this
+     */
+    public function withQuery($key, callable $value)
+    {
+        $this->appends[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * Override default ordering method with a closure callback.
      *
      * @param callable $closure
@@ -683,12 +697,12 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
      */
     protected function render(array $data)
     {
-        $output = array_merge([
+        $output = $this->attachAppends([
             'draw'            => (int) $this->request->input('draw'),
             'recordsTotal'    => $this->totalRecords,
             'recordsFiltered' => $this->filteredRecords,
             'data'            => $data,
-        ], $this->appends);
+        ]);
 
         if ($this->config->isDebugging()) {
             $output = $this->showDebugger($output);
@@ -700,6 +714,17 @@ abstract class DataTableAbstract implements DataTable, Arrayable, Jsonable
             $this->config->get('datatables.json.header', []),
             $this->config->get('datatables.json.options', 0)
         );
+    }
+
+    /**
+     * Attach custom with meta on response.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function attachAppends(array $data)
+    {
+        return array_merge($data, $this->appends);
     }
 
     /**

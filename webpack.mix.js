@@ -33,7 +33,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 .scripts([    
     //"files/jquery/dist/jquery.min.js",
 	//"files/bootstrap/dist/js/bootstrap.min.js",
-    
+    'resources/assets/js/accountkit.js', 
 	"resources/assets/js/countries.js",
 	'resources/assets/datepicker/build/jquery.datetimepicker.full.js',
 	 'resources/assets/select/dist/js/bootstrap-select.js',
@@ -73,6 +73,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/customtable.js',  
     'resources/assets/js/precription.js',  
     'resources/assets/js/role.js', 
+    'resources/assets/js/social.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 

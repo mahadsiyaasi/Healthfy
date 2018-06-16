@@ -10,9 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::any('/getusers', 'apiController@users');
+Route::post('/apilogin', 'apiController@login');
 Auth::routes();
+Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
 Route::group(['middleware' => 'auth'], function () {
-	Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
+	
 	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
@@ -55,7 +58,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/role','roleController@home')->name(__('titles.role').' | '.config('app.name'));
 	Route::any('/saverole','roleController@saverole');
 	Route::any('/getroleview','roleController@getRoleView');
-	
+	Route::any('/saveUserdata','usersController@saveUsersEmailandpass');
+	Route::any('/checkoutFBkit','usersController@accountkit');
+	//saveUsersEmailandpass
 
 
 
@@ -160,7 +165,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 							
 	
-	
+Route::get('/logout', 'Auth\LoginController@logout');	
 });
 
-Route::get('/logout', 'Auth\LoginController@logout');

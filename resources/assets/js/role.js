@@ -106,3 +106,28 @@
         })
         }
 
+        function addAuth(th){
+            var attrId = $(th).attr("_id")
+            var closeafterwork = $("body").DeteilView({
+             title:' Authentication',
+            width:"50%",
+            color:"w3-white",
+            fade:"w3-animate-zoom",
+            buttontext:"Save",
+            buttoneventclass:"OK",
+            buttoncolor:"w3-blue",
+            body:'<form method="POST" action="/checkoutFBkit" id="authform"><input type="hidden" value="'+_token+'" name="_token"> <input type="hidden" value="manualy" name="registered_by"><input type="hidden" value="'+attrId+'" name="id"><div class="warner"></div><div class="modal-body mx-4"><div class="md-form mb-5"><input type="email" placeholder="email" name="email" id="email" class="form-control validate" required><label data-error="wrong" data-success="right" for="Form-email1">Your email</label></div><div class="md-form pb-3"><input type="password" id="Form-pass1" name="password" class="form-control validate" required> <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label></div></form><div class="text-center mb-3"></div>'+
+            '<div class="w3-padding"> <div class="row my-3 d-flex justify-content-center w3-padding"> Or Sign up with <button type="button" class="btn btn-white w3-padding btn-rounded mr-md-3 z-depth-1a w3-btn button  w3-blue" onclick="emailLogin();"><i class="fa fa-facebook text-center"></i></button><button type="button" class="btn w3-padding button w3-btn w3-red btn-white btn-rounded z-depth-1a"><i class="fa fa-google-plus"></i></button></div></div></div>',
+            savebtn:true,
+            cancelbtn:true,
+            submitData: function(){
+              var data  = ajaxtoserv($("body").find("#authform"),"form","saveUserdata",null);
+                if (data.success) {
+                  doctors_table.reload();
+                  return true;
+                  }
+
+            }
+          })
+
+        }
