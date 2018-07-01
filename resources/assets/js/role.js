@@ -18,30 +18,30 @@
         getroleview();
         })
         saveRole = function(th){
-        formdata = [];
-        formdata.length=0;
-        var form = '#role_form';
-        commonvalidator(form); 
-        if($(form).valid()){
+                formdata = [];
+                formdata.length=0;
+                var form = '#role_form';
+                commonvalidator(form); 
+                if($(form).valid()){
 
-        var allKeys = $.map($('#roletree').fancytree('getRootNode').getChildren(), function (node) {
-        return node;
-        });
-        $.each(allKeys, function (event, data) {	
-        $.each(data.children, function (event, data2) {
-        if (data2.selected) {
-        formdata.push({name:"child_id[]", value:data2.key});
-        }
-        });
-        });
-        $(form).find("input").each(function(){
-        formdata.push({name:$(this).attr("name"), value:$(this).val()})
-        })
-        formdata.push({name:"_token", value:_token})
-        if(ajaxtoserv(formdata,"not form","saverole",th).success){
-        location.href="/role"
-        }
-        }
+                var allKeys = $.map($('#roletree').fancytree('getRootNode').getChildren(), function (node) {
+                return node;
+                });
+                $.each(allKeys, function (event, data) {	
+                $.each(data.children, function (event, data2) {
+                if (data2.selected) {
+                formdata.push({name:"child_id[]", value:data2.key});
+                }
+                });
+                });
+                $(form).find("input").each(function(){
+                formdata.push({name:$(this).attr("name"), value:$(this).val()})
+                })
+                formdata.push({name:"_token", value:_token})
+                if(ajaxtoserv(formdata,"not form","saverole",th).success){
+                location.href="/role"
+                }
+                }
         }
         var Roletable;
         function getroleview(){

@@ -12,28 +12,28 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-.sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/app.scss', 'public/css')
 .styles([
     'resources/assets/css/w3.css',
-    
-    //"files/bootstrap/dist/css/bootstrap.min.css",
+    "files/bootstrap/dist/css/bootstrap.min.css",
 	"resources/assets/files/font-awesome/css/font-awesome.min.css",
 	"resources/assets/file/Ionicons/css/ionicons.min.css",
 	"resources/assets/files/jvectormap/jquery-jvectormap.css",
 	'resources/assets/datepicker/jquery.datetimepicker.css',
     'resources/assets/select/dist/css/bootstrap-select.css',
-      'resources/assets/vendor/datatables-plugins/dataTables.bootstrap.css',
+    'resources/assets/vendor/datatables-plugins/dataTables.bootstrap.css',
     'resources/assets/vendor/datatables-responsive/dataTables.responsive.css',
     'resources/assets/vendor/datatables/buttons/css/buttons.bootstrap.min.css',
 	"resources/assets/dist/css/AdminLTE.min.css",
 	"resources/assets/dist/css/skins/_all-skins.css",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.css",
-     'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css',    
+    'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css',    
 	], 'public/css/all.css')
 .scripts([    
-    //"files/jquery/dist/jquery.min.js",
-	//"files/bootstrap/dist/js/bootstrap.min.js",
-    'resources/assets/js/accountkit.js', 
+    //"resources/assets/files/jquery/dist/jquery.min.js",
+    //'resources/assets/files/fancy/jquery-ui.custom.js',
+	//"resources/assets/files/bootstrap/dist/js/bootstrap.min.js",
+    //'resources/assets/js/accountkit.js', 
 	"resources/assets/js/countries.js",
 	'resources/assets/datepicker/build/jquery.datetimepicker.full.js',
 	 'resources/assets/select/dist/js/bootstrap-select.js',
@@ -56,7 +56,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/vendor/datatables/buttons/js/buttons.print.js',
     "resources/assets/files/moment/min/moment.min.js",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.js",
-    'resources/assets/files/fancy/jquery-ui.custom.js',
+    
     'resources/assets/files/fancy/jquery.fancytree.js',
     'resources/assets/js/Markaps.js',
     'resources/assets/js/patients.js',
@@ -73,7 +73,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/customtable.js',  
     'resources/assets/js/precription.js',  
     'resources/assets/js/role.js', 
-    'resources/assets/js/social.js', 
+    //'resources/assets/js/social.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 

@@ -110,6 +110,7 @@
       populateCountries("nationality", "city");     
       $('.sidebar-menu').tree();
       $('.selectpicker').selectpicker();
+      
      })
     
 </script>

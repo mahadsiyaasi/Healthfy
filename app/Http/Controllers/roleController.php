@@ -30,10 +30,10 @@ class roleController extends Controller
             return response()->json($valid->messages());
         }else{
             if($request->has("_id")){
-            permissionMaping::where("entity_id",$request->Input("_id"))->delete();
-            $id = Roles::find($request->Input("id"));
-            $id->name=$request->Input("name");
-             $id->description=$request->Input("desc");            
+            permissionMaping::where("entity_id",$request->_id)->delete();
+            $id = Roles::find($request->_id);
+            $id->name=$request->name;
+             $id->description=$request->desc;            
              if ($request->has("child_id")) {
             $save = [];
         foreach ($request->Input("child_id") as $key => $value) {
@@ -47,7 +47,7 @@ class roleController extends Controller
         permissionMaping::insert($save);
     }
      $id->save();
-        labController::getMessages('success','success.update');
+        return labController::getMessages('success','success.update');
             }else{
     	$id = Roles::insertGetId([
     		"name"=>$request->Input("name"),

@@ -7,7 +7,7 @@
     
   </div>
   @if(Request::get('type')=="new_role")
-  <input type="hidden" name="_id" value="{{Request::get('id')}}">
+  
    <div class="w3-row w3-section">
             <div class="w3-col" style="width: 100px">
               <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Name</label>
@@ -55,6 +55,7 @@
    </div>
   </div>
   @else
+  <input type="hidden" name="_id" value="{{$update_data->role->id}}">
    <div class="w3-row w3-section">
             <div class="w3-col" style="width: 100px">
               <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Name</label>

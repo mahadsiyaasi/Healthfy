@@ -4,9 +4,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+require('./../files/fancy/jquery-ui.custom.js');
 require('./bootstrap');
-
 window.Vue = require('vue');
 
 /**

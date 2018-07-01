@@ -17,11 +17,27 @@
 <input type="hidden" name="patient_id" value="{{$patient['id']}}">
       <div class="row">
         <div class="col-md-3">
-          
+          <?php 
+            $color = ["w3-black","w3-green" ,"w3-blue","w3-yellow","w3-red","w3-cyan"];
+            $shorcut = $patient['patient_name'];
+            $var = explode(" ", $shorcut);
+            $print="";
+            $colors = "";
+            $border = "";
+            foreach ($var as $key=> $value) {
+             $print.= $value[0];
+             $colors = $color[$key+1];
+             $border = $color[$key+2];
+            }
+           ?>
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+              <div class="profile-user-img img-responsive img-circle {{$colors}} w3-border-blue" style="width: 60%;">
+
+                <h1 class="text-center">{{$print}}</h1>
+
+              </div>
 
               <h3 class="profile-username text-center">{{$patient['patient_name']}}</h3>
 
