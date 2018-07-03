@@ -26,10 +26,10 @@
          font-style: normal;
 }
 .allback {
-    background: #910a76 !important;
+    background: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);
 }
 .mafont {
-  color: #910a76 !important;
+  color: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);
 }
     </style>
 </head>
