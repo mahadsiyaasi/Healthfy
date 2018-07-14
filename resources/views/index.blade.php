@@ -1,6 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
+ @if (Auth::check())
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -52,4 +52,9 @@
     </div>
    
   </footer>
+    @elseif(Auth::guest())  
+      @include('auth.innerlogin')
+
+
+   @endif
   @endsection

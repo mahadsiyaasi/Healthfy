@@ -7,10 +7,7 @@ use App\User;
 use Auth;
 class apiController extends Controller
 {
-	 public function __construct()
-    {
-      //  $this->middleware('auth');
-    }
+	
 	public function users()
 	{
 		return response()->json(User::all(),200);
@@ -21,4 +18,8 @@ class apiController extends Controller
 
         return response()->json($req->email);
 	}
+	 public function gethome()
+    {
+      return View("register.patients.register");
+    }
 }

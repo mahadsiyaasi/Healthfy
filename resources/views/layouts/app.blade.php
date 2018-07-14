@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
      <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title', __('titles.welcome')) @endif</title>
+    <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title', __('titles.welcome').Route::currentRouteName()) @endif</title>
      @if (Auth::check())
               <link href="{{ asset('css/app.css') }}" rel="stylesheet">
               <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
@@ -43,6 +43,7 @@
         <link rel="stylesheet" type="text/css" href="loginV1/vendor/daterangepicker/daterangepicker.css">
        <link rel="stylesheet" type="text/css" href="loginV1/css/util.css">
       <link rel="stylesheet" type="text/css" href="loginV1/css/main.css">
+      <link rel="stylesheet" type="text/css" href="css/register.css">
     @endif   
 </head>
 <body class="hold-transition skin-blue sidebar-mini allback" style="height: auto; min-height: 100%;">
@@ -50,7 +51,7 @@
         <div class="wrapper">
    
      @if (Auth::guest())  
-      @include('auth.innerlogin')
+    
     @elseif (Auth::check())
     <header class="main-header">
        <a href="/" class="logo">    
@@ -84,11 +85,12 @@
       </div>
         </nav>
       </header>
-    @yield('content')
+    
      @include("aside.aside")
      @include("confirm.confirm")
      <div  class="specialmodal"></div>
       @endif
+      @yield('content')
     </div>
     </div>
     
@@ -116,6 +118,7 @@
           <script src="loginV1/vendor/daterangepicker/daterangepicker.js"></script>
           <script src="loginV1/vendor/countdowntime/countdowntime.js"></script>
           <script src="loginV1/js/main.js"></script>
+          <script src="js/register.js"></script>
     @endif
 </body>
 </html>

@@ -13,6 +13,7 @@
 Route::any('/getusers', 'apiController@users');
 Route::post('/apilogin', 'apiController@login');
 Auth::routes();
+Route::get('/create', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
 Route::group(['middleware' => 'auth'], function () {
 	

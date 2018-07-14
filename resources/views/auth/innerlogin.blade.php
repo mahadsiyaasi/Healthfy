@@ -75,7 +75,7 @@
                           Or Sign Up Using
                         </span>
 
-                        <a href="#" class="txt2">
+                        <a href="{{ url('/create') }}?_token={{ csrf_token() }}" class="txt2">
                           Sign Up
                         </a>
                       </div>

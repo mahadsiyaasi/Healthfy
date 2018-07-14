@@ -88,4 +88,5 @@ public function patient(Request $request){
       ->first();
       return $data;
     }
+   
 }

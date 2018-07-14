@@ -1,7 +1,8 @@
 <?php 
 use App\Http\Controllers\customerController; 
 ?>
-      <div class="box">
+
+      <div class="box" style="background: inherit;">
         <div class="box-header with-border">
           <h3 class="box-title">new patient</h3>
 
@@ -29,7 +30,7 @@ use App\Http\Controllers\customerController;
                   <div class="x_content" style="position: relative">
           
 
-<form method="POST" class="w3-container w3-white" id="patientfm" style="background: inherit; display: block;" action="save">
+<form method="POST" class="w3-container" id="patientfm" style="background: inherit; display: block;" action="save">
 <div class="warner">
        
         </div>
@@ -253,7 +254,7 @@ use App\Http\Controllers\customerController;
                     
                    
                   </div>
-                  <div class="w3-white w3-padding" style="width: 100%; position: relative;">
+                  <div class=" w3-padding" style="width: 100%; position: relative;">
                       <div class="navbar-right w3-padding">
                         <button class="w3-button w3-border w3-text-blue w3-hover" style="display: inline-block; position: relative;bottom: -2.5px" onclick="location.href='patients'">Cancel</button>
                         <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; position: relative; right: -5px; bottom: -2.5px" onclick="savepatient(this)"data-loading-text="<i class='fa fa-circle-o-notch fa fa-spin'></i> Wait">save</button>
