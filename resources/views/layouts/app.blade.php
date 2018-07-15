@@ -119,7 +119,11 @@
           <script src="loginV1/vendor/countdowntime/countdowntime.js"></script>
           <script src="loginV1/js/main.js"></script>
           <script src="js/register.js"></script>
+          <script src="js/countries.js"></script>
     @endif
+    <script type="text/javascript">
+      var _token = '{{ csrf_token() }}'
+    </script>
 </body>
 </html>
 

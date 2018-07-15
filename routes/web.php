@@ -15,8 +15,11 @@ Route::post('/apilogin', 'apiController@login');
 Auth::routes();
 Route::get('/create', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
-Route::group(['middleware' => 'auth'], function () {
-	
+Route::any('/saveoutpatient', 'apiController@registerOutPatient');
+
+
+
+Route::group(['middleware' => 'auth'], function () {	
 	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');

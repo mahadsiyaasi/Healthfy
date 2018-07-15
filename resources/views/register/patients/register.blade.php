@@ -11,8 +11,8 @@
 
  <div class="limiter">
  	<div id="progress"></div>
-    <div class="container-login100 backimage">
-      <div class="p-l-55 p-r-55 p-t-65 p-b-54" style="width: 30%">
+    <div class="container-login100 backimage" id="con">
+      <div class="p-l-55 p-r-55 p-t-65 p-b-54" id="main" style="width: 30%">
                         <span class="login100-form-title p-b-49">
                        <small class="focus-input10"></small> <strong style="color:white">Health .</strong><small class="focus-input10">so</small>
                        <br>
@@ -20,27 +20,19 @@
                       </span>
 
 
-                     <div id="register" style="width: 150%; left: -100px;">
+                <div id="register" style="width: 150%; left: -100px;">
+                     
+      					    <i id="progressButton" class="fa fa-chevron-right next"></i>
 
-					    <i id="progressButton" class="fa fa-chevron-right next"></i>
-
-					    <div id="inputContainer"style="width:90%">
-					      <input id="inputField" required autofocus />
-					      <label id="inputLabel"></label>
-					      <div id="inputProgress"></div>
-					    </div>
-
-
-					  </div>
-                       @if ($errors->has('password'))
-                                                <span class="help-block">
-                                                    {{ $errors->first('password') }}
-                                                </span>
-                                            @endif
-                    
-               
-
-                      <div class="txt1 text-center p-t-54 p-b-20">
+      					    <div id="inputContainer"style="width:90%">
+      					    
+      					      <input id="inputField" required  autofocus style="display: none" />
+      					       <label id="inputLabel"></label>					      
+      					        <select id="selectField" class="form-control from-group" style="border: none;display: none" required autofocus></select>
+      					     <div id="inputProgress"></div>
+      					    </div>	
+              </div>				          
+         <div class="txt1 text-center p-t-54 p-b-20">
                         <span style="color: white">
                           Or Sign Up Using
                         </span>
@@ -69,6 +61,7 @@
                           Sign in
                         </a>
                       </div>
+                  
       
       </div>
     </div>

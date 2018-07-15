@@ -1,12 +1,14 @@
 var questions = [
-  {question:"What's your full name ?",pattern: '[a-z A-Z]{3,}',name:"fullname"},
+  {question:"What's your full name ?",pattern: '[0-9a-zA-Z]{3,}',name:"fullname"},
   {question:"What's your phone number?",pattern: '[0-9]{9,}',name:"phone"},
   {question:"What's your email?", pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,name:"email"},
-  {question:"select your counntry",pattern: '[a-z A-Z]{3,}',name:"country",otype:"select",ovalue:{"country":"somalia"}},
-  {question:"select your city",pattern: '[a-z A-Z]{3,}',name:"city",otype:"select",ovalue:{"country":"somalia"}},
-  {question:"select your gender",pattern: '[a-z A-Z]{3,}',name:"gender",otype:"select", ovalue:{"country":"somalia"}},
-  {question:"Create your password", type: "password",pattern: '[0-9 a-z A-Z]{8,}',name:"password"}
+  {question:"select your counntry ?",pattern: '[0-9a-zA-Z]{3,}',name:"country",otype:"select",ovalue:{"country":"somalia"}},
+  {question:"select your city ?",pattern: '[0-9a-zA-Z]{3,}',name:"city",otype:"select",ovalue:{"country":"somalia"}},
+  {question:"select your gender",pattern: '[0-9a-zA-Z]{3,}',name:"gender",otype:"select", ovalue:{male:"male",Female:"female"}},
+  {question:"Create your password", type: "password",pattern: '[0-9a-zA-Z]{8,}',name:"password"},
+  //{question:"confirm  your password", type: "password",pattern: '[0-9a-zA-Z]{8,}',name:"cpassword"}
 ]
+var dataArray=[];
 ;(function(){
 
   var tTime = 100  // transition transform time from #register in ms
@@ -19,50 +21,60 @@ var questions = [
     transform(0, 0) // ie hack to redraw
     if(e.keyCode == 13) validate()
   })
+  selectField.addEventListener('keyup', function(e){
+    transform(0, 0) // ie hack to redraw
+    if(e.keyCode == 13) validate()
+  })
   function putQuestion() {
-    inputLabel.innerHTML = questions[position].question
-    inputField.value = ''
-    inputField.type = questions[position].type || 'text'  
+ var selectcity;
    if (questions[position].otype) {
-   var myDiv = document.getElementById("inputContainer");
-        var selectList = document.createElement("select");
-        selectList.id = "inputField";
-        selectList.width = "200px"
-        selectList.border = "none"
-        $(selectList).css("border","none");
-        inputLabel.innerHTML = ""
-        selectList.className = "custom-select form-control form-group select";
-        myDiv.appendChild(selectList);
-        var option = document.createElement("option");
-        option.text = questions[position].question;
-        option.value = questions[position].ovalue.country;
-        option.text = questions[position].ovalue.country;
-        selectList.appendChild(option);
-
-   selectList.focus()
+    inputField.style.display = "none"
+    selectField.style.display = "block"
+    inputLabel.innerHTML = questions[position].question
+    inputField.type = questions[position].type || 'text'
+   
+    if ( questions[position].name=="city") {
+      populateStates("selectField","selectField");
+    }else if ( questions[position].name=="country") {
+      populateCountries("selectField")
+    }if ( questions[position].name=="gender") {
+      selectField.length=0;
+      selectField.options[0] = new Option('Select Gender','-1');
+         var option = document.createElement("option");
+         var index =1;
+      $.each (questions[position].ovalue,function(i,item){
+       selectField.options[index] = new Option(item,item);
+       index++;
+      })
+     }
+    selectField.focus()
     showCurrent()
    }else{
-
-   inputField.focus()
+    inputField.style.display = "block"
+    selectField.style.display = "none"
+    inputLabel.innerHTML = questions[position].question
+    inputField.value = ''
+    inputField.type = questions[position].type || 'text' 
+      if (questions[position].name=="phone") {
+        inputField.type = questions[position].type || 'number' 
+      }
+    inputField.focus()
     showCurrent()
     }
   }
   
   // when all the questions have been answered
-  function done() {
-    
+  function done() {    
     // remove the box if there is no next question
-    register.className = 'close'
-    
-    // add the h1 at the end with the welcome text
+    $(main).html("")
+   console.log(dataArray)
     var h1 = document.createElement('h1')
-    h1.appendChild(document.createTextNode('Welcome ' + questions[0].value + '!'))
-    $.each(questions,function(i,value){
-     alert(value.value)
-    })
+    h1.appendChild(document.createTextNode('Welcome ' + dataArray[0].value + '! wait for minute . . .'))
     setTimeout(function() {
-      register.parentElement.appendChild(h1)     
+      main.parentElement.appendChild(h1) 
+      $(main).addClass("text-center center")    
       setTimeout(function() {h1.style.opacity = 1}, 50)
+      savedata(dataArray)
     }, eTime)
     
   }
@@ -70,11 +82,15 @@ var questions = [
   // when submitting the current question
   function validate() {
 
-    // set the value of the field into the array
-    questions[position].value = inputField.value
+     if (questions[position].otype) {
+      dataArray.push({name:questions[position].name,value:selectField.value})
+      }else{
+       dataArray.push({name:questions[position].name,value:inputField.value})
+     }
+   if (questions[position].otype) {
 
     // check if the pattern matches
-    if (!inputField.value.match(questions[position].pattern || /.+/)) wrong()
+    if (!selectField.value.match(questions[position].pattern || /.+/)) wrong()
     else ok(function() {
       
       // set the progress of the background
@@ -85,6 +101,26 @@ var questions = [
       else hideCurrent(done)
              
     })
+  }
+else {
+
+    // check if the pattern matches
+    if (!inputField.value.match(questions[position].pattern || /.+/))  wrong()
+    
+    else ok(function() {
+      
+      // set the progress of the background
+      progress.style.width = ++position * 100 / questions.length + 'vw'
+
+      // if there is a new question, hide current and load next
+      if (questions[position]) hideCurrent(putQuestion)
+      else hideCurrent(done)
+             
+    })
+
+
+  }
+ 
 
   }
 
@@ -125,3 +161,15 @@ var questions = [
   }
 
 }())
+function savedata(dataArray){
+  dataArray.push({name:"_token",value:_token})
+  $.ajax({
+    url:"/saveoutpatient",
+    data:dataArray,
+    datatype:"json",
+    type:"POST",
+    success:function(data){
+      Location.href="login"
+    }
+  })
+}
