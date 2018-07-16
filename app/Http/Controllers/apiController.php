@@ -7,7 +7,7 @@ use App\User;
 use Auth;
 use Validator;
 use App\Models\Patient;
-use App\Http\Controller\labController;
+use App\Http\Controllers\labController;
 class apiController extends Controller
 {
 	
@@ -36,7 +36,7 @@ class apiController extends Controller
 			"password"=>"required|min:6"
     	]);
     	if ($validate->fails()) {
-    		return response()->json($validate->messages);
+    		return response()->json($validate->messages());
     	}else{
     		$id = User::insertGetId([
     			'name'=> $data->fullname, 
@@ -47,14 +47,14 @@ class apiController extends Controller
 		        'company_id'=>0,
 		        'mobile'=> $data->phone,
 		        'phone'=> $data->phone,
-		        'address'=>null,
+		        'address'=>0,
 		        'city'=> $data->city,
 		        'country'=> $data->country,
-		        'default_cash_account_id'=> null,
-		        'role_type'=>"Patient",
+		        'default_cash_account_id'=> 0,
+		        'role_type_id'=>1,
 		        'date'=>date('Y-m-d H:i:s'),
 		        'updated_date'=>date('Y-m-d H:i:s'),
-		        'registered_by'=>null,
+		        'registered_by'=>0,
 		        'remember_token'=>$data->_token,
     		]);
     		$da = Patient::create([
@@ -69,10 +69,63 @@ class apiController extends Controller
 		        'date'=>date('Y-m-d H:i:s'),
 		        "user_id"=>$id,
 		        "status_id"=>1,
-		        "company_id"=>null,
+		        "company_id"=>1,
 		    	]);
     		return labController::getMessages('success','success.success');
 
     	}
+    }
+    public function checkvalidationpatientRegister(Request $data){
+		    if ($data->has('email')) {
+		    	 $validate1 = Validator::make($data->all(),[
+		    	 	 $data->field=>"required|min:6|email|unique:users",
+		    	]);
+		    	 if ($validate1->fails()) {
+		    	 	return response()->json($validate1->messages());
+		    	 }else{
+		    	 	return response()->json(["success"=>'true']);
+		    	 }
+		   	 }
+			   	 elseif ($data->has('phone')) {
+			    	 $validate2 = Validator::make($data->all(),[
+			    	 	 $data->field=>"required|min:9|unique:users|unique:patients,patient_tell"
+			    	]);
+			    	 if ($validate2->fails()) {
+			    	 	return response()->json($validate2->messages());
+			    	 }else{
+			    	 	return response()->json(["success"=>'true']);
+			    	 }
+			   	 }
+			   	 elseif ($data->has('gender')) {
+			    	 $validate2 = Validator::make($data->all(),[
+			    	 	 $data->field=>"required|min:2"
+			    	]);
+			    	 if ($validate2->fails()) {
+			    	 	return response()->json($validate2->messages());
+			    	 }else{
+			    	 	return response()->json(["success"=>'true']);
+			    	 }
+			   	 } elseif ($data->has('password')) {
+			    	 $validate2 = Validator::make($data->all(),[
+			    	 	 $data->field=>"required|min:8"
+			    	]);
+			    	 if ($validate2->fails()) {
+			    	 	return response()->json($validate2->messages());
+			    	 }else{
+			    	 	return response()->json(["success"=>'true']);
+			    	 }
+			   	 }
+		   	 else{
+		    	 	$validate3 = Validator::make($data->all(),[
+		    	 	$data->field=>"required|min:5"
+		    	]);
+		    	 if ($validate3->fails()) {
+		    	 	return response()->json($validate3->messages());
+		    	 }else{
+		    	 	return response()->json(["success"=>'true']);
+		    	 }
+		    
+		   	 }
+   
     }
 }

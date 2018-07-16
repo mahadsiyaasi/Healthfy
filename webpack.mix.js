@@ -28,8 +28,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	"resources/assets/dist/css/skins/_all-skins.css",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.css",
     'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css',    
-    'resources/assets/css/register.css',
-	], 'public/css/all.css')
+], 'public/css/all.css')
 .scripts([    
     //"resources/assets/files/jquery/dist/jquery.min.js",
     //'resources/assets/files/fancy/jquery-ui.custom.js',
@@ -74,8 +73,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/customtable.js',  
     'resources/assets/js/precription.js',  
     'resources/assets/js/role.js', 
-    'resources/assets/js/register.js', 
-    //'resources/assets/js/social.js', 
+     //'resources/assets/js/social.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 

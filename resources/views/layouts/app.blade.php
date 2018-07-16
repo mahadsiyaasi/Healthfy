@@ -33,17 +33,17 @@
           }
     </style>
     @elseif (Auth::guest())    
-     <link rel="stylesheet" type="text/css" href="loginV1/vendor/bootstrap/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/fonts/iconic/css/material-design-iconic-font.min.css">
-       <link rel="stylesheet" type="text/css" href="loginV1/vendor/animate/animate.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/vendor/css-hamburgers/hamburgers.min.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/vendor/animsition/css/animsition.min.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/vendor/select2/select2.min.css">
-        <link rel="stylesheet" type="text/css" href="loginV1/vendor/daterangepicker/daterangepicker.css">
-       <link rel="stylesheet" type="text/css" href="loginV1/css/util.css">
-      <link rel="stylesheet" type="text/css" href="loginV1/css/main.css">
-      <link rel="stylesheet" type="text/css" href="css/register.css">
+     <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/bootstrap/css/bootstrap.min.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/fonts/iconic/css/material-design-iconic-font.min.css')}}">
+       <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/animate/animate.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/css-hamburgers/hamburgers.min.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/animsition/css/animsition.min.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/select2/select2.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/daterangepicker/daterangepicker.css')}}">
+       <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/css/util.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/css/main.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/register.css')}}">
     @endif   
 </head>
 <body class="hold-transition skin-blue sidebar-mini allback" style="height: auto; min-height: 100%;">
@@ -109,17 +109,17 @@
      @if (Auth::check())
       @stack('scripts')
     @else
-          <script src="loginV1/vendor/jquery/jquery-3.2.1.min.js"></script>
-          <script src="loginV1/vendor/animsition/js/animsition.min.js"></script>
-          <script src="loginV1/vendor/bootstrap/js/popper.js"></script>
-          <script src="loginV1/vendor/bootstrap/js/bootstrap.min.js"></script>
-          <script src="loginV1/vendor/select2/select2.min.js"></script>
-          <script src="loginV1/vendor/daterangepicker/moment.min.js"></script>
-          <script src="loginV1/vendor/daterangepicker/daterangepicker.js"></script>
-          <script src="loginV1/vendor/countdowntime/countdowntime.js"></script>
-          <script src="loginV1/js/main.js"></script>
-          <script src="js/register.js"></script>
-          <script src="js/countries.js"></script>
+          <script  <script src="{{ asset('loginV1/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+          <script  <script src="{{ asset('loginV1/vendor/animsition/js/animsition.min.js') }}"></script>
+          <script <script src="{{ asset('loginV1/vendor/bootstrap/js/popper.js') }}"></script>
+          <script  <script src="{{ asset('loginV1/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+          <script <script src="{{ asset('loginV1/vendor/select2/select2.min.js') }}"></script>
+          <script <script src="{{ asset('loginV1/vendor/daterangepicker/moment.min.js') }}"></script>
+          <script <script src="{{ asset('loginV1/vendor/daterangepicker/daterangepicker.js') }}"></script>
+          <script <script src="{{ asset('loginV1/vendor/countdowntime/countdowntime.js') }}"></script>
+          <script  <script src="{{ asset('loginV1/js/main.js') }}"></script>
+          <script  <script src="{{ asset('js/register.js') }}"></script>
+          <script  <script src="{{ asset('js/countries.js') }}"></script>
     @endif
     <script type="text/javascript">
       var _token = '{{ csrf_token() }}'

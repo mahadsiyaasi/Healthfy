@@ -67,47 +67,56 @@ var dataArray=[];
   function done() {    
     // remove the box if there is no next question
     $(main).html("")
-   console.log(dataArray)
     var h1 = document.createElement('h1')
     h1.appendChild(document.createTextNode('Welcome ' + dataArray[0].value + '! wait for minute . . .'))
     setTimeout(function() {
       main.parentElement.appendChild(h1) 
       $(main).addClass("text-center center")    
       setTimeout(function() {h1.style.opacity = 1}, 50)
-      savedata(dataArray)
+        
     }, eTime)
-    
+    if (savedata(dataArray)) {
+        setTimeout(function() {
+           document.location.href = '/login',true;
+
+        }, 5000);
+       
+      }
   }
 
   // when submitting the current question
   function validate() {
 
      if (questions[position].otype) {
+      if (checkvalidationToServer(questions,position,selectField)) {
       dataArray.push({name:questions[position].name,value:selectField.value})
-      }else{
-       dataArray.push({name:questions[position].name,value:inputField.value})
-     }
+      }
+      }else
+            if (checkvalidationToServer(questions,position,inputField)) {
+              dataArray.push({name:questions[position].name,value:inputField.value})
+                 }
+     
    if (questions[position].otype) {
 
-    // check if the pattern matches
     if (!selectField.value.match(questions[position].pattern || /.+/)) wrong()
-    else ok(function() {
-      
-      // set the progress of the background
+    else 
+      if (checkvalidationToServer(questions,position,selectField)) {
+     ok(function() {
       progress.style.width = ++position * 100 / questions.length + 'vw'
-
-      // if there is a new question, hide current and load next
       if (questions[position]) hideCurrent(putQuestion)
       else hideCurrent(done)
              
     })
+   }
   }
 else {
 
     // check if the pattern matches
     if (!inputField.value.match(questions[position].pattern || /.+/))  wrong()
     
-    else ok(function() {
+    else 
+      if (checkvalidationToServer(questions,position,inputField)) {
+      ok(function() {
       
       // set the progress of the background
       progress.style.width = ++position * 100 / questions.length + 'vw'
@@ -117,8 +126,7 @@ else {
       else hideCurrent(done)
              
     })
-
-
+    }
   }
  
 
@@ -162,14 +170,57 @@ else {
 
 }())
 function savedata(dataArray){
+  var bools;
   dataArray.push({name:"_token",value:_token})
   $.ajax({
     url:"/saveoutpatient",
     data:dataArray,
     datatype:"json",
     type:"POST",
+    async:false,
     success:function(data){
-      Location.href="login"
+       bools = true;
+      
     }
   })
+  return bools;
+}
+function seterror(data){
+  $.each(eval(data),function(i,item){
+    $(error).text(item)
+     //inputLabel.innerHTML =item
+     $(inputLabel).addClass("help-block danger-alert")
+     $("#error").parents("div:first").css("border-bottom","1.5px solid red")
+    })
+      setTimeout(function() {
+        $(error).text("")
+        $("#error").parents("div:first").css("border-bottom","none")
+     ///inputLabel,innerHTML = questions[position].question        
+      }, 2000);
+}
+function checkvalidationToServer(questions,position,field){
+  var boll;
+  var datatocheck = [];
+   datatocheck.push({name:"_token",value:_token})
+   datatocheck.push({name:questions[position].name,value:field.value})
+   datatocheck.push({name:"field",value:questions[position].name})
+  $.ajax({
+    url:"/checkvalidationpatientRegister",
+    data:datatocheck,
+    datatype:"json",
+    type:"POST",
+    async:false,
+    success:function(data){
+      if (data.success) {
+       boll = true;
+      }else{
+        seterror(data)
+        boll = false;
+      }
+      
+    }
+  })
+
+
+  return boll;
 }

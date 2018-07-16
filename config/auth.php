@@ -17,7 +17,6 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

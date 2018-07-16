@@ -25,6 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+       Gate::define('patient', function ($user) {
+            if($user->role_type == 1)
+            {
+                return true;
+            }
+            return false;
+        });
     }
 }

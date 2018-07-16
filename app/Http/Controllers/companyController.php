@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class companyController extends Controller
 {
@@ -21,7 +23,12 @@ class companyController extends Controller
          ->where("users.id","=",Auth::user()->id)
         ->where("users.company_id",Auth::user()->company_id)
         ->first();
-         return $datas;
+        
+         if (empty($datas[0])) {
+          return Auth::user();
+         }else{
+           return $datas;
+         }
        }
        public static function listside()
     {
