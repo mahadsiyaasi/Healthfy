@@ -1,6 +1,10 @@
 @extends('layouts.app')
+ <?php 
+use App\Http\Controllers\companyController; 
+?>
 @section('content')
  @if (Auth::check())
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -31,7 +35,7 @@
           </div>
         </div>
         <div class="box-body">
-          Start creating your amazing application!
+        {{companyController::listside()}}
         </div>
         <!-- /.box-body -->
         <div class="box-footer">

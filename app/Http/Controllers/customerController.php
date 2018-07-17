@@ -12,7 +12,7 @@ class customerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+         $this->middleware(['auth', 'Patient']);
     }
 
 public function patient(Request $request){

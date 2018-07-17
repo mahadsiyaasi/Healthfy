@@ -10,16 +10,25 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+
+
+
+
+Route::group(['middleware' => 'auth'], function () {	
 Route::any('/getusers', 'apiController@users');
 Route::post('/apilogin', 'apiController@login');
-Auth::routes();
 Route::get('/create/patient', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 Route::get('/create/doctor', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 Route::get('/create/company', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
 Route::any('/saveoutpatient', 'apiController@registerOutPatient');
 Route::any('/checkvalidationpatientRegister', 'apiController@checkvalidationpatientRegister');
+});
 
+Auth::routes();
 
 
 

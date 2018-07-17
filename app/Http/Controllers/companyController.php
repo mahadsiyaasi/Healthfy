@@ -8,7 +8,8 @@ use Auth;
 use DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use App\Models\Permissions;
+Use App\Models\Roles;
 class companyController extends Controller
 {
     public function __construct()
@@ -18,13 +19,20 @@ class companyController extends Controller
 
     public static function company()
     {
+      $datfield = Permissions::all();
+       $datfield2 = Role::all();
+     
+       foreach ($datfield2 as $key => $value) {
+      $permission = Role::create(['name' => $value->name]);
+      }
+      
        $datas=User::join("chealths","chealths.id","=","users.company_id")
         ->select("chealths.*")
          ->where("users.id","=",Auth::user()->id)
         ->where("users.company_id",Auth::user()->company_id)
         ->first();
         
-         if (empty($datas[0])) {
+         if (empty($datas)) {
           return Auth::user();
          }else{
            return $datas;
@@ -32,7 +40,7 @@ class companyController extends Controller
        }
        public static function listside()
     {
-       $datas=DB::table("permission")->get();
-         return $datas;
+       $datas=DB::table("permissions")->get();
+         return Auth::user()->getPermissionsViaRoles();
        }
 }

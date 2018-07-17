@@ -5,16 +5,17 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasRoles;
+   
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-     use HasRoles;
     protected $fillable = [
         'name', 
         'email',
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'city',
         'country',
         'default_cash_account_id',
-        'role_type',
+        'role_type_id',
         'date',
         'updated_date',
         'registered_by',
@@ -43,4 +44,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function setPasswordAttribute($password)
+{   
+    $this->attributes['password'] = bcrypt($password);
+}
 }

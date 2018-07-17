@@ -3,15 +3,14 @@
 namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Authenticatable, CanResetPassword, HasRole;
 
 /**
  * Class About
  */
-class Role extends Model
+class Roles extends Model
 {
 use HasRoles;
-    protected $table = 'roles';
+    protected $table = 'role';
 
     public $timestamps = false;
 
@@ -20,11 +19,5 @@ use HasRoles;
         'status_id',
         'description',
     ];
-
-
-   protected $guard_name = 'web'; 
-
-    protected $guarded = [];
-
-       
+   protected $guarded = [];
 }
