@@ -22,6 +22,11 @@ class doctorsController extends Controller
    	$variable =  DB::table("varaible_lists")->where("group_key","Specialities")->get();
    	return $variable;
    }
+   public static function loaddegrees(){
+    $variable =  DB::table("degrees")->get();
+    return $variable;
+   }
+
     public function savedoctor(Request $request){
     	$validator = Validator::make($request->all(),
             [

@@ -19,19 +19,6 @@
 
 Route::group(['middleware' => 'can:patients'], function () {	
 Route::any('/appointments', 'patientGroupController@appointview');
-
-
-
-
-
-
-
-
-
-
-
-
-
 	Route::any('/getusers', 'apiController@users');
 	Route::post('/apilogin', 'apiController@login');
 	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
@@ -45,11 +32,14 @@ Route::any('/appointments', 'patientGroupController@appointview');
 	Route::any('/patients/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');	
 });
+
+
 	Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
-	Route::get('/create/patient', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
-	Route::get('/create/doctor', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
+	Route::get('/create/patient', 'apiController@getpatientHome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
+	Route::get('/create/doctor', 'apiController@getDoctorsHome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 	Route::get('/create/company', 'apiController@gethome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
 	Route::any('/saveoutpatient', 'apiController@registerOutPatient');
+	Route::any('/saveOutDoctor', 'apiController@saveOutDoctor');
 	Route::any('/checkvalidationpatientRegister', 'apiController@checkvalidationpatientRegister');
 	Auth::routes();
 

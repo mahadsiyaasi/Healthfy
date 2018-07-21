@@ -124,6 +124,11 @@
     <script type="text/javascript">
       var _token = '{{ csrf_token() }}'
     </script>
+    @if(Request::get("speciality"))
+      <script type="text/javascript">
+      populateCountries("country", "city");
+    </script>
+    @endif
 </body>
 </html>
 

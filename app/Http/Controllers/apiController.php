@@ -8,9 +8,12 @@ use Auth;
 use Validator;
 use App\Models\Patient;
 use App\Http\Controllers\labController;
+use App\Models\Staff;
 class apiController extends Controller
 {
+	private  $dataToserver;
 	
+
 	public function users()
 	{
 		return response()->json(User::all(),200);
@@ -21,9 +24,13 @@ class apiController extends Controller
 
         return response()->json($req->email);
 	}
-	 public function gethome()
+	 public function getpatientHome()
     {
       return View("register.patients.register");
+    }
+    public function getDoctorsHome(){
+
+    	return View("register.doctors.register");
     }
     public function registerOutPatient(Request $data){
     	$validate = Validator::make($data->all(),[
@@ -127,5 +134,117 @@ class apiController extends Controller
 		    
 		   	 }
    
+    }
+    public function saveOutDoctor(Request $data){
+    	if ($data->fullname) {
+    	$validate =  Validator::make($data->all(),[
+    		"fullname"=>"required|min:4|string",
+    		"email"=>"required|max:255|email|unique:users|unique:staff",
+    		"phone"=>"required|min:9|unique:users|unique:staff,tell",
+    	]);
+    	if ($validate->fails()) {
+    		 return redirect()->back()->withInput()->withErrors($validate);
+
+    	}else{
+    		$id = User::insertGetId([
+    			'name'=>  $data->fullname, 
+		        'email'=> $data->email, 
+		        'phone'=>$data->password, 
+		        'status_id'=>1,
+		    ]);
+   		return redirect("/create/doctor?email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);
+    	}
+    	}elseif ($data->speciality) {
+    		$validate =  Validator::make($data->all(),[
+    		"speciality"=>"required|min:4|string",
+    		"degree"=>"required|min:4",
+    		"gender"=>"required|min:2",
+    	]);
+    	if ($validate->fails()) {
+    		 return redirect()->back()->withInput()->withErrors($validate);
+    	}else{
+    		 $this->dataToserver->speciality =$data->speciality;
+    		 $this->dataToserver->degree =$data->degree;
+    		 $this->dataToserver->gender =$data->gender;
+    		 $id = User::insertGetId([
+    			'name'=>  $this->dataToserver->fullname, 
+		        'email'=> $data->email, 
+		        'password'=>bcrypt($data->password), 
+		        'status_id'=>1,
+
+		    ]);
+    		 Staff::insert([
+		    		 'name'=>  $this->dataToserver->fullname,
+			        'tell'=>  $this->dataToserver->phone,
+			        'email'=>  $this->dataToserver->email,
+			        'salary'=> 0,
+			        "user_id"=> $id,
+			        'type'=>"Doctor",
+			        "status_id"=>1,
+			        "company_id"=>0,
+			       ]);
+    		return redirect("/create/doctor?speciality=".$data->email."&phone=".$data->phone."&speciality=".$data->speciality)->withInput()->withErrors($data);
+    	}
+    	}
+    	elseif ($data->country) {
+    		$validate =  Validator::make($data->all(),[
+    		"country"=>"required|min:4|string",
+    		"city"=>"required|min:2",
+    		"address"=>"required|min:2",
+    	]);
+    	if ($validate->fails()) {
+    		 return redirect()->back()->withInput()->withErrors($validate);
+    	}else{
+    		 $this->dataToserver->country =$data->country;
+    		 $this->dataToserver->city =$data->city;
+    		 $this->dataToserver->address =$data->address;
+    		return redirect("/create/doctor?country=".$data->country)->withInput()->withErrors($data);
+    	}
+    	}
+    	elseif ($data->password) {
+    		$validate =  Validator::make($data->all(),[
+    		'password' => 'required|min:6|same:cpassword',
+    		"cpassword"=>"required|min:6",
+    		]);
+    	if ($validate->fails()) {
+    		 return redirect()->back()->withInput()->withErrors($validate);
+    	}else{
+    		/*$id = User::insertGetId([
+    			'name'=>  $this->dataToserver->fullname, 
+		        'email'=> $data->email, 
+		        'password'=>bcrypt($data->password), 
+		        'status_id'=>1,
+		        'default_language_id'=>1,
+		        'company_id'=>0,
+		        'mobile'=>  $this->dataToserver->phone,
+		        'phone'=>  $this->dataToserver->phone,
+		        'address'=> $this->dataToserver->address,
+		        'city'=>  $this->dataToserver->city,
+		        'country'=>  $this->dataToserver->country,
+		        'default_cash_account_id'=> 0,
+		        'role_type_id'=>1,
+		        'date'=>date('Y-m-d H:i:s'),
+		        'updated_date'=>date('Y-m-d H:i:s'),
+		        'registered_by'=>0,
+		        'remember_token'=>$data->_token
+		    ]);
+		    Staff::insert([
+		    		 'name'=>  $this->dataToserver->fullname,
+			        'tell'=>  $this->dataToserver->phone,
+			        'email'=>  $this->dataToserver->email,
+			        'specialization'=>  $this->dataToserver->speciality,
+			        'nationality'=>  $this->dataToserver->country,
+			        'salary'=> 0,
+			        'address'=>  $this->dataToserver->address,
+			        'visit_amount'=>  $this->dataToserver->visit_amount,
+			        'datebirth'=> null,
+			        "user_id"=> $id,
+			        'type'=>"Doctor",
+			        "status_id"=>1,
+			         "company_id"=>0,
+		    ]);*/
+    		return [$this->dataToserver];
+    	}
+    	}
     }
 }
