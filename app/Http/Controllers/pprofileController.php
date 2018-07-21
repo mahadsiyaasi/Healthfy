@@ -14,6 +14,7 @@ use App\Models\OrderDetail;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Http\Controllers\medicationController;
+use App\Http\Controllers\authController;
 class pprofileController extends Controller
 {
     public function __construct()
@@ -31,8 +32,8 @@ public function loadptest(Request $request){
 	->select("patients.patient_name","staff.name as doctor_name","test_order_detail.amount","test_order_detail.test_order_id","test_order_detail.amount","test_order_master.total_amount","tests.name as testname","tests.description","test_order_detail.id","test_order_master.date","varaible_lists.status_name")
 	->where("test_order_detail.status_id",">",0)
 	->where("test_order_master.status_id",">",0)
-	->where("test_order_master.company_id",Auth::user()->company_id)
-	->where("test_order_master.patient_id",$request->input("patient_id"))
+	//->where("test_order_master.company_id",Auth::user()->company_id)
+	->where("test_order_master.patient_id",authController::AuthPatient()->id)
 	->get();
 	return datatables()->of($data)->toJson();
 }
@@ -41,9 +42,9 @@ public function mainappoint(Request $request){
     ->join('patients','patients.id','=','appointment.patient_id')
     ->join('varaible_lists','varaible_lists.status_id','=','appointment.status_id')
     ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease')
-    ->where("patient_id",$request->input("patient_id"))
+    ->where("patient_id",authController::AuthPatient()->id)
     ->where("appointment.status_id",'>',0)
-    ->where("appointment.company_id",'=',Auth::user()->company_id)
+    //->where("appointment.company_id",'=',Auth::user()->company_id)
     ->get();
     return 	datatables()->of($json)->toJson();
  }

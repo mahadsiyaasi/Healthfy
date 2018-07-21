@@ -140,9 +140,6 @@ class usersController extends Controller
         'registered_by'=>$allval->registered_by,
         'remember_token'=>$allval->_token,
         ]);
-      
-        
-         
-       
+             
       }
 }

@@ -1,5 +1,7 @@
 <?php 
 use App\Http\Controllers\companyController; 
+$parent_li = companyController::listside()->parents;
+$child_li = companyController::listside()->child;
 ?>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -29,7 +31,7 @@ use App\Http\Controllers\companyController;
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-          @foreach(companyController::listside() as $val)
+          @foreach($parent_li as $val)
           @if($val->parent_id==0)       
         <li class="treeview">
           <a href="#">
@@ -39,7 +41,7 @@ use App\Http\Controllers\companyController;
             </span>
           </a>
           <ul class="treeview-menu">
-           @foreach(companyController::listside() as $vals)
+           @foreach($child_li as $vals)
           @if($val->id==$vals->parent_id)
           @if($vals->id==21)
           <li id="{{$vals->id}}"> <a  href="{{$vals->url}}"><i class="fa fa-circle-o"></i>{{$vals->name}}</a></li>

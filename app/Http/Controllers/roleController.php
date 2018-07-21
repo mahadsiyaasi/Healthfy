@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Roles;
 use App\Models\permissionMaping;
-use App\Models\Permission;
+use App\Models\Permissions;
 use Lang;
 use DB;
 use Auth;
@@ -19,7 +19,7 @@ class roleController extends Controller
     }
     public function home()
     {
-    	return view("role.role")->with("licheck",companyController::listside());
+    	return view("role.role")->with("licheck",Permissions::all());
     }
     public function saverole(Request $request){
         $valid =  Validator::make($request->all(),[
@@ -75,10 +75,10 @@ class roleController extends Controller
     }
 public function getRoleView()
     {
-    $data = Roles::join('permission_maping','permission_maping.entity_id','=','roles.id')
-            ->select(DB::raw("count(permission_maping.entity_id) as count"),'roles.name as name','roles.id as id','roles.description as description')
-            ->where('roles.status_id','>',0)
-            ->groupBy('roles.id')
+    $data = Roles::join('permission_maping','permission_maping.entity_id','=','role.id')
+            ->select(DB::raw("count(permission_maping.entity_id) as count"),'role.name as name','role.id as id','role.description as description')
+            ->where('role.status_id','>',0)
+            ->groupBy('role.id')
             ->get();
     return response()->json($data,200);
     }
@@ -87,10 +87,10 @@ public function getRoleView()
         ///DB::raw("count(permission_maping.entity_id) as count"),
        $data = new \stdclass;
        $data->role =Roles::find($finddata);
-       $data->permission = Roles::join('permission_maping','permission_maping.entity_id','=','roles.id')
+       $data->permission = Roles::join('permission_maping','permission_maping.entity_id','=','role.id')
             ->select('permission_maping.*')
-            ->where('roles.status_id','>',0)
-            ->where('roles.id','=',$finddata)
+            ->where('role.status_id','>',0)
+            ->where('role.id','=',$finddata)
             ->get();  
             return $data;
     }

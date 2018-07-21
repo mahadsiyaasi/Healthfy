@@ -8,4 +8,6 @@ return [
       'role' => 'Role',
       'welcome'=>'Health | Welcome Health Freelancer',
       'Patient_register'=>'Health | Welcome Patient ',
+      'appoint'=>"Appoints",
+      'prescripe'=>"Prescrips",
 ];

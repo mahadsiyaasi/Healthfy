@@ -24,7 +24,7 @@ use App\Http\Controllers\companyController;
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
+          <a class="" href="/patients/{{$patient->id}}/add?new=appointment"><i class="fa fa-plus w3-large" ></i> <h3 class="box-title"> Add appointment</h3></a>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -35,7 +35,9 @@ use App\Http\Controllers\companyController;
           </div>
         </div>
         <div class="box-body">
-        {{companyController::listside()->child}}
+         <table class="table table-stripped table-bordered" id="appoin_table">
+   
+        </table>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">

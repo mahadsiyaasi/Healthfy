@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\Patient;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\medicationController;
 class HomeController extends Controller
 
 {
@@ -29,7 +30,9 @@ class HomeController extends Controller
   {
       if (Gate::allows('patient', auth()->user())) {
         $patient = Patient::where("user_id",Auth::user()->id)->first();
-         return redirect('/patients/'.$patient->id);
+     
+      return view('patients.singlepatient')->with('patient',$patient)->with("patientPrescriptions",medicationController::removeduplicate(medicationController::loadprescription_profile($patient->id),'detail_id'));
+  
       }elseif (Gate::allows('Admin', auth()->user())) {
          return view('index');
       }elseif (Gate::allows('Doctor', auth()->user())) {

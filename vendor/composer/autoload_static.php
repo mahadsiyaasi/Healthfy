@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit320c81c3a11e9cf38375c5caa2623345
+class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,12 +12,12 @@ class ComposerStaticInit320c81c3a11e9cf38375c5caa2623345
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
@@ -135,8 +135,8 @@ class ComposerStaticInit320c81c3a11e9cf38375c5caa2623345
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -421,18 +421,18 @@ class ComposerStaticInit320c81c3a11e9cf38375c5caa2623345
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Middleware\\visitorMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/visitorMiddleware.php',
         'App\\Models\\Appointment' => __DIR__ . '/../..' . '/app/Models/Appointment.php',
         'App\\Models\\MedicationList' => __DIR__ . '/../..' . '/app/Models/MedicationList.php',
         'App\\Models\\OrderDetail' => __DIR__ . '/../..' . '/app/Models/OrderDetail.php',
         'App\\Models\\OrderMaster' => __DIR__ . '/../..' . '/app/Models/OrderMaster.php',
         'App\\Models\\Patient' => __DIR__ . '/../..' . '/app/Models/Patient.php',
         'App\\Models\\PaymentMethod' => __DIR__ . '/../..' . '/app/Models/PaymentMethod.php',
-        'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
+        'App\\Models\\Permissions' => __DIR__ . '/../..' . '/app/Models/Permissions.php',
         'App\\Models\\PrescriptionDetail' => __DIR__ . '/../..' . '/app/Models/PrescriptionDetail.php',
         'App\\Models\\PrescriptionList' => __DIR__ . '/../..' . '/app/Models/PrescriptionList.php',
         'App\\Models\\Reference' => __DIR__ . '/../..' . '/app/Models/Reference.php',
-        'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Role.php',
-        'App\\Models\\Roles' => __DIR__ . '/../..' . '/app/Models/Role.php',
+        'App\\Models\\Roles' => __DIR__ . '/../..' . '/app/Models/Roles.php',
         'App\\Models\\Staff' => __DIR__ . '/../..' . '/app/Models/Staff.php',
         'App\\Models\\Tests' => __DIR__ . '/../..' . '/app/Models/Tests.php',
         'App\\Models\\Transuction' => __DIR__ . '/../..' . '/app/Models/Transuction.php',
@@ -4076,10 +4076,10 @@ class ComposerStaticInit320c81c3a11e9cf38375c5caa2623345
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit320c81c3a11e9cf38375c5caa2623345::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit320c81c3a11e9cf38375c5caa2623345::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit320c81c3a11e9cf38375c5caa2623345::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit320c81c3a11e9cf38375c5caa2623345::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$classMap;
 
         }, null, ClassLoader::class);
     }

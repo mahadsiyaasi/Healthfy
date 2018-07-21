@@ -30,8 +30,7 @@ class companyController extends Controller
         ->select("chealths.*")
          ->where("users.id","=",Auth::user()->id)
         ->where("users.company_id",Auth::user()->company_id)
-        ->first();
-        
+        ->first();        
          if (empty($datas)) {
           return Auth::user();
          }else{
@@ -40,7 +39,31 @@ class companyController extends Controller
        }
        public static function listside()
     {
-       $datas=DB::table("permissions")->get();
-         return Auth::user()->getPermissionsViaRoles();
+      $ids =  DB::table("users")->join("role","role.id","=","users.role_type_id")
+       ->join("permission_maping","permission_maping.entity_id","=","role.id")
+       ->join("permissions","permissions.id","=","permission_maping.permission_id")
+       ->select("parent_id")
+       //->distinct('permissions.parent_id')
+       ->where("role.id",Auth::user()->role_type_id)
+       ->distinct('permissions.parent_id')
+       ->orderBy("permissions.id")->get();
+       $parent_names = [];
+       foreach ($ids as $key => $value) {
+        $parent_names [] = Permissions::find($value->parent_id);
        }
+      // return $parent_names;
+      $listside = DB::table("users")->join("role","role.id","=","users.role_type_id")
+       ->join("permission_maping","permission_maping.entity_id","=","role.id")
+       ->join("permissions","permissions.id","=","permission_maping.permission_id")
+       ->select("permissions.*")
+       ->where("role.id",Auth::user()->role_type_id)
+       ->distinct('permissions.id')
+       ->orderBy("permissions.id","ASC")
+       ->get();
+       $data = new \stdClass;
+       $data->parents = $parent_names;
+       $data->child = $listside;
+       return $data;
+
+     }
 }

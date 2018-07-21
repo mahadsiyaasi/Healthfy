@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Roles extends Model
 {
-use HasRoles;
-    protected $table = 'role';
+   protected $table = 'role';
 
     public $timestamps = false;
 
