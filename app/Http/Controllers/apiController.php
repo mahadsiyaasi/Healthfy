@@ -149,10 +149,29 @@ class apiController extends Controller
     		$id = User::insertGetId([
     			'name'=>  $data->fullname, 
 		        'email'=> $data->email, 
-		        'phone'=>$data->password, 
+		        'phone'=>$data->phone, 
 		        'status_id'=>1,
+		        'default_cash_account_id'=> 0,
+		        'status_id'=>1,
+		        'default_language_id'=>1,
+		        'company_id'=>0,
+		        'role_type_id'=>1,
+		        'date'=>date('Y-m-d H:i:s'),
+		        'updated_date'=>date('Y-m-d H:i:s'),
+		        'registered_by'=>0,
+		        'remember_token'=>$data->_token
 		    ]);
-   		return redirect("/create/doctor?email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);
+		    Staff::insert([
+		    		 'name'=> $data->fullname,
+			        'tell'=>  $data->phone,
+			        'email'=>  $data->email,
+			        'salary'=> 0,
+			        "user_id"=> $id,
+			        'type'=>"Doctor",
+			        "status_id"=>1,
+			        "company_id"=>0,
+			       ]);
+   		return redirect("/create/doctor?user_id=".$id."&email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);
     	}
     	}elseif ($data->speciality) {
     		$validate =  Validator::make($data->all(),[
@@ -163,27 +182,12 @@ class apiController extends Controller
     	if ($validate->fails()) {
     		 return redirect()->back()->withInput()->withErrors($validate);
     	}else{
-    		 $this->dataToserver->speciality =$data->speciality;
-    		 $this->dataToserver->degree =$data->degree;
-    		 $this->dataToserver->gender =$data->gender;
-    		 $id = User::insertGetId([
-    			'name'=>  $this->dataToserver->fullname, 
-		        'email'=> $data->email, 
-		        'password'=>bcrypt($data->password), 
-		        'status_id'=>1,
-
-		    ]);
-    		 Staff::insert([
-		    		 'name'=>  $this->dataToserver->fullname,
-			        'tell'=>  $this->dataToserver->phone,
-			        'email'=>  $this->dataToserver->email,
-			        'salary'=> 0,
-			        "user_id"=> $id,
-			        'type'=>"Doctor",
-			        "status_id"=>1,
-			        "company_id"=>0,
-			       ]);
-    		return redirect("/create/doctor?speciality=".$data->email."&phone=".$data->phone."&speciality=".$data->speciality)->withInput()->withErrors($data);
+   		  $stafdata = Staff::where("user_id",$data->user_id)->first();
+		    $staffdata->degree= $data->degree;
+    		$staffdata->gender=$data->gender;
+    		$staffdata->speciality=$data->speciality;
+    		$staffdata->save();
+    		return redirect("/create/doctor?user_id=".$data->user_id."&speciality=".$data->email."&phone=".$data->phone."&speciality=".$data->speciality)->withInput()->withErrors($data);
     	}
     	}
     	elseif ($data->country) {
@@ -195,10 +199,16 @@ class apiController extends Controller
     	if ($validate->fails()) {
     		 return redirect()->back()->withInput()->withErrors($validate);
     	}else{
-    		 $this->dataToserver->country =$data->country;
-    		 $this->dataToserver->city =$data->city;
-    		 $this->dataToserver->address =$data->address;
-    		return redirect("/create/doctor?country=".$data->country)->withInput()->withErrors($data);
+    		$find = User::find($data->user_id);
+    		$find->country = $data->country;//$this->dataToserver->country =
+    		$find->city =$data->city;
+    		$find->address =$data->address;
+    		$staffdata = Staff::where("user_id",$find->user_id)->first();
+    		$staffdata->nationality= $data->country;
+    		$staffdata->address=$data->address;
+    		$staffdata->save();
+    		$find->save();
+    		return redirect("/create/doctor?user_id=".$data->user_id."&country=".$data->country)->withInput()->withErrors($data);
     	}
     	}
     	elseif ($data->password) {
@@ -213,15 +223,16 @@ class apiController extends Controller
     			'name'=>  $this->dataToserver->fullname, 
 		        'email'=> $data->email, 
 		        'password'=>bcrypt($data->password), 
-		        'status_id'=>1,
-		        'default_language_id'=>1,
-		        'company_id'=>0,
+		        
 		        'mobile'=>  $this->dataToserver->phone,
 		        'phone'=>  $this->dataToserver->phone,
 		        'address'=> $this->dataToserver->address,
 		        'city'=>  $this->dataToserver->city,
 		        'country'=>  $this->dataToserver->country,
 		        'default_cash_account_id'=> 0,
+		        'status_id'=>1,
+		        'default_language_id'=>1,
+		        'company_id'=>0,
 		        'role_type_id'=>1,
 		        'date'=>date('Y-m-d H:i:s'),
 		        'updated_date'=>date('Y-m-d H:i:s'),
@@ -243,7 +254,16 @@ class apiController extends Controller
 			        "status_id"=>1,
 			         "company_id"=>0,
 		    ]);*/
-    		return [$this->dataToserver];
+    		$find = User::find($data->user_id)
+    		$find->password = $data->password;//$this->dataToserver->country =
+    		$find->city =$data->city;
+    		$find->address =$data->address;
+    		$staffdata = Staff::where("user_id",$find->user_id)->first();
+    		$staffdata->nationality= $data->country;
+    		$staffdata->address=$data->address;
+    		$staffdata->save();
+    		$find->save();
+    		 return redirect("/");
     	}
     	}
     }
