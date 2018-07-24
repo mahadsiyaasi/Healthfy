@@ -21,6 +21,8 @@ class Staff extends Model
         "user_id",
         'type',
         "status_id",
+        "degree",
+        "gender",
          "company_id"
     ];
     

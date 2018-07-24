@@ -26,6 +26,10 @@ use App\Http\Controllers\doctorsController;
                 <div id="register" style="width: 100%" style="border-radius: 2px">
                            <form class="login100-form validate-form" role="form"  method="POST" action="{{ url('/saveOutDoctor') }}">
                       {{ csrf_field() }}
+                      @if(Request::get("user_id"))
+                      <input type="hidden" name="user_id" value="{{Request::get('user_id')}}">
+                      <input type="hidden" name="doctor_id" value="{{Request::get('doctor_id')}}">
+                      @endif
                       
                      <h1 style="color: black">Register now and save with your experiance</h1>
                      

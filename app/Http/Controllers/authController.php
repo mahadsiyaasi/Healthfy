@@ -24,4 +24,11 @@ class authController extends Controller
    					->where("patients.user_id",Auth::user()->id)
    					->first();
    }
+   public static function AuthDoctor()
+   {
+   return User::join("staff","staff.user_id","=","users.id")
+   					->select("staff.*")
+   					->where("staff.user_id",Auth::user()->id)
+   					->first();
+   }
 }

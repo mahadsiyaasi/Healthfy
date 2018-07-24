@@ -5,9 +5,11 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Patient;
+use App\Models\Staff;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\medicationController;
+use App\Http\Controllers\authController;
 class HomeController extends Controller
 
 {
@@ -29,20 +31,15 @@ class HomeController extends Controller
     public function index(Request $request)
   {
       if (Gate::allows('patient', auth()->user())) {
-        $patient = Patient::where("user_id",Auth::user()->id)->first();
-     
-      return view('patients.singlepatient')->with('patient',$patient)->with("patientPrescriptions",medicationController::removeduplicate(medicationController::loadprescription_profile($patient->id),'detail_id'));
-  
+         return view('patients.singlepatient')->with('patient',authController::authPatient())->with("patientPrescriptions",medicationController::removeduplicate(medicationController::loadprescription_profile(authController::authPatient()->id),'detail_id'));  
       }elseif (Gate::allows('Admin', auth()->user())) {
          return view('index');
-      }elseif (Gate::allows('Doctor', auth()->user())) {
-     $doctor = Staff::where("user_id",Auth::user()->id)->first();
-         return redirect('/doctors/'.$doctor->id);
+      }elseif (Gate::allows('Doctor', auth()->user())) {       
+          return view('doctors.home.home')->with('doctor',authController::authDoctor());  
       }else{
          return view('index');
         
-      }
-        
+      }   
     
        
     }

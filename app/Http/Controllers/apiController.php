@@ -140,7 +140,7 @@ class apiController extends Controller
     	$validate =  Validator::make($data->all(),[
     		"fullname"=>"required|min:4|string",
     		"email"=>"required|max:255|email|unique:users|unique:staff",
-    		"phone"=>"required|min:9|unique:users|unique:staff,tell",
+    		"phone"=>"required|min:9|numeric|unique:users|unique:staff,tell",
     	]);
     	if ($validate->fails()) {
     		 return redirect()->back()->withInput()->withErrors($validate);
@@ -157,11 +157,11 @@ class apiController extends Controller
 		        'company_id'=>0,
 		        'role_type_id'=>1,
 		        'date'=>date('Y-m-d H:i:s'),
-		        'updated_date'=>date('Y-m-d H:i:s'),
+		        'role_type_id'=>3,
 		        'registered_by'=>0,
 		        'remember_token'=>$data->_token
 		    ]);
-		    Staff::insert([
+		    $doctor_id = Staff::insertGetId([
 		    		 'name'=> $data->fullname,
 			        'tell'=>  $data->phone,
 			        'email'=>  $data->email,
@@ -171,23 +171,23 @@ class apiController extends Controller
 			        "status_id"=>1,
 			        "company_id"=>0,
 			       ]);
-   		return redirect("/create/doctor?user_id=".$id."&email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);
+   		return redirect("/create/doctor?user_id=".$id."&doctor_id=".$doctor_id."&email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);
     	}
     	}elseif ($data->speciality) {
     		$validate =  Validator::make($data->all(),[
     		"speciality"=>"required|min:4|string",
-    		"degree"=>"required|min:4",
+    		"degree"=>"required|min:2",
     		"gender"=>"required|min:2",
     	]);
     	if ($validate->fails()) {
     		 return redirect()->back()->withInput()->withErrors($validate);
     	}else{
-   		  $stafdata = Staff::where("user_id",$data->user_id)->first();
-		    $staffdata->degree= $data->degree;
-    		$staffdata->gender=$data->gender;
-    		$staffdata->speciality=$data->speciality;
+   		  $staffdata = Staff::find($data->doctor_id);
+		    $staffdata->gender=$data->gender;
+    		$staffdata->specialization=$data->speciality;
+    		$staffdata->degree= $data->degree;
     		$staffdata->save();
-    		return redirect("/create/doctor?user_id=".$data->user_id."&speciality=".$data->email."&phone=".$data->phone."&speciality=".$data->speciality)->withInput()->withErrors($data);
+    		return redirect("/create/doctor?user_id=".$data->user_id."&doctor_id=".$data->doctor_id."&speciality=".$data->email."&phone=".$data->phone."&speciality=".$data->speciality)->withInput()->withErrors($data);
     	}
     	}
     	elseif ($data->country) {
@@ -203,12 +203,12 @@ class apiController extends Controller
     		$find->country = $data->country;//$this->dataToserver->country =
     		$find->city =$data->city;
     		$find->address =$data->address;
-    		$staffdata = Staff::where("user_id",$find->user_id)->first();
+    		$find->save();
+    		$staffdata = Staff::find($data->doctor_id);
     		$staffdata->nationality= $data->country;
     		$staffdata->address=$data->address;
-    		$staffdata->save();
-    		$find->save();
-    		return redirect("/create/doctor?user_id=".$data->user_id."&country=".$data->country)->withInput()->withErrors($data);
+    		$staffdata->save();    		
+    		return redirect("/create/doctor?user_id=".$data->user_id."&country=".$data->country."&doctor_id=".$data->doctor_id)->withInput()->withErrors($data);
     	}
     	}
     	elseif ($data->password) {
@@ -254,11 +254,11 @@ class apiController extends Controller
 			        "status_id"=>1,
 			         "company_id"=>0,
 		    ]);*/
-    		$find = User::find($data->user_id)
+    		$find = User::find($data->user_id);
     		$find->password = $data->password;//$this->dataToserver->country =
     		$find->city =$data->city;
     		$find->address =$data->address;
-    		$staffdata = Staff::where("user_id",$find->user_id)->first();
+    		$staffdata = Staff::find($data->doctor_id);
     		$staffdata->nationality= $data->country;
     		$staffdata->address=$data->address;
     		$staffdata->save();

@@ -33,7 +33,8 @@ class User extends Authenticatable
         'date',
         'updated_date',
         'registered_by',
-        'remember_token'
+        'remember_token',
+        'city'
         ];
 
     /**
