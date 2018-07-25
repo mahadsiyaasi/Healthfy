@@ -75,6 +75,37 @@ Route::any('/appointments', 'patientGroupController@appointview');
 
 
 
+
+
+
+
+
+Route::any('/complete','doctorsController@complete')->name(__('titles.complete').' | '.config('app.name'));
+Route::any('/updateDoctorcomplete','doctorsController@updateDoctorcomplete');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
 	Route::any('/doctors', 'doctorsController@doctor')->name('Doctors | '.config('app.name'));

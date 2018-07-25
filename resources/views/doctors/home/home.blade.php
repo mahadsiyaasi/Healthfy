@@ -37,7 +37,7 @@ use App\Http\Controllers\companyController;
         <div class="box-body" onload="$('#mymodal').modal('show')">
         @if($doctor->visit_amount==null)
         <script type="text/javascript">
-          location.href = "/compelete?user_id={{Auth::user()->id}}&&doctor_id={{$doctor->id}}"
+          location.href = "/complete?user_id={{Auth::user()->id}}&&doctor_id={{$doctor->id}}"
         </script>
        @endif
         </div>

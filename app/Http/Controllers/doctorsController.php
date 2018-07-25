@@ -7,7 +7,9 @@ use DB;
 use Response;
 use Illuminate\Http\Request;
 use App\Models\Staff;
-
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use App\User;
 class doctorsController extends Controller
 {
     public function __construct()
@@ -105,4 +107,40 @@ class doctorsController extends Controller
       ->first();
       return $data;
     }
+    public function complete(){
+      return view("complete.complete");
+    }
+    public function updateDoctorcomplete(Request $data){
+        $validator = Validator::make($data->all(),
+            [
+                'title' => 'required|min:1',
+                'doctortell' => 'required|numeric|min:9',
+                'address' => 'required|min:2',  
+                'image' => 'required|file|image|mimes:jpeg,bmp,png',              
+                'birthdate' => 'required|date|min:2',
+                'gender' => 'required|min:2',                
+                'about' => 'required|min:5',
+                'visit_amount'=>'required|min:1',
+                'city'=>'required|min:3',                
+                'experience'=> 'required|min:1|numeric'
+           ]);
+                if ($validator->fails()) {
+                  return response()->json($validator->messages(),200);
+                }
+               $user = User::find(Auth::user()->id);
+              $staff = User::find($data->doctor_id);
+              $staff->city = $data->city;
+              $staff->datebirth = $data->datebirth;
+              $staff->experience = $data->experience;
+              $staff->doctortell = $data->doctortell;
+              $staff->gender = $data->gender;
+              $staff->visit_amount = $data->visit_amount;
+              $staff->address = $data->address;
+              $staff->title = $data->title;
+              $staff->about = $data->about;
+              $user->addMediaFromRequest('image')->toMediaCollection('image');
+              $staff->save();
+              return redirect()->back();
+            
+   }
 }

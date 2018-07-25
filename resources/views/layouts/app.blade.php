@@ -99,11 +99,45 @@
               <script src="{{ asset('js/all.js') }}"></script>   
              <script>
             $(document).ready(function () {
-                populateCountries("nationality", "city");     
+              if ($("#nationality").length !=0) {
+                  populateCountries("nationality", "city"); 
+              }
+                  
                 $('.sidebar-menu').tree();
                 $('.selectpicker').selectpicker();
+                 populateCountries("countryhidden", "cityupdate");
+                 $("#countryhidden").find("option").each(function(){
+                  if (this.value=="Somalia") {
+                    $(this).attr("selected",true)
+                     $(this)
+              .parent()
+              .trigger('change');
+                  }
+                 })
+
                })
-              
+             $(function() {
+          // Javascript to enable link to tab
+          var hash = document.location.hash;
+          if (hash) {
+            console.log(hash);
+            $('.nav-tabs a[href='+hash+']').tab('show');
+          }
+
+          // Change hash for page-reload
+          $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+          });
+        });
+               function getselectedOption(element,value){
+             
+                $(element).find("option").each(function(){
+                  if (this.value==value) {
+                    $(this).attr("selected",true)
+                     return $(this).parent().trigger('change');
+                  }
+                 })
+              }
           </script>
       @endpush
      @if (Auth::check())
@@ -127,6 +161,7 @@
     @if(Request::get("speciality"))
       <script type="text/javascript">
       populateCountries("country", "city");
+
     </script>
     @endif
 </body>

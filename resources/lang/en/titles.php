@@ -10,4 +10,5 @@ return [
       'Patient_register'=>'Health | Welcome Patient ',
       'appoint'=>"Appoints",
       'prescripe'=>"Prescrips",
+      'complete'=>"Complete Profile",
 ];

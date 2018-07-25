@@ -23,7 +23,11 @@ class Staff extends Model
         "status_id",
         "degree",
         "gender",
-         "company_id"
+        "about",
+        "experience",
+        "title",
+        "city",
+        "company_id"
     ];
     
 
