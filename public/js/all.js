@@ -18165,7 +18165,9 @@ function ajaxtoserv(data,type,url,btn){
       var tybol = res.success?1:0;      
       warner(data,res,tybol)
       if (res.success) {
+        if (data !="#formUpdateDoctora") {
       $(data).trigger("reset")
+    }
       }
       bools =  res;
        //$(btn).btnBootstrap('reset');
@@ -18402,8 +18404,16 @@ $(document).ready(function(){
         ],
          order: {'sort':1 , 'sorttype':'asc'},
         });  
-	})
-
+	   commonvalidator($("#formUpdateDoctora"));
+      $("#formfieldsubmit").click(function(){
+          commonvalidator($("#formUpdateDoctora"));
+          if ($("#formUpdateDoctora").valid()) {
+            if (ajaxtoserv("#formUpdateDoctora","form","updateDoctorcomplete",this).success){
+              formUpdateDoctora.submit();
+               }
+          }
+        });
+      })
 var pateient_editor;
 var doctor_editor;
 var columns=[];

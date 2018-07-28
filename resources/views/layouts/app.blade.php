@@ -66,7 +66,7 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('dist/img/avatar.png')}}" class="user-image" alt="User Image">
+              <img src="{{Auth::user()->getMedia('image')->first()->getUrl('thumb')}}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
       <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -105,7 +105,9 @@
                   
                 $('.sidebar-menu').tree();
                 $('.selectpicker').selectpicker();
+                if ($("#countryhidden").length !=0) {
                  populateCountries("countryhidden", "cityupdate");
+               }
                  $("#countryhidden").find("option").each(function(){
                   if (this.value=="Somalia") {
                     $(this).attr("selected",true)

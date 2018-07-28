@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -39,7 +40,6 @@ class User extends Authenticatable implements HasMedia
         'updated_date',
         'registered_by',
         'remember_token',
-        'city'
         ];
 
     /**
@@ -54,4 +54,10 @@ class User extends Authenticatable implements HasMedia
 {   
     $this->attributes['password'] = bcrypt($password);
 }
+   public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->width(50)
+            ->height(50);
+    }
 }

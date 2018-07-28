@@ -101,8 +101,8 @@ class doctorsController extends Controller
     ->get();
     return response::json($data,200);
     }
-     public static function getdoctor($id){
-      $data  = Staff::where("id",$id)
+     public static function getdoctor(){
+      $data  = Staff::where("id",\App\Http\Controllers\authController::authDoctor()->id)
       ->where("status_id",1)
       ->first();
       return $data;
@@ -111,12 +111,12 @@ class doctorsController extends Controller
       return view("complete.complete");
     }
     public function updateDoctorcomplete(Request $data){
-        $validator = Validator::make($data->all(),
+         $validator = Validator::make($data->all(),
             [
                 'title' => 'required|min:1',
                 'doctortell' => 'required|numeric|min:9',
                 'address' => 'required|min:2',  
-                'image' => 'required|file|image|mimes:jpeg,bmp,png',              
+                //'image' => 'required|file|image|mimes:jpeg,bmp,png',              
                 'birthdate' => 'required|date|min:2',
                 'gender' => 'required|min:2',                
                 'about' => 'required|min:5',
@@ -126,13 +126,25 @@ class doctorsController extends Controller
            ]);
                 if ($validator->fails()) {
                   return response()->json($validator->messages(),200);
-                }
-               $user = User::find(Auth::user()->id);
-              $staff = User::find($data->doctor_id);
+                }else{
+                  return response()->json(["success"=>true],200);
+                }       
+         }
+   public function savelastupdate(Request $data){
+      $validator = Validator::make($data->all(),[
+              'image' => 'required|file|image|mimes:jpeg,bmp,png',              
+              ]);
+                if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+                }else{
+              $user = User::find(Auth::user()->id);
+              $user->city =$data->city;
+              $user->address = $data->address;
+              $staff = Staff::find($data->doctor_id);
               $staff->city = $data->city;
-              $staff->datebirth = $data->datebirth;
+              $staff->datebirth = $data->birthdate;
               $staff->experience = $data->experience;
-              $staff->doctortell = $data->doctortell;
+              $staff->tell = $data->doctortell;
               $staff->gender = $data->gender;
               $staff->visit_amount = $data->visit_amount;
               $staff->address = $data->address;
@@ -140,7 +152,10 @@ class doctorsController extends Controller
               $staff->about = $data->about;
               $user->addMediaFromRequest('image')->toMediaCollection('image');
               $staff->save();
-              return redirect()->back();
-            
+               $user->save();
+
+              return redirect()->back()->withInput();
    }
+}
+
 }

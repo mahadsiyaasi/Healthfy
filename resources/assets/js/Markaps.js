@@ -120,7 +120,9 @@ function ajaxtoserv(data,type,url,btn){
       var tybol = res.success?1:0;      
       warner(data,res,tybol)
       if (res.success) {
+        if (data !="#formUpdateDoctora") {
       $(data).trigger("reset")
+    }
       }
       bools =  res;
        //$(btn).btnBootstrap('reset');

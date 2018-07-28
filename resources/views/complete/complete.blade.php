@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+   <?php 
+use App\Http\Controllers\doctorsController; 
+use App\Http\Controllers\customerController; 
+$updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -20,7 +25,7 @@
               <table class="table">
                 <tr>
                   <td style="width: 35%" class="w3-border-right">
-                    <h3> <b>Mahad Cigale</b></h3> 
+                    <h3> <b>{{$updateData->title}} {{$updateData->name}}</b></h3> 
                     <span class="badge w3-red">Not Live</span> <span> Mandtaroty fileds missing </span>
                   </td>
                    <td style="width: 35%" class="w3-border-right">
@@ -49,8 +54,8 @@
            <div class="box-body">
             <ul class="list-group">
               </li>
-                <li class="list-group-item active"><a href="#personal" class="w3-text-black active" data-toggle="tab">Personal Contact Detail</a><i class="fa fa-check-circle-o pull-right" aria-hidden="true"></i></li>
-                <li class="list-group-item"><a href="#education" class="w3-text-black" data-toggle="tab">Education & Specialization <a class="pull-right" ><i class="fa fa-check-circle-o" aria-hidden="true"></i></a></a></li>
+                <li class="list-group-item active"><a href="#personal" class="w3-text-black active" data-toggle="tab">Personal Contact Detail</a><i class="fa fa-check-circle-o pull-right w3-text-green" aria-hidden="true"></i></li>
+                <li class="list-group-item"><a href="#education" class="w3-text-black" data-toggle="tab">Education & Specialization <a class="pull-right" ><i class="fa fa-check-circle-o w3-text-green" aria-hidden="true"></i></a></a></li>
                 <li class="list-group-item"><a href="#documents" data-toggle="tab" class="w3-text-black">Registration & Documents</a> <a class="pull-right" ><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
                 </li>
               <li class="list-group-item">
@@ -74,13 +79,13 @@
           <div class="nav-tabs-custom">
           <div class="tab-content card w3-card w3-border">
              <div class="tab-pane active w3-padding" id="personal">
-                 
-                    @include('complete.tabs.personal')
+                @include('complete.tabs.personal')
               </div>
              <div class="tab-pane" id="education">
-
+                @include('complete.tabs.personal')
               </div>
               <div class="tab-pane" id="documents">
+                 @include('complete.tabs.education')
               </div>
               <div class="tab-pane" id="clinic">
               </div>

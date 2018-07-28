@@ -6,7 +6,7 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
  <div class="box-header with-border">
                     <h3 class="box-title">Complete Your Profile</h3>
                   </div>
-<form method="POST" class="formwork w3-container w3-white"  class="autovaliddate validate" id="doctorfm" style="background: inherit; display: block;" action="/updateDoctorcomplete" enctype="multipart/form-data">
+<form method="POST"  class="autovaliddate validate"  id="formUpdateDoctora" style="background: inherit; display: block;" enctype="multipart/form-data" action="/savelastupdate" >
         <div class="warner">
        
     </div>
@@ -18,12 +18,17 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
          
           <div class="">
             <div class="w3-display-container w3-hover-opacity">
-            <img src="{{ asset('dist/img/avatar.png')}}" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
+            <img src="{{ Auth::user()->getFirstMediaUrl('image', 'thumb') }}" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
             <div class="w3-display-middle w3-display-hover">
               <button   type="button" onclick="$('#imagedoctor').trigger('click')" class="w3-button w3-red">Change picture</button>
             </div>
           </div>
           <input type="file" onchange="return fileValidationView('imagedoctor','doctorimage')"  name="image" id="imagedoctor" style="display: none;" class="user-image img image image-cirle w3-border">
+           @if ($errors->has('image'))
+            <span class="help-block danger-alert" style="color: red">
+                 {{ $errors->first('image') }}
+             </span>
+           @endif
           </div>
           </div>
         </div> 
@@ -117,7 +122,7 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
 
          <div class="col-sm-12"><div class="form-group">
             <label class="w3-text-gray w3-small">About You *</label>
-           <textarea class="w3-input w3-border" name="about" type="text" placeholder="your bio" value="{{ $updateData->address }}" required></textarea>
+           <textarea class="w3-input w3-border" name="about" type="text" placeholder="your bio" value="{{ $updateData->About }}" required>{{ $updateData->about }}</textarea>
           </div></div>
            
 </div>
@@ -127,7 +132,7 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
   </p>
 
                       <div class="navbar-right w3-padding" style="display: inline-block;">
-                        <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; position: relative; right: -5px; bottom: -2.5px" id="doctorbtn">Save</button>
+                        <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; position: relative; right: -5px; bottom: -2.5px"  id="formfieldsubmit" type="button">Save</button>
 
                       </div> 
                        
