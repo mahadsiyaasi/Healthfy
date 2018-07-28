@@ -83,6 +83,7 @@ Route::any('/appointments', 'patientGroupController@appointview');
 Route::any('/complete','doctorsController@complete')->name(__('titles.complete').' | '.config('app.name'));
 Route::any('/updateDoctorcomplete','doctorsController@updateDoctorcomplete');
 Route::any('/savelastupdate','doctorsController@savelastupdate');
+Route::any('/educationDoctor','doctorsController@education');
 
 
 Route::get('storage/{filename}', function ($filename)

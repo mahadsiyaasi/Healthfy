@@ -82,10 +82,9 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
                 @include('complete.tabs.personal')
               </div>
              <div class="tab-pane" id="education">
-                @include('complete.tabs.personal')
+                @include('complete.tabs.education')
               </div>
-              <div class="tab-pane" id="documents">
-                 @include('complete.tabs.education')
+              <div class="tab-pane" id="documents">                 
               </div>
               <div class="tab-pane" id="clinic">
               </div>

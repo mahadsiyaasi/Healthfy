@@ -1,6 +1,6 @@
 <?php
 
-namespace Health\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EnumListing extends Model
 {
-    protected $table = 'enum_listing';
+    protected $table = 'varaible_lists';
 
     public $timestamps = false;
 

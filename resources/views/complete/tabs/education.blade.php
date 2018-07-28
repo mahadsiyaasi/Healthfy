@@ -1,117 +1,72 @@
-@extends('layouts.app')
-@section('content')
    <?php 
 use App\Http\Controllers\doctorsController; 
 use App\Http\Controllers\customerController; 
 $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
 ?>
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        {{Route::currentRouteName()}}
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Complete</a></li>
-        <li><a href="#">Complete Profile</a></li>
-        </ol>
-    </section>
+ <div class="box-header with-border">
+                    <h3 class="box-title">Complete Education Specialization</h3>
+                  </div>
+<form method="POST"  class=""  id="educationfm" style="background: inherit; display: block;" action="/educationDoctor" >
+        <div class="warner">
+       
+    </div>
+ <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
+        <div class="row w3-padding">
+               <div class="col-sm-4">
+            <div class="form-group">
+             <label class="w3-text-gray w3-small">Qualification *</label>
+               <select class="w3-select w3-border" name="qualification" id="Title" required >
+                <option value="" disabled selected>select qualification</option>
+                @foreach(doctorsController::loaddegrees() as $val)
+                 <option value="{{$val->id}}">{{$val->name}}</option>
+                @endforeach  
+              </select> 
+            </div>
+          </div>
 
-    <!-- Main content -->
-    <section class="content">
+            <div class="col-sm-4">  <div class="form-group">
+             <label class="w3-text-gray w3-small">College *</label>
+             <?php use App\Models\EnumListing;
+              $Universites = EnumListing::where("group_key","University")->where("type_key","MedicineUniversity")->get();
+              ?>
+               <select class="w3-select w3-border" name="college"  required onended="getselectedOption(this,'{{$updateData->city}}')">
+                @foreach($Universites as $uni)
 
-      <div class="row">
-        <div class="nav-tabs-custom w3-padding">
-              <table class="table">
-                <tr>
-                  <td style="width: 35%" class="w3-border-right">
-                    <h3> <b>{{$updateData->title}} {{$updateData->name}}</b></h3> 
-                    <span class="badge w3-red">Not Live</span> <span> Mandtaroty fileds missing </span>
-                  </td>
-                   <td style="width: 35%" class="w3-border-right">
-                    <h3> <b>30%<small> Profile Complete </small></b></h3> 
-                   <div class="progress">
-  <div class="progress-bar w3-red" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+               <option value="{{$uni->status_id}}">{{$uni->status_name}}</option>
+
+               @endforeach
+               
+              </select> 
+            </div>
+          </div>
+          <?php $range = range(1970, date("Y")) ?>
+            <div class="col-sm-4"><div class="form-group">
+            <label class="w3-text-gray w3-small">Complete year *</label>
+           <select class="w3-select w3-border" name="city" id="cityupdate" required>
+             <option value="" disabled selected>select year</option>
+               @foreach($range as $year)
+
+                <option value="{{$year}}">{{$year}}</option>
+
+               @endforeach
+              </select> 
+          </div>
+        </div> 
+
+
+
+           
 </div>
-                  </td>
-                   <td style="width: 35%" class="">
-                     <h3><i class="fa fa-exclamation-triangle w3-text-red" aria-hidden="true"></i> <b> 1 </b>  Pending Mandatory field </h3> 
-                    <span class="badge w3-red">Not Live</span> <span> Complete these fields to go your profile live </span>
-                  </td>
-                </tr>
-              </table>
-          </div>
+<div class="w3-padding w3-border-top" style="width: 100%; position: relative;margin-left: -16px ">
+  <p  style="display: inline-block;">    
+    Changes made here requires varification, if its not reflected back in 48 hours please contact with the assistance <a href="/feedback"> Here</a>
+  </p>
 
+                      <div class="navbar-right w3-padding" style="display: inline-block;">
+                        <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; position: relative; right: -5px; bottom: -2.5px"  id="formfieldsubmit" type="submit">Save</button>
 
+                      </div> 
+                       
 
-
-
-        <div class="col-md-3">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Complete Your Profile</h3>
-            </div>
-           <div class="box-body">
-            <ul class="list-group">
-              </li>
-                <li class="list-group-item active"><a href="#personal" class="w3-text-black active" data-toggle="tab">Personal Contact Detail</a><i class="fa fa-check-circle-o pull-right w3-text-green" aria-hidden="true"></i></li>
-                <li class="list-group-item"><a href="#education" class="w3-text-black" data-toggle="tab">Education & Specialization <a class="pull-right" ><i class="fa fa-check-circle-o w3-text-green" aria-hidden="true"></i></a></a></li>
-                <li class="list-group-item"><a href="#documents" data-toggle="tab" class="w3-text-black">Registration & Documents</a> <a class="pull-right" ><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-                </li>
-              <li class="list-group-item">
-                   <a href="#clinic" data-toggle="tab" class="w3-text-black">Clinic fee & Timing</a><a class="pull-right" ><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#services" data-toggle="tab" class="w3-text-black">Services & Experience</a> <a class="pull-right"><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-                </li>
-                <li class="list-group-item" data-toggle="tab">
-                 <a href="#award" class="w3-text-black">Award & Membership</a><a class="pull-right"><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
-                </li>
-               </ul>
-              
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-          <div class="nav-tabs-custom">
-          <div class="tab-content card w3-card w3-border">
-             <div class="tab-pane active w3-padding" id="personal">
-                 
-                    @include('complete.tabs.personal')
-              </div>
-             <div class="tab-pane" id="education">
-
-              </div>
-              <div class="tab-pane" id="documents">
-              </div>
-              <div class="tab-pane" id="clinic">
-              </div>
-              <div class="tab-pane" id="services">
-              </div>
-              <div class="tab-pane" id="award">
-              </div>
-            
-            
-            
-            
-            
-            </div>
-         
-          </div>
-        
-        </div>
-    
-      </div>
-       </section>
-    </div>
-  
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      
-    </div>
-   
-  </footer>
-  @endsection
+                    </div>
+</form>

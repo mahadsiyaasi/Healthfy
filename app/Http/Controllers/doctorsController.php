@@ -157,5 +157,34 @@ class doctorsController extends Controller
               return redirect()->back()->withInput();
    }
 }
+public function education(Request $data){
+  return $data;
+ $validator = Validator::make($data->all(),[
+               'qualification' => 'required|min:2',
+                'year' => 'required|min:2',                
+                'college' => 'required|min:2',             
+              ]);
+                if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+                }else{
+                 $id =  App\Models\Qualification::create([
+                     'doctor_id'=>authController::authDoctor()->id,
+                      'qualification_id'=>$data->qualification,
+                      'college_id'=>$data->college,
+                      'year'=>$data->year,
+                      'date'=>date('Y-m-d H:i:s'),
+                      'status_id'=>1,
+                  ]);
+
+                   return redirect()->back()->withInput();
+
+
+                }
+}
+
+
+
+
+
 
 }
