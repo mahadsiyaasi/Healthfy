@@ -144,7 +144,7 @@ return Response::json($valid->messages());
         'start_date'=>$request->input('start_date'),
         'end_date'=>$request->input('end_date'),
         'start_time'=>$request->input('start_time'),
-        'status_id'=>1,
+        'status_id'=>6,
         'company_id'=>Auth::user()->company_id,
         'date'=>date('Y-m-d H:i:s'),
         'amount'=>$request->input('amount'),

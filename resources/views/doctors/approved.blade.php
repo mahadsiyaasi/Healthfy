@@ -40,14 +40,16 @@ $doctorAuth = authController::authDoctor();
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-       
-        {{$isDocument}}
-        @if($doctor->visit_amount==null || Auth::user()->city==null || Auth::user()->address==null)
-        <script type="text/javascript">
-          location.href = "/complete?user_id={{Auth::user()->id}}&&doctor_id={{$doctor->id}}"
-        </script>
-       @endif
-       
+       <div class="box-body">
+         
+          <table class="table table-stripped" id="unapproved"> 
+
+
+          </table>
+
+
+       </div>
+     
         <!-- /.box-body -->
         <div class="box-footer">
           Footer

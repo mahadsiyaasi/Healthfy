@@ -17,8 +17,8 @@
 
 
 
-Route::group(['middleware' => 'can:patients'], function () {	
-Route::any('/appointments', 'patientGroupController@appointview');
+	Route::group(['middleware' => 'can:patients'], function () {	
+	Route::any('/appointments', 'patientGroupController@appointview');
 	Route::any('/getusers', 'apiController@users');
 	Route::post('/apilogin', 'apiController@login');
 	Route::any('/patients', 'customerController@patient')->name('Patients | '.config('app.name'));
@@ -32,7 +32,6 @@ Route::any('/appointments', 'patientGroupController@appointview');
 	Route::any('/patients/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/patients/{id}/saveprescription','medicationController@saveprescriptionprofile');	
 });
-
 
 	Route::any('/', 'HomeController@index')->name(config('app.name'). ' | '.__('titles.Home'));
 	Route::get('/create/patient', 'apiController@getpatientHome')->name(config('app.name'). ' | '.__('titles.Patient_register'));
@@ -71,20 +70,11 @@ Route::any('/appointments', 'patientGroupController@appointview');
 	Route::any('/{id}/getfrequencylist','medicationController@getfrequencylist');
 	Route::any('/{id}/saveprescription','medicationController@saveprescriptionprofile');
 
-
-
-
-
-
-
-
-
-
-Route::any('/complete','doctorsController@complete')->name(__('titles.complete').' | '.config('app.name'));
-Route::any('/updateDoctorcomplete','doctorsController@updateDoctorcomplete');
-Route::any('/savelastupdate','doctorsController@savelastupdate');
-Route::any('/educationDoctor','doctorsController@education');
-
+	Route::any('/complete','doctorsController@complete')->name(__('titles.complete').' | '.config('app.name'));
+	Route::any('/updateDoctorcomplete','doctorsController@updateDoctorcomplete');
+	Route::any('/savelastupdate','doctorsController@savelastupdate');
+	Route::any('/educationDoctor','doctorsController@education');
+	Route::any('/doctors/unapproved','doctorsController@approved')->name(__('titles.approved').' | '.config('app.name'));
 
 Route::get('storage/{filename}', function ($filename)
 {
@@ -103,33 +93,12 @@ Route::get('storage/{filename}', function ($filename)
     return $response;
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
 	Route::any('/doctors', 'doctorsController@doctor')->name('Doctors | '.config('app.name'));
 	Route::any('/savedoctor','doctorsController@savedoctor');
 	Route::any('/loaddoctors','doctorsController@loaddoctors');
-	
+	Route::any('/doctors/loaddoctors','doctorsController@loaddoctors');
 	Route::any('/editor','editorController@editor')->name('Editor | '.config('app.name'));
 	Route::any('/cancels','editorController@cancels');
 	Route::any('/tests','testsController@home')->name('Tests | '.config('app.name'));

@@ -95,14 +95,47 @@ class doctorsController extends Controller
     }
 }
   public function loaddoctors(Request $request){
-    $data  = DB::table("staff")->where("status_id",1) 
-    ->where("company_id",Auth::user()->company_id)
-    ->where("type",$request->input("filter")?$request->input("filter"):"Doctor")
-    ->get();
-    return response::json($data,200);
+          if ($request->unapproved) {
+           $data  = DB::table("staff")->where("status_id",6) 
+          ->get();
+         return \DataTables::of($data)->make(true);
+          }elseif($request->_id){
+            $staff =Staff::find($request->_id);
+            $staff->status_id = 1;
+            $staff->save();
+            return response()->json(['success'=>true]);
+
+
+
+          }
+          elseif($request->decline_id){
+            $staff =Staff::find($request->decline_id);
+            $staff->status_id = 6;
+            $staff->save();
+            return response()->json(['success'=>true]);
+
+
+
+          }
+
+
+          else{
+
+
+          $data  = DB::table("staff")->where("status_id",1) 
+         ->where("type",$request->input("filter")?$request->input("filter"):"Doctor")
+          ->get();
+         return \DataTables::of($data)->make(true);
+        }
     }
      public static function getdoctor(){
       $data  = Staff::where("id",\App\Http\Controllers\authController::authDoctor()->id)
+      ->where("status_id",1)
+      ->first();
+      return $data;
+    }
+    public static function getdDC($id){
+      $data  = Staff::where("id",$id)
       ->where("status_id",1)
       ->first();
       return $data;
@@ -181,7 +214,9 @@ public function education(Request $data){
 
                 }
 }
-
+  public function approved(Request $data){
+    return view("doctors.approved");
+  }
 
 
 

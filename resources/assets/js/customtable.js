@@ -362,12 +362,21 @@ function ajaxdefiner(array){
             data:array.ajax.data,
            async: false,
             success:function(data){
+              if (data.data) {
+                   data = $.each(eval(data.data),function(i,dt){
+                  if (dt.__proto__) {          
+                  dt.__proto__ = null;            
+                }
+                })
+                   columngenarator(array,data);
+              }else{
               data = $.each(eval(data),function(i,dt){
                 if (dt.__proto__) {          
                 dt.__proto__ = null;            
               }
               })
                 columngenarator(array,data);
+              }
             }
         })
 }

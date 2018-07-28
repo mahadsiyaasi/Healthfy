@@ -18,7 +18,9 @@ $(document).ready(function(){
             { title:"Nationality",data: 'nationality', name: 'nationality' },
             { title:"Address",data: 'address', name: 'address' },
             {title:"Speciality", data: 'specialization', name: 'specialization' },
-            {title:"Speciality", data: 'id', name: 'id', visible: false}
+            {title:"Access", data: 'specialization', name: 'specialization'},
+            {title:"Speciality", data: 'id', name: 'id', visible: false},
+            
             ];
   alleditdata(tableid,"loaddoctors",columns,"updatedoctor","delldoctor"); 
   }else if (tableid=="Patient") {
@@ -123,7 +125,25 @@ function alleditdata(tableid,url,columns,updateid,delid){
                   }
                 },
                 "targets": 1
-            },],
+            },
+
+            {
+     
+                "render": function ( data, type, row ) {
+                  if (row.id) {
+                   return ' <div class="dropdown " style="display:inline-block;"><button type="button" onclick="paymentpopup(this)" tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class=" w3-green w3-border w3-border-white " style="border:none">Active</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="proccedtoUnApprove(this)" _id="'+row.id+'" ><i class="fa fa-check"></i> Decline</a></li>'
+                         +' <li class=""><a class="" onclick="paymentpopup(this)" tagid="'+row.id+'" ><i class="fa fa-file"></i>History & Files</a></li>'
+                         +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn"  tablename="OrderMaster" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Cancel</a></li>'
+                       +' </ul>'+
+                    '</div>'
+                  }
+                },
+                "targets": 7
+            },
+
+            ],
                    columns: columns
       
    });

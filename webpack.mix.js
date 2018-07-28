@@ -74,6 +74,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/precription.js',  
     'resources/assets/js/role.js', 
      'resources/assets/js/imageload.js', 
+      'resources/assets/js/approve.js', 
      //'resources/assets/js/social.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');

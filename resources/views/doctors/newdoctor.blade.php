@@ -35,14 +35,14 @@ use App\Http\Controllers\customerController;
        
     </div>
  <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
-        @if(doctorsController::getdoctor(Request::get('doctor')))
-        <input type="hidden" name="hiddenid" value="{{ doctorsController::getdoctor(Request::get('doctor'))->id }}" />
+        @if(doctorsController::getdDC(Request::get('doctor')))
+        <input type="hidden" name="hiddenid" value="{{ doctorsController::getdDC(Request::get('doctor'))->id }}" />
            <div class="w3-row w3-section">
             <div class="w3-col" style="width: 100px">
               <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Doctor Name</label>
             </div>
               <div class="w3-rest">
-                <input class="w3-input w3-border-bottom" name="doctorname" type="text" placeholder="Fullname" value="{{ doctorsController::getdoctor(Request::get('doctor'))->name }}" required>
+                <input class="w3-input w3-border-bottom" name="doctorname" type="text" placeholder="Fullname" value="{{ doctorsController::getdDC(Request::get('doctor'))->name }}" required>
               </div>
           </div>
 
@@ -70,7 +70,7 @@ use App\Http\Controllers\customerController;
                     <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Tell</label>
                   </div>
                     <div class="w3-rest">
-                       <input class="w3-input w3-border-bottom" name="doctortell" type="text" placeholder="Phone +2526" value="{{ doctorsController::getdoctor(Request::get('doctor'))->tell }}" required>
+                       <input class="w3-input w3-border-bottom" name="doctortell" type="text" placeholder="Phone +2526" value="{{ doctorsController::getdDC(Request::get('doctor'))->tell }}" required>
                    
                     </div>
                 </div>
@@ -101,7 +101,7 @@ use App\Http\Controllers\customerController;
                     <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">birth date</label>
                   </div>
                     <div class="w3-rest">
-                        <input class="w3-input w3-border-bottom" name="birthdate" id="birthdates" type="text" placeholder="birth date" value="{{ doctorsController::getdoctor(Request::get('doctor'))->datebirth }}" required>
+                        <input class="w3-input w3-border-bottom" name="birthdate" id="birthdates" type="text" placeholder="birth date" value="{{ doctorsController::getdDC(Request::get('doctor'))->datebirth }}" required>
                    
                     </div>
                 </div>
@@ -124,7 +124,7 @@ use App\Http\Controllers\customerController;
                     <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Salary</label>
                   </div>
                     <div class="w3-rest">
-                        <input class="w3-input w3-border-bottom" name="salary" type="text" placeholder="salary $" value="{{ doctorsController::getdoctor(Request::get('doctor'))->salary }}" required>
+                        <input class="w3-input w3-border-bottom" name="salary" type="text" placeholder="salary $" value="{{ doctorsController::getdDC(Request::get('doctor'))->salary }}" required>
                    
                     </div>
                 </div>
@@ -135,7 +135,7 @@ use App\Http\Controllers\customerController;
                     <label class="w3-col w3-small" style="bottom: -10px;position: relative; text-align: right; margin-left: -13px">Address</label>
                   </div>
                     <div class="w3-rest">
-                        <input class="w3-input w3-border-bottom" name="address" type="text" placeholder="Address" value="{{ doctorsController::getdoctor(Request::get('doctor'))->address }}" required>
+                        <input class="w3-input w3-border-bottom" name="address" type="text" placeholder="Address" value="{{ doctorsController::getdDC(Request::get('doctor'))->address }}" required>
                    
                     </div>
                 </div>
@@ -144,7 +144,7 @@ use App\Http\Controllers\customerController;
                     <label class="w3-col w3-small" style="bottom: -10px;position: relative; top: -2px; text-align: right; margin-left: -13px">Visit Amount</label>
                   </div>
                     <div class="w3-rest">
-                        <input class="w3-input w3-border-bottom" name="vamount" type="text" placeholder=" amount $" value="{{ doctorsController::getdoctor(Request::get('doctor'))->visit_amount }}" required>
+                        <input class="w3-input w3-border-bottom" name="vamount" type="text" placeholder=" amount $" value="{{ doctorsController::getdDC(Request::get('doctor'))->visit_amount }}" required>
                    
                     </div>
                 </div>
