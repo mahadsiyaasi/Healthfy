@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<?php 
+use App\Http\Controllers\paymentController; 
+$paymentMethod = paymentController::PaymentMethod();
+?>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -57,7 +62,7 @@
                  <?php $last =0;; 
                   $detail_id = 0;
                  ?>
-                @foreach($payment as $vals)
+                @foreach($paymentMethod as $vals)
                   @if($vals['parent_id']==null)
                      <tr>
                       <td class="text-center w3-light-gray active"> action <span class="badge w3-blue"> <i class="fa fa-edit"></i> </span></td>
@@ -69,7 +74,7 @@
                   @endif
                 <?php $last = $vals['id']; ?>
                 <?php $detail_id = $vals['parent_id']; ?>
-                @foreach($payment as $val)
+                @foreach($paymentMethod as $val)
                 @if($val['parent_id'] == $vals['id'])
                 <tr>
                  <td><a><i class="fa fa-edit"></i></a></td>

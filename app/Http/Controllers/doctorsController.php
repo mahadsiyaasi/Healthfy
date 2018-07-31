@@ -10,6 +10,7 @@ use App\Models\Staff;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use App\User;
+use App\Models\Appointment;
 class doctorsController extends Controller
 {
     public function __construct()
@@ -130,7 +131,7 @@ class doctorsController extends Controller
     }
      public static function getdoctor(){
       $data  = Staff::where("id",\App\Http\Controllers\authController::authDoctor()->id)
-      ->where("status_id",1)
+      ->where("status_id",">",0)
       ->first();
       return $data;
     }
@@ -218,8 +219,26 @@ public function education(Request $data){
     return view("doctors.approved");
   }
 
-
-
-
-
+public function appoints(){
+   return view("doctors.home.appoints");
+}
+    public function appointview(){
+     $json = Appointment::join('staff','staff.id','=','appointment.doctor_id')
+    ->join('patients','patients.id','=','appointment.patient_id')
+    ->join('varaible_lists','varaible_lists.status_id','=','appointment.status_id')
+    ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease',"appointment.status_id")
+    ->where("doctor_id",authController::authDoctor()->id)
+    ->where("appointment.status_id",'>',0)
+    //->where("appointment.company_id",'=',Auth::user()->company_id)
+    ->get();
+    return  datatables()->of($json)->toJson();
+    }
+    public function appointmentStatusChange(Request $data){
+      if ($data->status_id ==1) {
+            $update = Appointment::find($data->_id);
+            $update->status_id = 2;
+            $update->save();
+            return response()->json(['success'=>true]);
+      }
+    }
 }

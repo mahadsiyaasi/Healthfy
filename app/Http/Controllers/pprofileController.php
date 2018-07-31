@@ -41,7 +41,7 @@ public function mainappoint(Request $request){
     $json = Appointment::join('staff','staff.id','=','appointment.doctor_id')
     ->join('patients','patients.id','=','appointment.patient_id')
     ->join('varaible_lists','varaible_lists.status_id','=','appointment.status_id')
-    ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease')
+    ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease',"appointment.status_id","appointment.doctor_id","appointment.patient_id")
     ->where("patient_id",authController::AuthPatient()->id)
     ->where("appointment.status_id",'>',0)
     //->where("appointment.company_id",'=',Auth::user()->company_id)

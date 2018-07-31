@@ -40,12 +40,19 @@ class editorController extends Controller
                   $master->status_id = 0;
                   $master->save();
                 }
+         }elseif ($request->manipulate) {
+          $arra =\App\Models\Appointment::find($request->id);
+          $arra->status_id = 165;
+          $arra->save();
          }
+
+         else{
 
     	$data  = $table::find($request->input("id"));
     	$data->status_id=0;
     	$data->save();
     	$arrayName = array('success' =>" success full cencelled !");
     	return Response::json($arrayName);
+    }
     }
 }

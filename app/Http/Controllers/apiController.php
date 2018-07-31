@@ -168,7 +168,7 @@ class apiController extends Controller
 			        'salary'=> 0,
 			        "user_id"=> $id,
 			        'type'=>"Doctor",
-			        "status_id"=>1,
+			        "status_id"=>6,
 			        "company_id"=>0,
 			       ]);
    		return redirect("/create/doctor?user_id=".$id."&doctor_id=".$doctor_id."&email=".$data->email."&phone=".$data->phone)->withInput()->withErrors($data);

@@ -200,6 +200,8 @@ function profileviewappointent(){
             { title:"start time",data: 'start_time', name: 'start_time', visible:false},
             { title:"end time",data: 'end_time', name: 'end_time', visible:false},
             { title:"status", data: 'status_name', name: 'status_name', visible:false},
+            { title:"status", data: 'patient_id', name: 'patient_id', visible:false},
+            { title:"status", data: 'doctor_id', name: 'doctor_id', visible:false},
 
             ],"columnDefs": [{
          'targets': 0,
@@ -240,9 +242,21 @@ function profileviewappointent(){
             },
             {
                 'width': 20,
-                "render": function ( row, type, data ) {
-                    return '<div class="w3-row"> <span class="badge w3-blue">'+data.status_name+'</span></div>';
-                },
+                "render": function ( data, type, row ) {
+                   if (row.status_id==2) {
+          return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">Waiting payment</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="PaymentAppoint(this)" tagid="'+row.id+'"  appoint_id="'+row.id+'"  patient_id="'+row.patient_id+'"  doctor_id="'+row.doctor_id+'"  total="'+row.amount+'"  tagtype="appoint"  ><i class="fa fa-dollar"></i> pay now </a></li>'
+            
+                       +' </ul>'+
+                    '</div>'
+                }else if (row.status_id==165){
+                    return "<span class='badge w3-red'> "+row.status_name+" </span>"
+                }
+                else{
+                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                }
+              },
                 "targets": 4
             },
 
@@ -276,4 +290,296 @@ function profileviewappointent(){
             } );
         }*/
     });
+}
+var doctors_appoints;
+var pays_table;
+$(document).ready(function(){
+  
+  doctors_appoints= $('#appoin_table_doctor').DataTable({
+    "initComplete": function( settings, json ) {
+    $('div.loading').remove();
+    },
+    autoWidth:true,
+    paging: true,
+    searching: { "regex": true },
+    lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+    pageLength: 10,
+    "bProcessing": true,
+    "bPaginate":true,
+    "sPaginationType":"full_numbers",
+    ajax:{
+    url:"/doctors/appointview", // Change this URL to where your json data comes from
+    type: "POST", // This is the default value, could also be POST, or anything you want.
+    data: function(d) {
+    d._token  = _token;
+    },
+    },
+   //"sAjaxSource":'?_token='+$('meta[name="csrf-token"]').attr('content')       
+    columns: [             
+          
+            {title:"Details About Patient And Doctor", data: 'name', name: 'name'},          
+            { title:"Appointment date",data: 'amount', name: 'amount'},
+            { title:"Reason",data: 'date', name: 'date'},
+            { title:"Status & Action",data: 'start_date', name: 'start_date'},          
+            { title:"Status Co", data: 'status_name', name: 'status_name', visible:false},
+               {title:"Action", data: 'id', name: 'id',width: 20, visible:false},
+              { title:"status s", data: 'status_id', name: 'status_id', visible:false},
+                {title:"Patient", data: 'patient_name', name: 'patient_name', visible:false},
+            { title:"end date",data: 'end_date', name: 'end_date', visible:false},
+            { title:"start time",data: 'start_time', name: 'start_time', visible:false},
+            { title:"end time",data: 'end_time', name: 'end_time', visible:false},
+       
+
+            ],"columnDefs": [
+                          {
+                               "render": function ( row, type, data ) {
+                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><span class="w3-text-gray">Dr : </span><span class="w3-text-black" style="">'+data.name+
+                    ' </span></p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+
+                    '<table class="w3-table"><tr><td><span class="w3-text-gray">PA : </span><span class="w3-text-black">'+data.patient_name+
+                    '</span>(<span class="w3-text-gray">AP-id : </span>(# <strong class="w3-text-black">'+data.id+
+                    '</strong>)) </p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block">Amount:<span class="w3-text-white badge w3-blue"> $' + data.amount + 
+                    ' </span></p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block"> date: <span class="w3-text-black">'+data.date+
+                    '</span></p></td></tr></table></div> </div>';
+                }, 
+                "targets": 0
+            },
+            {
+               
+                "render": function ( row, type, data ) {
+                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><span class="w3-text-gray"></span><span class="w3-text-black" style="">'+data.start_date+' (<small><span class="badge w3-blue">'+data.start_time+'</span></small>)</span></p></div><br><div class=" " style="t"><p class="" style="position:relative;top:-4px"><span class="w3-text-gray"> </span><span class="w3-text-black" style="">'+data.end_date+' (<small><span class="badge w3-blue">'+data.end_time+'</span></small>)</span></p></div></div></td>';
+                },
+                "targets": 1
+            },
+            {
+                
+                "render": function ( row, type, data ) {
+                    return '<div class="w3-row">'+data.disease+' <a class="badge w3-blue" id="appoinmoreview"><i class="fa fa-plus"></i></a></div>';
+                },
+                "targets": 2
+            },
+            
+            {
+         'targets': 3,
+     
+         "render": function ( data, type, row ) {
+            if (row.status_id==1) {
+          return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">Waiting Approval</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="ApproveAppointToPayment(this)" _id="'+row.id+'" ><i class="fa fa-check"></i> Confirm </a></li>'
+                        
+                         +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn" type="Appoint" forid="'+row.id+'"  tablename="Appointment"  htmtable="doctors_appoints" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Reject</a></li>'
+                       +' </ul>'+
+                    '</div>'
+                }else{
+                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                }
+         },
+
+      }
+
+        ],
+    
+       /* "order": [[ 0, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+              var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+               var data =  appoin_table.row(i).data();
+           var htmsddd= "<div class='w3-padding'><a  href='"+_id+"/add?new=test' id='addstyle'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''>  <i class='fa fa-plus' aria-hidden='true'></i> Add</a>   <a  id='justprint'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''> | <i class='fa fa-print' aria-hidden='true'></i> print</a></div>";
+                grouphtm = emptyraw+'<tr class="w3-text-white w3-light-blue w3-medium" style="padding:0px 0px 0px">'+
+                '<td colspan="6"><div class="w3-row"><div class="w3-half"> <p class="w3-large" style="position:relative;top:-4px">  <span class="w3-text-black">Dr.</span> '+data.patient_name+' </p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+data.patient_name+'(order id(# <strong class="w3-text-black">'+data.id+'</strong>)) </p></div> <div class="w3-half ">Tested from  <strong>'+data.date+'</strong></div></div></td><td colspan="6"> Total $'+data.amount+
+                '</td><td id='+data.patient_name+'> '+htmsddd+'</td></tr>';
+               
+               $(rows).eq( i ).before(
+
+                     grouphtm
+                    
+
+                    );
+
+                    last = group;
+                }
+            } );
+        }*/
+    });
+
+
+
+
+ pays_table= $('#patient_pays').DataTable({
+    "initComplete": function( settings, json ) {
+    $('div.loading').remove();
+    },
+    autoWidth:true,
+    paging: true,
+    searching: { "regex": true },
+    lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+    pageLength: 10,
+    "bProcessing": true,
+    "bPaginate":true,
+    "sPaginationType":"full_numbers",
+    ajax:{
+    url:"/patients/mypaysPatient", // Change this URL to where your json data comes from
+    type: "POST", // This is the default value, could also be POST, or anything you want.
+    data: function(d) {
+    d._token  = _token;
+    },
+    },
+   //"sAjaxSource":'?_token='+$('meta[name="csrf-token"]').attr('content')       
+    columns: [             
+          
+            {title:"Tran #id", data: 'paymentid', name: 'paymentid'},          
+            { title:"Appointment name",data: 'name', name: 'name'},
+            { title:"Account",data: 'account', name: 'account'},
+            { title:"Amount",data: 'balance', name: 'balance'},          
+            { title:"Status", data: 'status_name', name: 'status_name'},
+               
+       
+
+            ],"columnDefs": [
+                          
+            {
+         'targets': 1,
+     
+         "render": function ( data, type, row ) {
+          
+          return 
+                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+              
+         },
+
+      }
+
+        ],
+    
+       /* "order": [[ 0, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+              var emptyraw;//='<tr class=""><td  class="" style="height:10px" colspan="2"> </td></tr>';
+               var data =  appoin_table.row(i).data();
+           var htmsddd= "<div class='w3-padding'><a  href='"+_id+"/add?new=test' id='addstyle'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''>  <i class='fa fa-plus' aria-hidden='true'></i> Add</a>   <a  id='justprint'   class=' w3-text-white  w3-round-medium w3-text-bold' style='cursor:pointer;width:150px;' onClick=''> | <i class='fa fa-print' aria-hidden='true'></i> print</a></div>";
+                grouphtm = emptyraw+'<tr class="w3-text-white w3-light-blue w3-medium" style="padding:0px 0px 0px">'+
+                '<td colspan="6"><div class="w3-row"><div class="w3-half"> <p class="w3-large" style="position:relative;top:-4px">  <span class="w3-text-black">Dr.</span> '+data.patient_name+' </p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+data.patient_name+'(order id(# <strong class="w3-text-black">'+data.id+'</strong>)) </p></div> <div class="w3-half ">Tested from  <strong>'+data.date+'</strong></div></div></td><td colspan="6"> Total $'+data.amount+
+                '</td><td id='+data.patient_name+'> '+htmsddd+'</td></tr>';
+               
+               $(rows).eq( i ).before(
+
+                     grouphtm
+                    
+
+                    );
+
+                    last = group;
+                }
+            } );
+        }*/
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
+
+function ApproveAppointToPayment(datas){
+  var dism = $("body").DeteilView({
+     title:' Approval Appointment',
+    width:"50%",
+    color:"w3-white",
+    fade:"w3-animate-zoom",
+    buttontext:"Procced",
+    buttoneventclass:"OK",
+    buttoncolor:"w3-blue",
+    body:"<h1>Are sure to approve this Appointment ?</h1><p class='badge w3-blue'><td><strong>Note</strong> This will procced to payment  . . .</td></p>",
+    savebtn:true,
+    cancelbtn:true,
+    submitData: function(){
+      var data  = ajaxtoserv({_token:_token,"_id":$(datas).attr("_id"),"status_id":1},"not form","appointmentStatusChange",null);
+        if (data.success) {
+          doctors_appoints.ajax.reload();
+          return true;
+          }
+
+    }
+  })
+
+}
+
+
+////////////////////////////////////////
+function PaymentAppoint(datas){
+var data  = ajaxtoserv({'_token':_token,doctor_id:$(datas).attr("doctor_id")},"not form","listjsonPayment",this);
+var selectincde;
+var total =$(datas).attr("total") ;
+var patient_id = $(datas).attr("patient_id");
+var appoint_id = $(datas).attr("appoint_id");
+var doctor_id = $(datas).attr("doctor_id");
+   $.each(eval(data.payment),function(ins,itemdata){
+    
+    selectincde +='<option class="w3-text-light-black" value="'+itemdata.account+'">'+itemdata.account+'</option>'
+  
+   })
+   
+var htmls = '<form method="post" class="w3-padding" id="labpayment"><div class="warner"></div><input type="hidden" value="'+patient_id+'" name="patient_id"><input type="hidden" value="'+appoint_id+'" name="appoint_id"><input type="hidden" value="'+patient_id+'" name="patient_id"><input type="hidden" value="'+doctor_id+'" name="doctor_id">'+
+'<div class="w3-row-padding"><div class="w3-third"><label>Total Amount</label><input type="text"  name="total_amount" value="'+total+'"  readonly="readonly" class="w3-input " style="background: inherit;border: none;"></div><div class="w3-third"><label>Discount</label><input type="text"  onchange="discounts()" name="discount" value="no discount allowed" readonly="readonly" placeholder="discount" class="w3-input"></div><div class="w3-third"><label>Balance</label><input type="text"  name="curency" placeholder="Amount" value="'+total+'" readonly="readonly" class="w3-input" style="background: inherit;border: none;"></div></div>'+
+'<div class="w3-container"><label class="w3-label">Account</label><select  class="form-control" data-width="100%" id="liststrenght"  data-title="choose..." name="accountpay">'+selectincde+'</select></div><div class="w3-padding"><input type="hidden" name="actiontype"><label>Remark</label><textarea class="w3-input w3 w3-border-bottom" name="remark" placeholder="Note text as remark" style="resize: none;"></textarea></div></form>'
+
+
+if (data) {
+modalmakeup({
+  title:"payment form",
+  width:"50%",
+  color:"w3-white",
+  fade:"w3-animate-zoom",
+  buttontext:"Save",
+  buttoneventclass:"savelabpaymentbtn",
+  buttoncolor:"w3-blue",
+  buttons: {
+                saveg: function() {
+                    alert("this paresed")
+                    
+                },
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            },
+  body :htmls
+  });
+$('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
+ if (ajaxtoserv($('body').find("#oncreate #labpayment"),"form","appointpayment?_token="+_token+"&tagtype=appoint",this).success){
+      setTimeout(function(){ 
+          removebesmodal()
+           doctors_appoints.ajax.reload();
+            //$("#tablepagecounter").text(getcountofrows("lbredefine"));
+     },1000)
+    }
+
+
+})
+}
 }

@@ -15,6 +15,7 @@ class PaymentMethod extends Model
         'status_id',
         'description',
         'parent_id',
+        'user_id',
         'account',
     ];   
 

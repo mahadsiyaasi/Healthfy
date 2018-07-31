@@ -75,6 +75,9 @@
 	Route::any('/savelastupdate','doctorsController@savelastupdate');
 	Route::any('/educationDoctor','doctorsController@education');
 	Route::any('/doctors/unapproved','doctorsController@approved')->name(__('titles.approved').' | '.config('app.name'));
+	Route::any('/doctors/appoints','doctorsController@appoints')->name(__('titles.doctorAppoint').' | '.config('app.name'));
+	Route::any('/doctors/appointview','doctorsController@appointview');
+	Route::any('/doctors/appointmentStatusChange','doctorsController@appointmentStatusChange');
 
 Route::get('storage/{filename}', function ($filename)
 {
@@ -137,8 +140,12 @@ Route::get('storage/{filename}', function ($filename)
 
 
 
+Route::any('/listjsonPayment','paymentController@jsonPaymentMethod');
+Route::any('/appointpayment','paymentController@appointpayment');
 
 
+Route::any('/payments','paymentController@patientpays');
+Route::any('patients/mypaysPatient','paymentController@mypaysPatient');
 
 
 

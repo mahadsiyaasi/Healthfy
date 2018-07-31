@@ -50,7 +50,27 @@
   var table  =  $(data).attr("tablename");
   htmtable = $(data).attr("htmtable")
   var anoth = $(data).attr("tabletoreload");
-
+if ($(data).attr("type")) {
+   $(".gosave").click(function(){
+  $.ajax({
+  url:"/cancels",
+  datatype:"json",
+  type:"POST",
+  async: false,
+  data:{id:ids,_token:_token,table:table,manipulate:$(data).attr("type")},
+  success:function(data){
+  mybool = true;
+   $(".dismism").trigger("click")
+   if (htmtable) {
+   window[htmtable].ajax.reload(); 
+   }else if (anoth) {
+    window[anoth].reload();
+   }
+    mybool =  true;
+  }
+  })
+  })
+}else{
   $(".gosave").click(function(){
   $.ajax({
   url:"/cancels",
@@ -70,6 +90,7 @@
   }
   })
   })
+}
   return mybool;
   }
   function editgroup(data){

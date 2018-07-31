@@ -12,4 +12,5 @@ return [
       'prescripe'=>"Prescrips",
       'complete'=>"Complete Profile",
        'approved'=>"Un Approved Doctors",
+       'doctorAppoint'=>"Doctors Appointments",
 ];

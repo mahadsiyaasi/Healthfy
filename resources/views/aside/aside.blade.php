@@ -13,7 +13,7 @@ $doctorAuth = authController::authDoctor();
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{asset(companyController::company()->logo)}}"  class="img-circle" alt="User Image">
+          <img src="{{asset('webicon/cropped.png')}}"  class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{ companyController::company()->name }}</p>

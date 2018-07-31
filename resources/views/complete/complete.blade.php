@@ -1,20 +1,31 @@
-@extends('layouts.app')
-@section('content')
-   <?php 
-use App\Http\Controllers\doctorsController; 
-use App\Http\Controllers\customerController; 
-$updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>Complete profile</title>
+ <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+ <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
+</head>
+  <?php 
+  use App\Http\Controllers\doctorsController; 
+  use App\Http\Controllers\customerController; 
+  $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
 ?>
-<div class="content-wrapper">
+<body>
+<div class="" id="app">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
+    <section class="content-header allback">
+      <h1 style="display: inline-block;">
         {{Route::currentRouteName()}}
       </h1>
-      <ol class="breadcrumb">
+      <h1 style="display:  inline-block; width: 40%"> @if($updateData->status_id==6)<span class="badge w3-red"> Not Approved</span> <span> <small> to be alligable approvement complete your profile </small>@else <span class="badge w3-blue"><i class="fa fa-check-circle-o w3-text-white"> approved</i>@endif</span></h1>
+      <ol class="breadcrumb" style="display: inline-block;l">
         <li><a href="#"><i class="fa fa-dashboard"></i> Complete</a></li>
         <li><a href="#">Complete Profile</a></li>
+       <li><a class="btn w3-blue" href="{{url('logout')}}">logout</a></li>
         </ol>
+      
     </section>
 
     <!-- Main content -->
@@ -113,4 +124,7 @@ $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
     </div>
    
   </footer>
-  @endsection
+    <script src="{{ asset('js/app.js') }}"></script>         
+              <script src="{{ asset('js/all.js') }}"></script>   
+</body>
+</html>

@@ -1,7 +1,7 @@
    <?php 
 use App\Http\Controllers\doctorsController; 
 use App\Http\Controllers\customerController; 
-$updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
+$updateData  =doctorsController::getdoctor();
 ?>
  <div class="box-header with-border">
                     <h3 class="box-title">Complete Your Profile</h3>
