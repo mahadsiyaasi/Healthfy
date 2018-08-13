@@ -10,7 +10,8 @@
   <?php 
   use App\Http\Controllers\doctorsController; 
   use App\Http\Controllers\customerController; 
-  $updateData  =doctorsController::getdoctor(Request::get('doctor_id'));
+  $updateData  =doctorsController::getdoctor();
+  //echo "$updateData";
 ?>
 <body>
 <div class="" id="app">
@@ -126,5 +127,38 @@
   </footer>
     <script src="{{ asset('js/app.js') }}"></script>         
               <script src="{{ asset('js/all.js') }}"></script>   
+              <script type="text/javascript">
+                $(document).ready(function(){
+                if ($("#countryhidden").length !=0) {
+                 populateCountries("countryhidden", "cityupdate");
+                 }
+                 $("#countryhidden").find("option").each(function(){
+                  if (this.value=="{{$updateData->nationality}}") {
+                    $(this).attr("selected",true)
+                     $(this)
+              .parent()
+              .trigger('change');
+                  }
+                 })
+
+          $("#cityupdate").find("option").each(function(){
+                  if (this.value=="{{$updateData->city}}") {
+                    $(this).attr("selected",true)
+                     $(this)
+              .parent()
+              .trigger('change');
+                  }
+                 })
+
+
+
+
+                })
+                function imgError(image) {
+                      image.onerror = "";
+                      image.src = "{{ asset('dist/img/avatar.png')}}";
+                      return true;
+                  }
+              </script>
 </body>
 </html>

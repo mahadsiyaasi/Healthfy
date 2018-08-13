@@ -18264,6 +18264,66 @@ function removeColorizeErrors(modal,i){
   $(modal).find("select[name="+i+"]").parents("div:first").find("label").remove()
   $(modal).find("textarea[name="+i+"]").parents("div:first").find("label").remove()
 }
+function _dateStyl(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+function _timeStyl(date) {
+  date = new Date(date);
+  let diff = new Date() - date; // the difference in milliseconds
+  if (diff < 1000 && diff>0) { // less than 1 second
+    return 'right now';
+  }
+  if (diff < 0) { // less than 1 second
+    let d = date;
+  d = [
+    '0' + d.getDate(),
+    '0' + (d.getMonth() + 1),
+    '' + d.getFullYear(),
+    '0' + d.getHours(),
+    '0' + d.getMinutes()
+  ].map(component => component.slice(-2));
+
+  // join the components into date
+  return _dateStyl(date)+ ' ' + d.slice(3).join(':');
+  }
+
+  let sec = Math.floor(diff / 1000); // convert diff to seconds
+
+  if (sec < 60) {
+    return sec + ' sec. ago';
+  }
+
+  let min = Math.floor(diff / 60000); // convert diff to minutes
+  if (min < 60) {
+    return min + ' min. ago';
+  }
+
+  // format the date
+  // add leading zeroes to single-digit day/month/hours/minutes
+ let d = date;
+  d = [
+    '0' + d.getDate(),
+    '0' + (d.getMonth() + 1),
+    '' + d.getFullYear(),
+    '0' + d.getHours(),
+    '0' + d.getMinutes()
+  ].map(component => component.slice(-2));
+
+  // join the components into date
+  return _dateStyl(date)+ ' ' + d.slice(3).join(':');
+}
+
 var _token =$('meta[name="csrf-token"]').attr('content');
 var _id =  $("input[name=patient_id]").val();
 $("#togglemenu").trigger("click");
@@ -19577,17 +19637,17 @@ $(document).ready(function(){
             { title:"end date",data: 'end_date', name: 'end_date', visible:false},
             { title:"start time",data: 'start_time', name: 'start_time', visible:false},
             { title:"end time",data: 'end_time', name: 'end_time', visible:false},
-       
+            { title:"title",data: 'title', name: 'title', visible:false},
+       { title:"title",data: 'patient_id', name: 'patient_id', visible:false},
 
             ],"columnDefs": [
                           {
                                "render": function ( row, type, data ) {
-                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><span class="w3-text-gray">Dr : </span><span class="w3-text-black" style="">'+data.name+
-                    ' </span></p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+
-                    '<table class="w3-table"><tr><td><span class="w3-text-gray">PA : </span><span class="w3-text-black">'+data.patient_name+
-                    '</span>(<span class="w3-text-gray">AP-id : </span>(# <strong class="w3-text-black">'+data.id+
-                    '</strong>)) </p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block">Amount:<span class="w3-text-white badge w3-blue"> $' + data.amount + 
-                    ' </span></p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block"> date: <span class="w3-text-black">'+data.date+
+                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><a href="/doctors/'+data.id+'"><span class="w3-text-gray">'+data.title+' </span><span class="w3-text-black" style="">'+data.name+
+                    ' (you) </span></a></p> <p class="w3-small" style="position:relative; margin-bottom:-18px;top:-15px">'+
+                    '<table class="w3-table"><tr><td><span class="w3-text-gray">PA : <a href="/patients/'+data.patient_id+'"></span><span class="w3-text-black">'+data.patient_name+
+                    '</span></a></p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block">Amount:<span class="w3-text-white badge w3-blue"> $' + data.amount + 
+                    ' </span></p></td><td><p class="w3-small w3-text-gray" style="position: relative;display:inline-block"> Created At: <span class="w3-text-black">'+_timeStyl(data.date)+
                     '</span></p></td></tr></table></div> </div>';
                 }, 
                 "targets": 0
@@ -19595,7 +19655,7 @@ $(document).ready(function(){
             {
                
                 "render": function ( row, type, data ) {
-                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><span class="w3-text-gray"></span><span class="w3-text-black" style="">'+data.start_date+' (<small><span class="badge w3-blue">'+data.start_time+'</span></small>)</span></p></div><br><div class=" " style="t"><p class="" style="position:relative;top:-4px"><span class="w3-text-gray"> </span><span class="w3-text-black" style="">'+data.end_date+' (<small><span class="badge w3-blue">'+data.end_time+'</span></small>)</span></p></div></div></td>';
+                    return '<div class="w3-row"><div class=""> <p class="" style="position:relative;top:-4px"><span class="w3-text-gray"></span><span class="w3-text-black" style=""><small><span class="badge w3-blue">'+_timeStyl(data.start_date+" "+data.start_time)+'</span></small></span></p></div><div class=" " style="t"><p class="" style="position:relative;top:-4px"><span class="w3-text-gray"> </span><span class="w3-text-black" style=""> <small><span class="badge w3-green">'+_timeStyl(data.end_date+" "+data.end_time)+'</span></small></span></p></div></div></td>';
                 },
                 "targets": 1
             },
@@ -19619,8 +19679,23 @@ $(document).ready(function(){
                          +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn" type="Appoint" forid="'+row.id+'"  tablename="Appointment"  htmtable="doctors_appoints" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-trash"></i> Reject</a></li>'
                        +' </ul>'+
                     '</div>'
-                }else{
-                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                }else   if (row.status_id==166) {
+              return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">'+row.status_name+'</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-borderdropdown-menu col-xs-12 w3-border w3-border-all " role="menu" aria-labelledby="dLabel  w-100" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="PaymentAproveForDoctor(this)" _id="'+row.id+'" tagdate="'+row.end_date+" "+row.end_time+'" tagname="'+row.patient_name+'"><i class="fa fa-check"></i> Approve Payment </a></li>'
+                            +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn" type="Appoint" forid="'+row.id+'"  tablename="Appointment"  htmtable="doctors_appoints" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-exclamation"></i> Missed Payment</a></li>'
+                        
+                       +' </ul>'+
+                    '</div>'
+                }else if (row.status_id==167){
+                   return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">'+row.status_name+" "+_timeStyl(row.end_date+" "+row.end_time)+'</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                      +'<ul class="dropdown-menu w3-borderdropdown-menu col-xs-12 w3-border w3-border-all " role="menu" aria-labelledby="dLabel  w-100" style=" z-index; 11111111111">'
+                        +' <li class=""><a class="" onclick="PaymentAproveForDoctor(this)" _id="'+row.id+'" tagdate="'+row.end_date+" "+row.end_time+'" tagname="'+row.patient_name+'"><i class="fa fa-check"></i> Approve Payment </a></li>'
+                            +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn" type="Appoint" forid="'+row.id+'"  tablename="Appointment"  htmtable="doctors_appoints" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-exclamation"></i> Missed Payment</a></li>'
+                        
+                       +' </ul>'+
+                    '</div>'
+                //return "<span class='badge w3-blue'> "+row.status_name+" </span>"
                 }
          },
 
@@ -19764,7 +19839,7 @@ function ApproveAppointToPayment(datas){
     buttontext:"Procced",
     buttoneventclass:"OK",
     buttoncolor:"w3-blue",
-    body:"<h1>Are sure to approve this Appointment ?</h1><p class='badge w3-blue'><td><strong>Note</strong> This will procced to payment  . . .</td></p>",
+    body:"<h1>Are you sure to approve this Appointment ?</h1><p class='badge w3-blue'><td><strong>Note</strong> This will procced to payment  . . .</td></p>",
     savebtn:true,
     cancelbtn:true,
     submitData: function(){
@@ -19831,6 +19906,32 @@ $('body').find("#oncreate").on("click",".savelabpaymentbtn",function(e){
 
 })
 }
+}
+
+
+////approvePayment for doctor
+
+function PaymentAproveForDoctor(datas){
+ var dism = $("body").DeteilView({
+     title:' Approval Payment & Processing',
+    width:"50%",
+    color:"w3-white",
+    fade:"w3-animate-zoom",
+    buttontext:"Procced",
+    buttoneventclass:"OK",
+    buttoncolor:"w3-blue",
+    body:"<h1>Are you sure to approve meating with <strong>"+$(datas).attr('tagname')+"</strong>?</h1><p ><td class='badge w3-blue'><strong>Note</strong> This Appointment will be to </td><span class='badge w3-gray'>"+_timeStyl($(datas).attr('tagdate'))+"</span></p>",
+    savebtn:true,
+    cancelbtn:true,
+    submitData: function(){
+      var data  = ajaxtoserv({_token:_token,"_id":$(datas).attr("_id"),"status_id":167},"not form","appointmentStatusChange",null);
+        if (data.success) {
+          doctors_appoints.ajax.reload();
+          return true;
+          }
+
+    }
+  })
 }
 var datadtab;
 function filterfn(){

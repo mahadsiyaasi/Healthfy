@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use App\User;
 use App\Models\Appointment;
+use App\Models\Transuction;
 class doctorsController extends Controller
 {
     public function __construct()
@@ -172,12 +173,12 @@ class doctorsController extends Controller
                   return redirect()->back()->withInput()->withErrors($validator);
                 }else{
               $user = User::find(Auth::user()->id);
-              $user->city =$data->city;
               $user->address = $data->address;
+              $user->city = $data->city;
               $staff = Staff::find($data->doctor_id);
-              $staff->city = $data->city;
               $staff->datebirth = $data->birthdate;
               $staff->experience = $data->experience;
+              $staff->city = $data->city;
               $staff->tell = $data->doctortell;
               $staff->gender = $data->gender;
               $staff->visit_amount = $data->visit_amount;
@@ -226,7 +227,7 @@ public function appoints(){
      $json = Appointment::join('staff','staff.id','=','appointment.doctor_id')
     ->join('patients','patients.id','=','appointment.patient_id')
     ->join('varaible_lists','varaible_lists.status_id','=','appointment.status_id')
-    ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease',"appointment.status_id")
+    ->select('appointment.start_date','appointment.start_time','appointment.end_date','appointment.end_time','appointment.id','staff.name','patients.patient_name','appointment.date','appointment.note','appointment.amount','varaible_lists.status_name','appointment.disease',"appointment.status_id",'staff.title','patients.id as patient_id')
     ->where("doctor_id",authController::authDoctor()->id)
     ->where("appointment.status_id",'>',0)
     //->where("appointment.company_id",'=',Auth::user()->company_id)
@@ -238,6 +239,12 @@ public function appoints(){
             $update = Appointment::find($data->_id);
             $update->status_id = 2;
             $update->save();
+            return response()->json(['success'=>true]);
+      }elseif ($data->status_id ==167) {
+         $update = Appointment::find($data->_id);
+            $update->status_id = $data->status_id;
+            $update->save();
+            Transuction::whereIn("order_id",[$data->_id])->update(['status'=>'Paid']);
             return response()->json(['success'=>true]);
       }
     }

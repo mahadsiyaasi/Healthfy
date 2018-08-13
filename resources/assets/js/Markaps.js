@@ -219,3 +219,62 @@ function removeColorizeErrors(modal,i){
   $(modal).find("select[name="+i+"]").parents("div:first").find("label").remove()
   $(modal).find("textarea[name="+i+"]").parents("div:first").find("label").remove()
 }
+function _dateStyl(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+function _timeStyl(date) {
+  date = new Date(date);
+  let diff = new Date() - date; // the difference in milliseconds
+  if (diff < 1000 && diff>0) { // less than 1 second
+    return 'right now';
+  }
+  if (diff < 0) { // less than 1 second
+    let d = date;
+  d = [
+    '0' + d.getDate(),
+    '0' + (d.getMonth() + 1),
+    '' + d.getFullYear(),
+    '0' + d.getHours(),
+    '0' + d.getMinutes()
+  ].map(component => component.slice(-2));
+
+  // join the components into date
+  return _dateStyl(date)+ ' ' + d.slice(3).join(':');
+  }
+
+  let sec = Math.floor(diff / 1000); // convert diff to seconds
+
+  if (sec < 60) {
+    return sec + ' sec. ago';
+  }
+
+  let min = Math.floor(diff / 60000); // convert diff to minutes
+  if (min < 60) {
+    return min + ' min. ago';
+  }
+
+  // format the date
+  // add leading zeroes to single-digit day/month/hours/minutes
+ let d = date;
+  d = [
+    '0' + d.getDate(),
+    '0' + (d.getMonth() + 1),
+    '' + d.getFullYear(),
+    '0' + d.getHours(),
+    '0' + d.getMinutes()
+  ].map(component => component.slice(-2));
+
+  // join the components into date
+  return _dateStyl(date)+ ' ' + d.slice(3).join(':');
+}

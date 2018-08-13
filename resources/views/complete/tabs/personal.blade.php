@@ -10,7 +10,7 @@ $updateData  =doctorsController::getdoctor();
         <div class="warner">
        
     </div>
-     <select class="w3-select w3-border"  id="countryhidden" required style="display: none;" onchange="getselectedOption(this,'{{$updateData->nationality}}')" ></select> 
+     <select class="w3-select w3-border" name="nationality" id="countryhidden" required style="display:none;" onchange="getselectedOption(this,'{{$updateData->nationality}}')" ></select> 
         <div class=""><div class="form-group">
           
           <div class="text-center">
@@ -18,7 +18,7 @@ $updateData  =doctorsController::getdoctor();
          
           <div class="">
             <div class="w3-display-container w3-hover-opacity">
-            <img src="{{ Auth::user()->getFirstMediaUrl('image', 'thumb') }}" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
+            <img src="{{ Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="imgError(this);" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
             <div class="w3-display-middle w3-display-hover">
               <button   type="button" onclick="$('#imagedoctor').trigger('click')" class="w3-button w3-red">Change picture</button>
             </div>
@@ -45,13 +45,17 @@ $updateData  =doctorsController::getdoctor();
             <label class="w3-text-gray w3-small">Title *</label>
                <select class="w3-select w3-border" name="title"  id="Title" required>
                 <option value="" disabled selected>Chose title..</option>
-               <option value="Mrs">Mrs</option>
-               <option value="Drs">Drs</option>
-               <option value="Dr">Dr</option>
-               <option value="Prof">Prof</option>
-                <option value="Sir">Sir</option>
-                <option value="Ms">Ms</option>
-                <option value="Mis">Mis</option>
+                <?php 
+                $titles = App\Models\Variables::where("group_key","DoctorTitles")->get();
+                ?>
+                @foreach($titles as $val)
+                  @if($updateData->title == $val->status_name)
+                   <option value="{{$val->status_name}}" selected>{{$val->status_name}}</option>
+                    @else
+                    <option value="{{$val->status_name}}">{{$val->status_name}}</option>
+
+                @endif
+                @endforeach
               </select> 
             </div>
             </div>
@@ -69,9 +73,20 @@ $updateData  =doctorsController::getdoctor();
             <div class="form-group">
              <label class="w3-text-gray w3-small">Gender *</label>
                <select class="w3-select w3-border" name="gender" id="Title" required >
-                <option value="{{$updateData->gender}}" disabled selected>{{$updateData->gender}}</option>
+              
+              @if($updateData->gender =="Male")
+              <option value="" disabled>select gender ...</option>
                <option value="Male">Male</option>
                <option value="Female">Female</option>
+               @elseif($updateData->gender =="Female")
+               <option value="" disabled>select gender ...</option>
+                <option value="Male">Male</option>
+               <option value="Female" selected>Female</option>
+               @esle
+               <option value="" disabled selected>select gender ...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+               @endif
               </select> 
             </div>
           </div>
