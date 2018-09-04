@@ -37,7 +37,9 @@
   type:"POST",
   data:datasu,
   success:function(data){
-
+    if ( $(tthis).attr('mytag')=="Qualification") {
+      location.reload();
+    }
    grouplist();
    $(".dismism").trigger("click")
   }

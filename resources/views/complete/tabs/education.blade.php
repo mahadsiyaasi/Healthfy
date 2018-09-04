@@ -2,7 +2,8 @@
         use Healthfy\Http\Controllers\doctorsController; 
         use Healthfy\Http\Controllers\customerController; 
         $updateData  =doctorsController::getdoctor();
-        $knowledge = \Healthfy\Models\Qualification::where("doctor_id",$updateData->id)->get();
+        $knowledge = \Healthfy\Models\Qualification::where("doctor_id",$updateData->id)->where("status_id",">",0)->get();
+        $cls = "";
   ?>
 
   
@@ -11,15 +12,17 @@
 
  <div class="panel-group" id="accordion">
     <div class="panel panel-default">
+    @if(!empty($knowledge[0]))
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#educations"><h5 class="box-title">Educations List</h5></a>
         </h4>
       </div>
+     
       <div id="educations" class="panel-collapse collapse in">
         <div class="panel-body">
           
-          @if(!empty($knowledge[0]))
+  
     <form method="POST"  class=""  id="educationfm" style="background: inherit; display: block;" action="/educationDoctor" >
     <table class="table w3-table table-bordered table-condensed">
       <thead>
@@ -37,7 +40,7 @@
     @foreach($knowledge->all() as $val)
      <tr>
         <td class="w3-padding"><a class="button btn"><i class="fa fa-edit"></i> Edit</a>   
-        <a class="button btn w3-text-red" data-toggle="modal" data-target="#modal-warn" onclick=""  forid="{{$val->id}}" tablename="Qualification"><i class="fa fa-trash"></i> Delete</a></td>
+        <a class="button btn w3-text-red" data-toggle="modal" data-target="#modal-warn" onclick="directdel(this)"  id="{{$val->id}}" tablename="Qualification" mytag="Qualification"><i class="fa fa-trash"></i> Delete</a></td>
         <td>{{$val->school}}</td>
         <td>{{$val->qualification}}</td>
         <td>{{$val->year}}</td>
@@ -56,10 +59,16 @@
 </table>
 </form>
 
-@endif
+
         </div>
       </div>
     </div>
+    @else
+    <?php   
+  $cls = "active";
+
+    ?>
+    @endif
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">

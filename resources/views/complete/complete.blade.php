@@ -79,7 +79,7 @@
 
 
                 </li>
-                <li class="list-group-item"><a href="#/education" data-target="#education" class="w3-text-black" data-toggle="tab">Education & Specialization <a class="pull-right" >
+                <li class="list-group-item"><a href="#educationview" data-target="#education"  class="w3-text-black" data-toggle="tab">Education & Specialization <a class="pull-right" >
                    @if((authController::getPercentage("qualification")) <=50)
                   <span class="pull-right badge w3-red">{{authController::getPercentage("qualification")}}%</span>
                   @else
@@ -138,16 +138,17 @@
        </section>
     </div>
   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      
-    </div>
-   
-  </footer>
+
+  @include("confirm.confirm")
     <script src="{{ asset('js/app.js') }}"></script>         
               <script src="{{ asset('js/all.js') }}"></script>   
               <script type="text/javascript">
+              if (location.hash) {
+        window.location = location.href;
+      }
                 $(document).ready(function(){
+                  var yOffset = $(location.hash).offset().top;
+                   $("body").scrollTop(yOffset);
                 if ($("#countryhidden").length !=0) {
                  populateCountries("countryhidden", "cityupdate");
                  }
@@ -179,18 +180,16 @@
                       return true;
                   }
                       $(function() {
-          // Javascript to enable link to tab
-                var hash = document.location.hash;
-                if (hash) {
-                  console.log(hash);
-                  $('.nav-tabs a[href='+hash+']').tab('show');
-                }
+                      var hash = document.location.hash;
+                       if (hash) {
+                       console.log(hash);
+                      $('.nav-tabs a[href='+hash+']').tab('show');
+                      }
 
                 // Change hash for page-reload
                 $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                   window.location.hash = e.target.hash;
-                });
+                 });
           });
+         
               </script>
-</body>
-</html>

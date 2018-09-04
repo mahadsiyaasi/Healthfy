@@ -19,7 +19,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 
 <div class="row">
       <div class="col-sm-4">
-            <div class="card  w3-padding w3-border" style="">
+            <div class="card  w3-card w3-padding" style="">
               <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="imgError(this,'{{$gentype}}');" alt="Card image cap" style="width:100%">
               <div class="card-body">
                 <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>
@@ -35,7 +35,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
             
       </div>
      <div class="col-sm-4">
-          <div class="card w3-border" style="">
+          <div class="card w3-card" style="">
            <h5 class="box-title w3-blue w3-text-white w3-padding">Profile View</h5>
             <div class="card-body">
               
@@ -54,7 +54,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
           
       </div>
       <div class="col-sm-4">
-          <div class="card w3-border" style="">
+          <div class="card w3-card" style="">
             <h5 class="box-title w3-blue w3-text-white w3-padding">Profile View</h5>
             <div class="card-body">
               

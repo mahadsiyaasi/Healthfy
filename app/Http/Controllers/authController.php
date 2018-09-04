@@ -90,11 +90,12 @@ class authController extends Controller
 
           
       }elseif ($type=="qualification") {
-       $results = DB::table('qualification')->where('doctor_id',self::AuthDoctor()->id)->count();
-       if ($results ==1) $results  = 33; 
-      if ($results ==2) $results  = +60; 
-        if ($results ==3) $results  = +99; 
-          if ($results >3) $results  = 99; 
+       $results = DB::table('qualification')->where('doctor_id',self::AuthDoctor()->id)->where('status_id',">",0)->count();
+       if ($results <1){ $results  = 0;}
+       elseif ($results ==1){ $results  = 33;}
+       elseif ($results ==2){ $results  = 66;}
+       elseif ($results ==3){ $results  = 99;}
+       elseif ($results >3){ $results  = 100;}
 
         return $results;
 
