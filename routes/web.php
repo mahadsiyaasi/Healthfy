@@ -72,30 +72,13 @@
 
 	Route::any('/complete','doctorsController@complete')->name(__('titles.complete').' | '.config('app.name'));
 	Route::any('/updateDoctorcomplete','doctorsController@updateDoctorcomplete');
+	Route::any('/complete/edit','doctorsController@editdetail');
 	Route::any('/savelastupdate','doctorsController@savelastupdate');
 	Route::any('/educationDoctor','doctorsController@education');
 	Route::any('/doctors/unapproved','doctorsController@approved')->name(__('titles.approved').' | '.config('app.name'));
 	Route::any('/doctors/appoints','doctorsController@appoints')->name(__('titles.doctorAppoint').' | '.config('app.name'));
 	Route::any('/doctors/appointview','doctorsController@appointview');
 	Route::any('/doctors/appointmentStatusChange','doctorsController@appointmentStatusChange');
-
-Route::get('storage/{filename}', function ($filename)
-{
-    $path = storage_path('public/' . $filename);
-
-    if (!File::exists($path)) {
-        abort(404);
-    }
-
-    $file = File::get($path);
-    $type = File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-
-    return $response;
-});
-
 	Route::any('/savepatient', 'customerController@savepatient');
 	Route::any('/sendgriddata', 'customerController@sendgriddata');
 	Route::any('/doctors', 'doctorsController@doctor')->name('Doctors | '.config('app.name'));

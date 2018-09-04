@@ -284,4 +284,8 @@ public function appoints(){
             return response()->json(['success'=>true]);
       }
     }
+    public function editdetail(Request $data)
+    {
+      return view("complete.edit");
+    }
 }

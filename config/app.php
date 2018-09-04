@@ -182,6 +182,8 @@ return [
         Healthfy\Providers\RouteServiceProvider::class,
         Ibonly\FacebookAccountKit\FacebookAccountKitServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
     ],
 
     /*
