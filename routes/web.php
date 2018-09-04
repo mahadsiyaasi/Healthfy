@@ -139,7 +139,7 @@ Route::get('storage/{filename}', function ($filename)
 
 
 
-
+Route::any('/registerfeed','feedController@registerFeed');
 Route::any('/listjsonPayment','paymentController@jsonPaymentMethod');
 Route::any('/appointpayment','paymentController@appointpayment');
 
@@ -150,97 +150,10 @@ Route::any('patients/mypaysPatient','paymentController@mypaysPatient');
 
 
 
+Route::any('healthfeed','feedController@index')->name(__('titles.feed').' | '.config('app.name'));
 
 
 
-
-
-
-
-
-
-
-
-
-
-		/*Route::any('/',array('as' =>'index' ,'uses'=>'patientController@create' ));
-		Route::any('/pregister','patientController@showregister');
-		Route::any('/save','patientController@save');
-		Route::any('/sendGridData','patientController@sendGridData');
-		Route::any('/patient_{id}',array('as' =>'patientprofile' ,'uses'=>'patientController@getpatient' ));
-		Route::any('/savedoctor','doctorsController@savedoctor');
-		Route::any("/savebasictest", 'basicfunctionController@savebasictest');
-		Route::any(" /loadtest","basicfunctionController@loadtest");
-		Route::any('/doctor_{id}',array('as' =>'doctorprofile' ,'uses'=>'doctorsController@getdoctor' ));
-		Route::any(' /doctordata','allpatientController@doctordata');
-		Route::any(' /saveappoint','allpatientController@saveappoint');
-		Route::any(' /loadapoint','allpatientController@loadapoint');
-		Route::any(' /updateappoint','allpatientController@updateappoint');
-		Route::any('/deleteappoint','allpatientController@deleteappoint');
-		Route::any(' /loadrange','allpatientController@loadrange');
-		Route::any(' /saverange','allpatientController@saverange');
-		Route::any(' /saveunit','allpatientController@saveunit');
-		Route::any(' /loadunits','allpatientController@loadunits');
-		Route::any(' /saveorders','allpatientController@saveorders');
-		Route::any(' /loadtestsunit','allpatientController@loadtestsunit');
-		Route::any('/loadgridtest','allpatientController@loadgridtest');
-		Route::any('/loadunit','allpatientController@loadunit');
-		Route::any('/savesendorder','allpatientController@savesendorder');
-		Route::any('/testorders','allpatientController@testorders');
-		Route::any(' /updateorder','allpatientController@updateorder');
-		Route::any('/savepaymentmethod','allpatientController@savepaymentmethod');
-		Route::any(' /deletetests','allpatientController@deletetests');
-		Route::any(' /returnmoney','allpatientController@returnmoney');
-		Route::any(' /labtest','allpatientController@labtest');
-		Route::any(' /spicement','allpatientController@spicement');
-		Route::any(' /speciallabpatient','allpatientController@speciallabpatient');
-		Route::any(' /resultrange','allpatientController@resultrange');
-		Route::any(' /lastresult','allpatientController@lastresult');
-		Route::Any(' /resultcontent','allpatientController@resultcontent');
-		Route::Any(' /loadstrenght','allpatientController@loadstrenght');
-		Route::Any(' /savemedication','allpatientController@savemedication');
-		Route::Any(' /saveprescipt','allpatientController@saveprescipt');
-		Route::Any(' /loadprescription','allpatientController@loadprescription');
-		Route::Any(' /savestyle','allpatientController@savestyle');
-		Route::Any(' /printpdf','allpatientController@indexpage');
-		Route::Any('/printpdfs','allpatientController@printpdf');
-		Route::Any(' /savestrenght','allpatientController@savestrenght');
-		Route::Any(' /loadstrenghtss','allpatientController@loadstrenghtss');
-		Route::Any(' /loaddiagnosis','conditionController@loaddiagnosis');
-		Route::Any(' /savecondition','conditionController@savecondition');
-		Route::Any(' /loadcondition','conditionController@loadcondition');
-		Route::Any(' /checkpatientreturn','conditionController@checkpatientreturn');
-		Route::Any(' /updatereview','conditionController@updatereview');
-		Route::Any(' /measurement','conditionController@measurement');
-		Route::Any(' /cancels','conditionController@cancels');
-		Route::Any(' /loadmeasure','conditionController@loadmeasure');
-		Route::Any(' /measuregrid','conditionController@measuregrid');
-		Route::Any('/loaddoctors','doctorsController@loaddoctors');
-		Route::any('/doctor/{id}',array('as' =>'doctorprofile' ,'uses'=>'doctorsController@getdoctor' ));
-		Route::get('/logout', 'Auth\LoginController@logout');
-		Route::any('/loadhomegrap', 'doctorsController@loadhomegrap');
-		Route::get('/find', 'searchController@find');
-		Route::any('/loadmedications', 'conditionController@loadmedications');
-		Route::any('/edit', 'editController@home');
-		Route::any('/loadid', 'editController@loadid');
-		Route::any('/deleteitem', 'editController@deleteitem');
-		Route::any('/loadpay', 'editController@loadpay');
-		Route::any('/lab', 'labController@loadlab');
-		Route::any('/usersvalidator', 'doctorsController@usersvalidator');
-		Route::any('/loadrole', 'editController@loadrole');
-		Route::any('/loadactivity', 'editController@loadactivity');
-		Route::any('/saveactivity', 'editController@saveactivity');
-		Route::any('/role', 'roleController@home');
-		Route::any('/saverole', 'roleController@saverole');
-		Route::any('/loadroles', 'roleController@loadroles');		
-		Route::any('/loadsubrole', 'roleController@loadsubrole');
-		Route::any('/chart', 'chartController@index');
-		Route::any('/savechart', 'chartController@savechart');		
-		Route::any('/loadchart', 'chartController@loadchart');	
-		Route::any('/journal', 'chartController@journal');	
-		Route::any('/savegrid', 'chartController@savegrid');
-		Route::any('/loadchartlist', 'chartController@loadchartlist');
-		Route::any('/journalload', 'chartController@journalload');*/
 
 							
 	

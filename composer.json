@@ -30,7 +30,7 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "Healthfy\\": "app/"
         }
     },
     "autoload-dev": {

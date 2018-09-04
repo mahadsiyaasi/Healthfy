@@ -130,7 +130,12 @@
           $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
             window.location.hash = e.target.hash;
           });
+          $("#postmedia").summernote({
+        height: 300,
+        tabsize: 2
+      });
         });
+
                function getselectedOption(element,value){
              
                 $(element).find("option").each(function(){

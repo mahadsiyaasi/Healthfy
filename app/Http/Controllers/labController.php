@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
 use DateTime;
 use Response;
 
-use App\Models\OrderMaster;
-use App\Models\PaymentMethod;
-use App\Models\Transuction;
+use Healthfy\Models\OrderMaster;
+use Healthfy\Models\PaymentMethod;
+use Healthfy\Models\Transuction;
 use Validator;
-use App\Http\Controller\medicationController;
+use Healthfy\Http\Controller\medicationController;
 use DB;
-use App\Models\OrderDetail;
-use App\Models\Reference;
-use App\Models\Tests;
-use App\Models\Unit;
+use Healthfy\Models\OrderDetail;
+use Healthfy\Models\Reference;
+use Healthfy\Models\Tests;
+use Healthfy\Models\Unit;
 use Lang;
 class labController extends Controller
 {

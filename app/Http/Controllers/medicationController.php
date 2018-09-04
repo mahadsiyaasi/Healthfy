@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use DB;
 
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use Response;
-use App\Models\MedicationList;
+use Healthfy\Models\MedicationList;
 class medicationController extends Controller
 {
      public function __construct()

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Healthfy\User;
 use Auth;
 use Validator;
-use App\Models\Patient;
-use App\Http\Controllers\labController;
-use App\Models\Staff;
+use Healthfy\Models\Patient;
+use Healthfy\Http\Controllers\labController;
+use Healthfy\Models\Staff;
 class apiController extends Controller
 {
 	private  $dataToserver;
@@ -256,12 +256,6 @@ class apiController extends Controller
 		    ]);*/
     		$find = User::find($data->user_id);
     		$find->password = $data->password;//$this->dataToserver->country =
-    		$find->city =$data->city;
-    		$find->address =$data->address;
-    		$staffdata = Staff::find($data->doctor_id);
-    		$staffdata->nationality= $data->country;
-    		$staffdata->address=$data->address;
-    		$staffdata->save();
     		$find->save();
     		 return redirect("/");
     	}

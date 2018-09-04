@@ -11,7 +11,8 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
+mix.
+js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
 .styles([
     'resources/assets/css/w3.css',
@@ -27,7 +28,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	"resources/assets/dist/css/AdminLTE.min.css",
 	"resources/assets/dist/css/skins/_all-skins.css",
 	"resources/assets/files/fullcalendar/dist/fullcalendar.min.css",
-    'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css',    
+    'resources/assets/files/fancy/skin-win8-n/ui.fancytree.css', 
+    'resources/assets/editor/editor.css',    
 ], 'public/css/all.css')
 .scripts([    
     //"resources/assets/files/jquery/dist/jquery.min.js",
@@ -37,7 +39,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	"resources/assets/js/countries.js",
 	'resources/assets/datepicker/build/jquery.datetimepicker.full.js',
 	 'resources/assets/select/dist/js/bootstrap-select.js',
-	
+	 'resources/assets/editor/editor.js', 
 	"resources/assets/files/fastclick/lib/fastclick",
 	"resources/assets/dist/js/adminlte.min.js",
 	"resources/assets/files/jquery-sparkline/dist/jquery.sparkline.min.js",
@@ -75,6 +77,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/role.js', 
      'resources/assets/js/imageload.js', 
       'resources/assets/js/approve.js', 
+     
      //'resources/assets/js/social.js', 
      
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');

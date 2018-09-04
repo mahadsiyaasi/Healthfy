@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PaymentMethod;
+use Healthfy\Models\PaymentMethod;
 use Validator;
 use Auth;
 use Response;
-use App\Models\Transuction;
+use Healthfy\Models\Transuction;
 use Lang;
-use App\Http\Controllers\authController;
+use Healthfy\Http\Controllers\authController;
 
 class paymentController extends Controller
 {
@@ -73,7 +73,7 @@ public static function PaymentMethod(){
 public function jsonPaymentMethod(Request $data){
 	$pay =  new \stdClass();
 	$pay->success = true;
-	$doctor = \App\Models\Staff::find($data->doctor_id);
+	$doctor = \Healthfy\Models\Staff::find($data->doctor_id);
 	$pay->payment =paymentMethod::where("user_id",$doctor->user_id)->get();
 	return response()->json($pay);
 }
@@ -87,7 +87,7 @@ public function appointpayment(Request $data){
     if ($valid->fails()) {
        return Response::json($valid->messages());
     }else{
-          	$datas = \App\Models\Appointment::find($data->appoint_id);
+          	$datas = \Healthfy\Models\Appointment::find($data->appoint_id);
         	$datas->status_id = 166;
         	$datas->save();
            self::paymenttran($data);            

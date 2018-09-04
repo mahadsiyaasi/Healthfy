@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use Auth;
 use Validator;
 use DB;
 use Response;
-use App\User;
-use App\Models\Staff;
-use App\Models\Tests;
-use App\Models\OrderMaster;
-use App\Models\OrderDetail;
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Http\Controllers\medicationController;
+use Healthfy\User;
+use Healthfy\Models\Staff;
+use Healthfy\Models\Tests;
+use Healthfy\Models\OrderMaster;
+use Healthfy\Models\OrderDetail;
+use Healthfy\Models\Appointment;
+use Healthfy\Models\Patient;
+use Healthfy\Http\Controllers\medicationController;
 use Illuminate\Http\Request;
 
 class authController extends Controller
@@ -48,8 +48,57 @@ class authController extends Controller
     }
     }
    
-   public static function getPercentage(){
-      $results = DB::select( DB::raw(" SELECT count(1) as TotalAll, count(staff.visit_amount) as TotalNotNull, count(1) - count(staff.visit_amount) as TotalNull, 100.0 * count(staff.visit_amount) / count(1) as PercentNotNull FROM staff join users on users.id = staff.user_id where users.id= :Auth::user()->id"), array('id' => Auth::user()->id));
-      return $results;
+   public static function getPercentage($type){
+     
+      if ($type=="staff") {
+          $Auth = self::AuthDoctor();
+         $maximumPoints = 100;
+         $point = 0;
+         {
+         if($Auth->visit_amount != '')
+         $point+=10;
+
+         if($Auth->city != '')
+         $point+=10;
+
+         if($Auth->address != '')
+         $point+=10;
+
+         if($Auth->datebirth != '')
+         $point+=10;
+
+         if($Auth->degree != '')
+         $point+=10;
+
+        if($Auth->experience != '')
+         $point+=10;
+
+       if($Auth->about != '')
+         $point+=10;
+
+       if($Auth->title != '')
+         $point+=10;
+
+       if(Auth::user()->getFirstMediaUrl('image', 'thumb') != '')
+         $point+=10;
+
+         if($Auth->email != '')
+         $point+=10;
+ }
+ $percentage = ($point*$maximumPoints)/100;
+ return $percentage;
+
+          
+      }elseif ($type=="qualification") {
+       $results = DB::table('qualification')->where('doctor_id',self::AuthDoctor()->id)->count();
+       if ($results ==1) $results  = 33; 
+      if ($results ==2) $results  = +60; 
+        if ($results ==3) $results  = +99; 
+          if ($results >3) $results  = 99; 
+
+        return $results;
+
+      }
+     
    }
 }

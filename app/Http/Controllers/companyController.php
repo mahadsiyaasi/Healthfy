@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Healthfy\User;
 use Auth;
 use DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\Permissions;
-Use App\Models\Roles;
+use Healthfy\Models\Permissions;
+Use Healthfy\Models\Roles;
 class companyController extends Controller
 {
     public function __construct()

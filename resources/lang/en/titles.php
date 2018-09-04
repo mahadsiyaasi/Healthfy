@@ -13,4 +13,5 @@ return [
       'complete'=>"Complete Profile",
        'approved'=>"Un Approved Doctors",
        'doctorAppoint'=>"Doctors Appointments",
+       'feed'=>"Health Feed",
 ];

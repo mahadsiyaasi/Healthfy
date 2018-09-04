@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\OrderMaster;
+use Healthfy\Http\Controllers\Controller;
+use Healthfy\Models\OrderMaster;
 use Auth;
 use PDF;
 

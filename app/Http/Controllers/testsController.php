@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use Auth;
 use Validator;
 use DB;
 use Response;
 use Illuminate\Http\Request;
-use App\Models\Staff;
-use App\Models\Tests;
-use App\Models\OrderMaster;
-use App\Models\OrderDetail;
-use App\Models\Unit;
-use App\Models\Reference;
+use Healthfy\Models\Staff;
+use Healthfy\Models\Tests;
+use Healthfy\Models\OrderMaster;
+use Healthfy\Models\OrderDetail;
+use Healthfy\Models\Unit;
+use Healthfy\Models\Reference;
 class testsController extends Controller
 {
       public function __construct()

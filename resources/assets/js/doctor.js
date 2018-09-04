@@ -61,9 +61,10 @@ $(document).ready(function(){
       $("#formfieldsubmit").click(function(){
           commonvalidator($("#formUpdateDoctora"));
           if ($("#formUpdateDoctora").valid()) {
-            if (ajaxtoserv("#formUpdateDoctora","form","updateDoctorcomplete",this).success){
+            //var res = ajaxtoserv("#formUpdateDoctora","form","updateDoctorcomplete",this);
+         
               formUpdateDoctora.submit();
-               }
+               
           }
         });
       })

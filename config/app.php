@@ -175,11 +175,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Healthfy\Providers\AppServiceProvider::class,
+        Healthfy\Providers\AuthServiceProvider::class,
+        // Healthfy\Providers\BroadcastServiceProvider::class,
+        Healthfy\Providers\EventServiceProvider::class,
+        Healthfy\Providers\RouteServiceProvider::class,
         Ibonly\FacebookAccountKit\FacebookAccountKitServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ],

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Patient;
-use App\Models\Staff;
+use Healthfy\Models\Patient;
+use Healthfy\Models\Staff;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Http\Controllers\medicationController;
-use App\Http\Controllers\authController;
+use Healthfy\Http\Controllers\medicationController;
+use Healthfy\Http\Controllers\authController;
 class HomeController extends Controller
 
 {

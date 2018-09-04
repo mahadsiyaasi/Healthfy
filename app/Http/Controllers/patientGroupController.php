@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use DB;
 use Response;
-use App\Models\Staff;
-use App\Models\Tests;
-use App\Models\OrderMaster;
-use App\Models\OrderDetail;
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Http\Controllers\medicationController;
-use App\Http\Controllers\authController;
-namespace App\Http\Controllers;
+use Healthfy\Models\Staff;
+use Healthfy\Models\Tests;
+use Healthfy\Models\OrderMaster;
+use Healthfy\Models\OrderDetail;
+use Healthfy\Models\Appointment;
+use Healthfy\Models\Patient;
+use Healthfy\Http\Controllers\medicationController;
+use Healthfy\Http\Controllers\authController;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
 

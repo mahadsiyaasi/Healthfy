@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Healthfy\Models;
 use Illuminate\Database\Eloquent\Model;
 class Permissions extends Model
 {

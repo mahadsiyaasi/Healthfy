@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Healthfy;
 
 use Illuminate\Database\Eloquent\Model;
 

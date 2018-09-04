@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use Auth;
 use Validator;
 use DB;
 use Response;
 use Illuminate\Http\Request;
-use App\Models\Staff;
+use Healthfy\Models\Staff;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use App\User;
-use App\Models\Appointment;
-use App\Models\Transuction;
+use Healthfy\User;
+use Healthfy\Models\Appointment;
+use Healthfy\Models\Transuction;
+use Healthfy\Http\Controllers\authController;
+use Healthfy\Models\Qualification;
 class doctorsController extends Controller
 {
     public function __construct()
@@ -131,7 +133,7 @@ class doctorsController extends Controller
         }
     }
      public static function getdoctor(){
-      $data  = Staff::where("id",\App\Http\Controllers\authController::authDoctor()->id)
+      $data  = Staff::where("id",authController::authDoctor()->id)
       ->where("status_id",">",0)
       ->first();
       return $data;
@@ -162,59 +164,93 @@ class doctorsController extends Controller
                 if ($validator->fails()) {
                   return response()->json($validator->messages(),200);
                 }else{
-                  return response()->json(["success"=>true],200);
+                 /* $staff = Staff::find(authController::authDoctor()->id);
+                  $staff->datebirth = $data->birthdate;
+                  $staff->experience = $data->experience;
+                  $staff->city = $data->city;
+                  $staff->nationality = $data->nationality;
+                  $staff->tell = $data->doctortell;
+                  $staff->name =$data->doctorname;
+                  $staff->gender = $data->gender;
+                  $staff->visit_amount = $data->visit_amount;
+                  $staff->address = $data->address;
+                  $staff->title = $data->title;
+                  $staff->about = $data->about;
+                  $staff->save();*/
+                 
+                return response()->json(["success"=>true],200);
+                  
+                  
                 }       
          }
    public function savelastupdate(Request $data){
       $validator = Validator::make($data->all(),[
-              'image' => 'required|file|image|mimes:jpeg,bmp,png',              
+              //'image' => 'required|file|image|mimes:jpeg,bmp,png', 
+              'title' => 'required|min:1',
+                'doctortell' => 'required|numeric|min:9',
+                'address' => 'required|min:2',  
+                //'image' => 'required|file|image|mimes:jpeg,bmp,png',              
+                'birthdate' => 'required|date|min:2',
+                'gender' => 'required|min:2',                
+                'about' => 'required|min:5',
+                'visit_amount'=>'required|min:1',
+                'city'=>'required|min:3',                
+                'experience'=> 'required|min:1|numeric'             
               ]);
                 if ($validator->fails()) {
                   return redirect()->back()->withInput()->withErrors($validator);
                 }else{
-              $user = User::find(Auth::user()->id);
-              $user->address = $data->address;
-              $user->city = $data->city;
-              $staff = Staff::find($data->doctor_id);
-              $staff->datebirth = $data->birthdate;
-              $staff->experience = $data->experience;
-              $staff->city = $data->city;
-              $staff->tell = $data->doctortell;
-              $staff->gender = $data->gender;
-              $staff->visit_amount = $data->visit_amount;
-              $staff->address = $data->address;
-              $staff->title = $data->title;
-              $staff->about = $data->about;
-              $user->addMediaFromRequest('image')->toMediaCollection('image');
-              $staff->save();
-               $user->save();
+                    $staff = Staff::find(authController::authDoctor()->id);
+                  $staff->datebirth = $data->birthdate;
+                  $staff->experience = $data->experience;
+                  $staff->city = $data->city;
+                  $staff->nationality = $data->nationality;
+                  $staff->tell = $data->doctortell;
+                  $staff->name =$data->doctorname;
+                  $staff->gender = $data->gender;
+                  $staff->visit_amount = $data->visit_amount;
+                  $staff->address = $data->address;
+                  $staff->title = $data->title;
+                  $staff->about = $data->about;
+                  $staff->save();                 
+                  if ($data->has("image")) {
+                    $user = User::find(Auth::user()->id);
+                    $user->address = $data->address;
+                    $user->city = $data->city;
+                    $user->addMediaFromRequest('image')->toMediaCollection('image');
+                    $user->image = $user->getFirstMediaUrl('image');
+                    $user->save();
+                  }                
 
               return redirect()->back()->withInput();
    }
 }
 public function education(Request $data){
-  return $data;
- $validator = Validator::make($data->all(),[
-               'qualification' => 'required|min:2',
-                'year' => 'required|min:2',                
-                'college' => 'required|min:2',             
+            $validator = Validator::make($data->all(),[
+               'qualification' => 'required|min:1',
+                'year' => 'required|min:1',                
+                'college' => 'required|min:1',    
+                "imagefile"=>"required|file|mimes:jpeg,bmp,png,pdf,docx,doc",         
               ]);
                 if ($validator->fails()) {
                   return redirect()->back()->withInput()->withErrors($validator);
                 }else{
-                 $id =  App\Models\Qualification::create([
+                 $id =Qualification::insertGetId([
                      'doctor_id'=>authController::authDoctor()->id,
-                      'qualification_id'=>$data->qualification,
-                      'college_id'=>$data->college,
+                      'qualification'=>$data->qualification,
+                      'school'=>$data->college,
                       'year'=>$data->year,
                       'date'=>date('Y-m-d H:i:s'),
                       'status_id'=>1,
                   ]);
-
-                   return redirect()->back()->withInput();
-
-
-                }
+                if ($data->has("imagefile")) {                     
+                 $da = Qualification::find($id);
+                 $da->addMediaFromRequest('imagefile')->toMediaCollection('file');
+                 $da->file = $da->getFirstMediaUrl('file');
+                 $da->save();             
+                  }
+               return redirect("/complete?#educationview")->withInput();
+             }
 }
   public function approved(Request $data){
     return view("doctors.approved");

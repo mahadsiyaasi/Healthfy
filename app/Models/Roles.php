@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Models;
-use App\User;
+namespace Healthfy\Models;
+use Healthfy\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**

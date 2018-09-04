@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Http\Controllers\companyController;
+namespace Healthfy\Http\Controllers;
+use Healthfy\Http\Controllers\companyController;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Roles;
-use App\Models\permissionMaping;
-use App\Models\Permissions;
+use Healthfy\Models\Roles;
+use Healthfy\Models\permissionMaping;
+use Healthfy\Models\Permissions;
 use Lang;
 use DB;
 use Auth;
-use App\Http\Controllers\LabController;
+use Healthfy\Http\Controllers\LabController;
 class roleController extends Controller
 {
   public function __construct()

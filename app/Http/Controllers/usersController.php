@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\RequestException;
-use App\Http\Requests;
+use Healthfy\Http\Requests;
 use Validator;
 use Auth;
-use App\User;
-use App\Http\Controllers\labController;
-use App\Models\Staff;
+use Healthfy\User;
+use Healthfy\Http\Controllers\labController;
+use Healthfy\Models\Staff;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 class usersController extends Controller

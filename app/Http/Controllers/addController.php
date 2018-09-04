@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Healthfy\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Validator;
 use Response;
-use App\Models\Staff;
-use App\Models\Tests;
-use App\Models\OrderMaster;
-use App\Models\OrderDetail;
+use Healthfy\Models\Staff;
+use Healthfy\Models\Tests;
+use Healthfy\Models\OrderMaster;
+use Healthfy\Models\OrderDetail;
 use Calendar;
-use App\Models\Appointment;
+use Healthfy\Models\Appointment;
 
 class addController extends Controller
 {

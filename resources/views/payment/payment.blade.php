@@ -2,7 +2,7 @@
 
 @section('content')
 <?php 
-use App\Http\Controllers\paymentController; 
+use Healthfy\Http\Controllers\paymentController; 
 $paymentMethod = paymentController::PaymentMethod();
 ?>
 
