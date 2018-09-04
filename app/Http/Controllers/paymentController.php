@@ -117,9 +117,16 @@ public function paymenttran($data){
     return false;
 }
 }
-public function patientpays(){
-	$transuction  =Transuction::where("patient_id",authController::authPatient()->id)->get();
+public function generalpays(){
+	$transuction;
+	if(authController::authType()==2){
+		$transuction  =Transuction::where("patient_id",authController::authPatient()->id)->get();
+	}elseif(authController::authType()==1){
+		$transuction  =Transuction::where("doctor_id",authController::authdoctor()->id)->get();
+	}
+	
 	return view("payment.pay");
+	
 }
 public function mypaysPatient(Request $data){
 	$transuction  =Transuction::join("appointments","appointments.id","=","transactions.order_id")

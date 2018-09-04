@@ -1,5 +1,5 @@
 <?php 
-use App\Http\Controllers\medicationController; 
+use Healthfy\Http\Controllers\medicationController; 
 ?>
       <div class="box">
         <div class="box-header with-border">

@@ -102,4 +102,11 @@ class authController extends Controller
       }
      
    }
+   public static function authType(){
+        if(!empty(self::AuthDoctor()->id)){
+          return 1;
+        }elseif(!empty(self::AuthPatient()->id)){
+          return 2;
+        }
+   }
 }

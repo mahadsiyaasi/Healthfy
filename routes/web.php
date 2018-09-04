@@ -127,7 +127,7 @@ Route::any('/listjsonPayment','paymentController@jsonPaymentMethod');
 Route::any('/appointpayment','paymentController@appointpayment');
 
 
-Route::any('/payments','paymentController@patientpays');
+Route::any('/payments','paymentController@generalpays');
 Route::any('patients/mypaysPatient','paymentController@mypaysPatient');
 
 
