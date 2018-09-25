@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <?php 
-use App\Http\Controllers\doctorsController; 
+use Healthfy\Http\Controllers\doctorsController; 
 ?>
 @section('content')
   <style type="text/css">

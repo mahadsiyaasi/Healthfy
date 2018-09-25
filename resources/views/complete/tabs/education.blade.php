@@ -5,12 +5,7 @@
         $knowledge = \Healthfy\Models\Qualification::where("doctor_id",$updateData->id)->where("status_id",">",0)->get();
         $cls = "";
   ?>
-
-  
-
-
-
- <div class="panel-group" id="accordion">
+  <div class="panel-group" id="accordion">
     <div class="panel panel-default">
     @if(!empty($knowledge[0]))
       <div class="panel-heading">
@@ -27,7 +22,7 @@
     <table class="table w3-table table-bordered table-condensed">
       <thead>
         <tr>
-          <th>Modify</th>
+          <th>Action</th>
            <th>School</th>
             <th>College</th>
          <th>Year</th>
@@ -39,7 +34,7 @@
    
     @foreach($knowledge->all() as $val)
      <tr>
-        <td class="w3-padding"><a class="button btn"><i class="fa fa-edit"></i> Edit</a>   
+        <td class="w3-padding"> 
         <a class="button btn w3-text-red" data-toggle="modal" data-target="#modal-warn" onclick="directdel(this)"  id="{{$val->id}}" tablename="Qualification" mytag="Qualification"><i class="fa fa-trash"></i> Delete</a></td>
         <td>{{$val->school}}</td>
         <td>{{$val->qualification}}</td>
@@ -62,7 +57,7 @@
 
         </div>
       </div>
-    </div>
+ 
     @else
     <?php   
   $cls = "active";

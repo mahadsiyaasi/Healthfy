@@ -1,5 +1,5 @@
 <?php 
-use App\Http\Controllers\medicationController; 
+use  Healthfy\Http\Controllers\medicationController; 
 ?>
  <?php 
     $var = medicationController::finddrug(Request::get(null));

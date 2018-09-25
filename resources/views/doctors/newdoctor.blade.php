@@ -1,6 +1,6 @@
 <?php 
-use App\Http\Controllers\doctorsController; 
-use App\Http\Controllers\customerController; 
+use  Healthfy\Http\Controllers\doctorsController; 
+use  Healthfy\Http\Controllers\customerController; 
 ?>
 
       <div class="box">

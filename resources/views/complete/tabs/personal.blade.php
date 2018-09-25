@@ -20,7 +20,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 <div class="row">
       <div class="col-sm-4">
             <div class="card  w3-card w3-padding" style="">
-              <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="imgError(this,'{{$gentype}}');" alt="Card image cap" style="width:100%">
+              <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl() }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
               <div class="card-body">
                 <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>
                
@@ -104,7 +104,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
                  
                   <div class="">
                     <div class="w3-display-container w3-hover-opacity">
-                    <img src="{{Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="imgError(this,'{{$gentype}}');" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
+                    <img src="{{Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)};" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
                     <div class="w3-display-middle w3-display-hover">
                       <button   type="button" onclick="$('#imagedoctor').trigger('click')" class="w3-button w3-red">Change picture</button>
                     </div>
@@ -178,7 +178,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 
                     <div class="col-sm-4">  <div class="form-group">
                      <label class="w3-text-gray w3-small">Country *</label>
-                       <select class="w3-select w3-border" name="nationality" id="countryhidden" required onchange="getselectedOption(this,'{{$updateData->nationality}}')" ></select> 
+                       <select class="w3-select w3-border" name="nationality" id="countryhidden" required ></select> 
                        
                      
                     </div>
@@ -186,7 +186,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 
                    <div class="col-sm-4">  <div class="form-group">
                      <label class="w3-text-gray w3-small">City *</label>
-                       <select class="w3-select w3-border" name="city" id="cityupdate" required onended="getselectedOption(this,'{{$updateData->city}}')">
+                       <select class="w3-select w3-border" name="city" id="cityupdate" required>
                        
                       </select> 
                     </div>

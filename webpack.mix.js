@@ -57,7 +57,8 @@ js('resources/assets/js/app.js', 'public/js')
     'resources/assets/vendor/datatables/buttons/js/dataTables.buttons.js',
     'resources/assets/vendor/datatables/buttons/js/buttons.print.js',
     "resources/assets/files/moment/min/moment.min.js",
-	"resources/assets/files/fullcalendar/dist/fullcalendar.min.js",
+    "resources/assets/files/fullcalendar/dist/fullcalendar.min.js",
+    
     
     'resources/assets/files/fancy/jquery.fancytree.js',
     'resources/assets/js/Markaps.js',
@@ -75,11 +76,12 @@ js('resources/assets/js/app.js', 'public/js')
     'resources/assets/js/customtable.js',  
     'resources/assets/js/precription.js',  
     'resources/assets/js/role.js', 
-     'resources/assets/js/imageload.js', 
-      'resources/assets/js/approve.js', 
-     
-     //'resources/assets/js/social.js', 
-     
+    'resources/assets/js/imageload.js', 
+    'resources/assets/js/approve.js', 
+    'resources/assets/js/modernizr.js',
+    'resources/assets/js/dynamicpage.js',
+    'resources/assets/js/complete.js',
+     //'resources/assets/js/social.js',     
 ], 'public/js/all.js');//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 
 

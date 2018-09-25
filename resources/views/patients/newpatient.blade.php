@@ -1,5 +1,5 @@
 <?php 
-use App\Http\Controllers\customerController; 
+use Healthfy\Http\Controllers\customerController; 
 ?>
 
       <div class="box" style="background: inherit;">

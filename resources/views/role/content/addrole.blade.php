@@ -1,5 +1,5 @@
 <?php 
-  use App\http\Controllers\roleController;
+  use  Healthfy\http\Controllers\roleController;
   $update_data = roleController::getupdateRole(Request::get('id'));
  ?>
 <form method="POST" class="formwork w3-container w3-white" id="role_form" style="background: inherit; display: block;" action="save">

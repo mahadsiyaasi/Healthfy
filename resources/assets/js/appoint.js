@@ -502,23 +502,6 @@ $(document).ready(function(){
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 
 function ApproveAppointToPayment(datas){

@@ -1,3 +1,8 @@
+<?php 
+    use  Healthfy\http\Controllers\labController;
+    use  Healthfy\Http\Controllers\companyController; 
+    $company = companyController::company();
+ ?>
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -51,11 +56,7 @@ body
 <body>
 
 
-<?php 
-    use App\http\Controllers\labController;
-    use App\Http\Controllers\companyController; 
-    $company = companyController::company();
- ?>
+
 <div class="content-wrapper">
   <div class="pull-right">
     Page <span class="pagenum"></span> of <span class="pagenum"></span>

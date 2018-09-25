@@ -1,6 +1,6 @@
 @extends('layouts.app')
  <?php 
-use App\Http\Controllers\companyController; 
+use  Healthfy\Http\Controllers\companyController; 
 ?>
 @section('content')
  @if (Auth::check())

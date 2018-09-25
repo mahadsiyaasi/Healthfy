@@ -1,9 +1,9 @@
 @extends('layouts.app')
  <?php 
-use App\Http\Controllers\companyController; 
+use  Healthfy\Http\Controllers\companyController; 
 $parent_li = companyController::listside()->parents;
 $child_li = companyController::listside()->child;
-use App\Http\Controllers\authController; 
+use  Healthfy\Http\Controllers\authController; 
 $isDocument = authController::isDocument();
 $doctorAuth = authController::authDoctor();
 

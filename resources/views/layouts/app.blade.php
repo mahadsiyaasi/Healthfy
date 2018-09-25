@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/png" sizes="16x16">
      <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title', __('titles.welcome').Route::currentRouteName()) @endif</title>
      @if (Auth::check())

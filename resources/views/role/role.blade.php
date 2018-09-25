@@ -2,7 +2,7 @@
 
 @section('content')
 <?php 
-    use App\http\Controllers\roleController;
+    use  Healthfy\http\Controllers\roleController;
  ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->

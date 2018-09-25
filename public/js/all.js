@@ -25360,14 +25360,18 @@ return $.ui.fancytree;
 }));  // End of closure
 
 $.fn.DeteilView = function(array){
+  console.log(array)
   var BS = {
-    BSMDestroy:function(){
-      setTimeout(function() {
-      $('body').find("#DeteilView").modal('hide');
-      $('body').find("#DeteilView").on('hidden.bs.modal', function () {
-      $(this).data('bs.modal', null);
-    })
-    }, 500);
+      BSMDestroy:function(){
+            setTimeout(function() {
+            $('body').find("#DeteilView").modal('hide');
+            $('body').find("#DeteilView").on('hidden.bs.modal', function () {
+            $(this).data('bs.modal', null);
+          })
+      }, 500);
+    },
+    fm:function(){     
+       return $("#DeteilView").find("form");   
     }
   }
   var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
@@ -25375,31 +25379,38 @@ $.fn.DeteilView = function(array){
               +'<div class="modal-dialog w3-border " style="width:'+array.width+'">'
               +'<div class="modal-content '+array.color+'">'
                 +'<div class="modal-header" style="border: none;">'
-                +'<button type="button" onclick= "BSMRemover()" class="close" data-dismiss="modal" aria-label="Close">'
+                +'<button type="button"  class="destroyer close" data-dismiss="modal" aria-label="Close">'
                 +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title w3-text-gray">'+array.title+'</h4></div>'
-                +'<div class="modal-body">'
-                +array.body+
-                '</div><div class="modal-footer" style="border: none;">';
+                +'<div class="modal-body" id="modalBody"></div><div class="modal-footer" style="border: none;">';
                   if (array.cancelbtn) {
-                    modal +='<button type="button" onclick= "BSMRemover()" class="btn w3-text-red dismism" data-dismiss="modal" style="background:inherit">Close</button>'
+                    modal +='<button type="button" class="btn w3-text-red dismism destroyer" data-dismiss="modal" style="background:inherit">Close</button>'
                   }
                   if (array.savebtn) {
                     modal +='<button onclick="" type="button" class="btn  '+array.buttoneventclass+' w3-text-blue" style="background:inherit" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button>';
-                  }
-                
-                  modal +='</div></div></div></div>' 
-               
+                  }                
+                  modal +='</div></div></div></div>'                
                 $(".specialmodal").html(modal);
-                $(".specialmodal").find("#DeteilView").modal("show");
-               
+                if (array.loading) {
+                   $(".specialmodal #modalBody").html("<h1>loading</h1>")
+                 }               
+                setTimeout(function() {
+                   $(".specialmodal #modalBody").html(array.body);
+                   alert(BS.fm())
+                   array.bodyJsParser(BS.fm());
+                   }, 1000);
+                if (array.backdrop==false) {
+                $(".specialmodal").find("#DeteilView").modal({backdrop: 'static', keyboard: false})
+                }
+                $(".specialmodal").find("#DeteilView").modal("show");              
                       $("."+array.buttoneventclass).click(function(){
-                       if (array.submitData()){
+                       if (array.submitData(BS.fm())){
                         BS.BSMDestroy();
-                       }
-
-
-
-                      })
+                        $(".specialmodal").data(null)
+                       }})
+                      $(".specialmodal .destroyer").click(function(){
+                       BS.BSMDestroy();
+                        $(".specialmodal").data(null)
+                       })
                       
                       
                 return BS;
@@ -25407,8 +25418,10 @@ $.fn.DeteilView = function(array){
 }
 
 function modalmakeup(array){
+  var backdropStatic;
+ //if (array.backdrop) { backdropStatic =  "data-backdrop='static'" }else{backdropStatic =  null}
 	var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
-	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate">'
+	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate" >'
           		+'<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:'+array.width+'">'
             	+'<div class="modal-content '+array.color+'">'
               	+'<div class="modal-header" style="border: none;">'
@@ -25421,6 +25434,9 @@ function modalmakeup(array){
                 +'<button type="button" class="btn  '+array.buttoneventclass+' w3-text-blue" style="background:inherit" data-loading-text="'+wait+' Wait">'+array.buttontext+'</button></div></div></div></div>';
                 removebesmodal()
  	 			$(".specialmodal").html(modal);
+        if (array.backdrop==false) {             
+        $(".specialmodal").find("#oncreate").modal({backdrop: 'static', keyboard: false}) 
+         }
         $(".specialmodal").find("#oncreate").modal("show");
 }
 function commonvalidator(form){
@@ -27130,23 +27146,6 @@ $(document).ready(function(){
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 
 function ApproveAppointToPayment(datas){
@@ -28527,4 +28526,39 @@ function proccedtoUnApprove(datas){
     }
   })
 
+}
+$(document).ready(function(){
+	//-------
+})
+//pop add new clinic 
+function addNewClinic(){
+	var dism = $("#DeteilView").DeteilView({
+	    title:'Clinic & Timing',
+	    width:"80%",
+	    color:"w3-white",
+	    fade:"w3-animate-zoom",
+	    buttontext:"Procced",
+	    buttoneventclass:"OK",
+	    buttoncolor:"w3-blue",
+	    body:$("#clinicfm").clone(),
+	    backdrop:false,
+	    savebtn:true,
+	    cancelbtn:true,
+	    loading:true,
+	    bodyJsParser:function(fm){
+	    	alert(fm)
+	    	timereuse(fm.find("input[name=1_start_time]"))
+	    	timereuse(fm.find("input[name=2_start_time]"))
+	    	timereuse(fm.find("input[name=1_end_time]"))
+	   		timereuse(fm.find("input[name=2_end_time]"))
+	   		fm.find("input[name=1_start_time]").attr("disabled")
+	    },
+	    submitData: function(fm){
+       var data  = ajaxtoserv(fm,"form","/clinicsaving",null);
+        if (data.success) {
+         return true;
+          }
+
+    }
+  })
 }

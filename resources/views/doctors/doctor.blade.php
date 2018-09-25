@@ -2,7 +2,7 @@
 
 @section('content')
 <?php 
-use App\Http\Controllers\doctorsController; 
+use  Healthfy\Http\Controllers\doctorsController; 
 ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
