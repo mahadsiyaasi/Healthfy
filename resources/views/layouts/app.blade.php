@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/png" sizes="16x16">
      <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title', __('titles.welcome').Route::currentRouteName()) @endif</title>
+    <title>@if(Auth::check()) @yield('title', Route::currentRouteName()) @else @yield('title',Route::currentRouteName()) @endif</title>
      @if (Auth::check())
               <link href="{{ asset('css/app.css') }}" rel="stylesheet">
               <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
@@ -66,7 +66,7 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('dist/img/avatar.png')}}" class="user-image" alt="User Image">
+              <img src="{{Auth::user()->getFirstMediaUrl('image','thumb') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
       <ul class="dropdown-menu dropdown-usermenu pull-right">

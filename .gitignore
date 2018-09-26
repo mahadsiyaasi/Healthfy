@@ -1,32 +1,32 @@
 <<<<<<< HEAD
 
-#vendor/
-#node_modules/
-#npm-debug.log
+#endor/
+node_modules/
+npm-debug.log
 
 # Laravel 4 specific
-#bootstrap/compiled.php
-#app/storage/
+bootstrap/compiled.php
+app/storage/
 
 # Laravel 5 & Lumen specific
-#public/storage
+public/storage
 #public/hot
-#storage/*.key
-#.env.*.php
-#.env.php
+storage/*.key
+.env.*.php
+.env.php
 #.env
-#Homestead.yaml
-#Homestead.json
+Homestead.yaml
+Homestead.json
 
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 #.rocketeer/
 =======
 /node_modules
 #/public/hot
 #/public/storage
-#/storage/*.key
+/storage/*.key
 /vendor
-#/.idea
+/.idea
 #/.vagrant
 #Homestead.json
 #Homestead.yaml

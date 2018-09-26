@@ -87,6 +87,14 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
         ),
+        'O' => 
+        array (
+            'Obrignoni\\Webhooks\\' => 19,
+        ),
+        'N' => 
+        array (
+            'NotificationChannels\\Webhook\\' => 29,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -290,6 +298,14 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Obrignoni\\Webhooks\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/obrignoni/webhooks/src',
+        ),
+        'NotificationChannels\\Webhook\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-notification-channels/webhook/src',
         ),
         'Monolog\\' => 
         array (
@@ -2800,6 +2816,21 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
         'Monolog\\Processor\\UidProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/UidProcessor.php',
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
+        'NotificationChannels\\Webhook\\Exceptions\\CouldNotSendNotification' => __DIR__ . '/..' . '/laravel-notification-channels/webhook/src/Exceptions/CouldNotSendNotification.php',
+        'NotificationChannels\\Webhook\\WebhookChannel' => __DIR__ . '/..' . '/laravel-notification-channels/webhook/src/WebhookChannel.php',
+        'NotificationChannels\\Webhook\\WebhookMessage' => __DIR__ . '/..' . '/laravel-notification-channels/webhook/src/WebhookMessage.php',
+        'Obrignoni\\Webhooks\\Authorization\\Authorization' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Authorization/Authorization.php',
+        'Obrignoni\\Webhooks\\Authorization\\GithubAuthorization' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Authorization/GithubAuthorization.php',
+        'Obrignoni\\Webhooks\\Console\\WebhookMakeCommand' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Console/WebhookMakeCommand.php',
+        'Obrignoni\\Webhooks\\Contract\\EventClassHandlerInterface' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Contract/EventClassHandlerInterface.php',
+        'Obrignoni\\Webhooks\\Contract\\WebhookClassHandlerInterface' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Contract/WebhookClassHandlerInterface.php',
+        'Obrignoni\\Webhooks\\Contract\\WebhooksInterface' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Contract/WebhooksInterface.php',
+        'Obrignoni\\Webhooks\\Handler\\EventClassHandler' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Handler/EventClassHandler.php',
+        'Obrignoni\\Webhooks\\Handler\\WebhookClassHandler' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Handler/WebhookClassHandler.php',
+        'Obrignoni\\Webhooks\\Http\\WebhookRequest' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Http/WebhookRequest.php',
+        'Obrignoni\\Webhooks\\Http\\WebhooksController' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Http/WebhooksController.php',
+        'Obrignoni\\Webhooks\\Webhooks' => __DIR__ . '/..' . '/obrignoni/webhooks/src/Webhooks.php',
+        'Obrignoni\\Webhooks\\WebhooksServiceProvider' => __DIR__ . '/..' . '/obrignoni/webhooks/src/WebhooksServiceProvider.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

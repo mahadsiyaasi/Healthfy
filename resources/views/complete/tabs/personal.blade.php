@@ -20,7 +20,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 <div class="row">
       <div class="col-sm-4">
             <div class="card  w3-card w3-padding" style="">
-              <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl() }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
+              <img class="card-img-top" src="{Auth::user()->getFirstMediaUrl('image','thumb')}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
               <div class="card-body">
                 <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>
                

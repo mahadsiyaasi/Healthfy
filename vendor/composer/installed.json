@@ -1370,6 +1370,55 @@
         ]
     },
     {
+        "name": "laravel-notification-channels/webhook",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel-notification-channels/webhook.git",
+            "reference": "955762305694542fc5f1d3898c05070423ae4eb5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel-notification-channels/webhook/zipball/955762305694542fc5f1d3898c05070423ae4eb5",
+            "reference": "955762305694542fc5f1d3898c05070423ae4eb5",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "~6.0",
+            "illuminate/notifications": "5.3.*|5.4.*|5.5.*|5.6.*",
+            "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+            "php": ">=5.6.4"
+        },
+        "require-dev": {
+            "mockery/mockery": "^0.9.5",
+            "orchestra/database": "3.3.x-dev|^3.5.0",
+            "orchestra/testbench": "3.3.x-dev|^3.5.0",
+            "phpunit/phpunit": "4.*|~6.0"
+        },
+        "time": "2018-05-07T18:04:49+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "NotificationChannels\\Webhook\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Marcel Pociot",
+                "email": "m.pociot@gmail.com",
+                "homepage": "http://www.marcelpociot.com"
+            }
+        ],
+        "description": "Webhook Notifications driver",
+        "homepage": "https://github.com/laravel-notification-channels/webhook"
+    },
+    {
         "name": "laravel/framework",
         "version": "v5.6.37",
         "version_normalized": "5.6.37.0",
@@ -2132,6 +2181,53 @@
             "parser",
             "php"
         ]
+    },
+    {
+        "name": "obrignoni/webhooks",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/obrignoni/laravel-webhooks.git",
+            "reference": "227eac70ce7a37e22784e849e596ec8e05a843f2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/obrignoni/laravel-webhooks/zipball/227eac70ce7a37e22784e849e596ec8e05a843f2",
+            "reference": "227eac70ce7a37e22784e849e596ec8e05a843f2",
+            "shasum": ""
+        },
+        "require": {
+            "laravel/framework": "^5.3"
+        },
+        "require-dev": {
+            "mockery/mockery": "^0.9.5",
+            "phpunit/phpunit": "~5.4"
+        },
+        "time": "2017-09-04T02:27:04+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Obrignoni\\Webhooks\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Osvaldo Brignoni",
+                "email": "hello@obrignoni.com"
+            }
+        ],
+        "description": "This Laravel package helps you organize, secure and map webhooks to events."
     },
     {
         "name": "paragonie/random_compat",

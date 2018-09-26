@@ -168,6 +168,8 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Obrignoni\Webhooks\WebhooksServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
