@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
+class ComposerStaticInit1ab48543bb73efd99f27771c6128082f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -17,8 +17,8 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
     );
@@ -156,8 +156,8 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'ZipStream\\' => 
         array (
@@ -4828,10 +4828,10 @@ class ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitfb5b0dc998ba0316904b0f7541d6fc8f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1ab48543bb73efd99f27771c6128082f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1ab48543bb73efd99f27771c6128082f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1ab48543bb73efd99f27771c6128082f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1ab48543bb73efd99f27771c6128082f::$classMap;
 
         }, null, ClassLoader::class);
     }

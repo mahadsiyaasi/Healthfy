@@ -33,6 +33,7 @@
           }
     </style>
     @elseif (Auth::guest())    
+     <link rel="stylesheet" type="text/css" href="{{ asset('css/w3.css')}}">
      <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/vendor/bootstrap/css/bootstrap.min.css')}}">
       <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
       <link rel="stylesheet" type="text/css" href="{{ asset('loginV1/fonts/iconic/css/material-design-iconic-font.min.css')}}">

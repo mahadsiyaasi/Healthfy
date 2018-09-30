@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.1.3",
+        "ionic-native": "https://github.com/ionic-team/ionic-native/tarball/v3.5.0",
         "vue-template-compiler": "^2.5.16"
     }
 }

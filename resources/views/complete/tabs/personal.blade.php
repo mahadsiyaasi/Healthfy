@@ -10,8 +10,9 @@ $gentype = ($updateData->gender=="Female"?0:1);
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="display: inline-block; position: relative;">
         <h5 class="box-title">Profile Completeness View</h5></a>
+         <a onClick="updatePersonal()" class="w3-border pull-right btn" style="position: relative;display:inline-block;"><i class="fa fa-edit">update</i></a>
       </h4>
     </div>
     <div id="collapse1" class="panel-collapse collapse in">
@@ -20,7 +21,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 <div class="row">
       <div class="col-sm-4">
             <div class="card  w3-card w3-padding" style="">
-              <img class="card-img-top" src="{Auth::user()->getFirstMediaUrl('image','thumb')}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
+              <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl('image')}}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
               <div class="card-body">
                 <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>
                
@@ -240,10 +241,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
             Changes made here requires varification, if its not reflected back in 48 hours please contact with the assistance <a href="/feedback"> Here</a>
           </p>
 
-                              <div class="navbar-right w3-padding" style="display: inline-block;">
-                                <button class="w3-button w3-teal w3-text-white w3-hover" style="display: inline-block; right: -5px; bottom: -2.5px"  id="formfieldsubmit" type="button">Save</button>
-
-                              </div> 
+                              
                                
 
                             </div>

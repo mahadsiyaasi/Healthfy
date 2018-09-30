@@ -28562,3 +28562,30 @@ function addNewClinic(){
     }
   })
 }
+function updatePersonal(){
+	var dism = $("#DeteilView").DeteilView({
+	    title:'Update Personal Detail',
+	    width:"80%",
+	    color:"w3-white",
+	    fade:"w3-animate-zoom",
+	    buttontext:"Procced",
+	    buttoneventclass:"OK",
+	    buttoncolor:"w3-blue",
+	    body:$("#formUpdateDoctora").clone(),
+	    backdrop:false,
+	    savebtn:true,
+	    cancelbtn:true,
+	    loading:true,
+	    bodyJsParser:function(fm){
+	    	
+	    },
+	    submitData: function(fm){
+       var data  = ajaxtoserv(fm,"form","/clinicsaving",null);
+        if (data.success) {
+         return true;
+          }
+
+    }
+  })
+}
+

@@ -10,7 +10,7 @@
           <form class="login100-form validate-form" role="form" method="POST" action="{{ url('/login') }}">
                       {{ csrf_field() }}
                       <span class="login100-form-title p-b-49">
-                       <small class="focus-input10">Login</small> <strong style="color:red">Health .</strong><small class="focus-input10">so</small>
+                       <small class="focus-input10"></small> <strong style="color:red">Health</strong><small class="focus-input10">fy (+)</small>
                       </span>
 
                       <div class="wrap-input100 validate-input m-b-23 {{ $errors->has('email') ? ' has-error' : '' }}" data-validate = "email is reauired">
@@ -55,18 +55,26 @@
                         <span class="txt1 p-b-17">
                         Or sign up now as 
                         </span>
-                         <div class="flex-c-m">
-                        <a href="{{ url('/create/patient') }}?_token={{ csrf_token() }}" data-widget="remove" data-toggle="tooltip" title="Remove" class="login100-social-item bg2">
+                         <div class="flex-c-m w3-padding" style="padding: 16px">
+
+                           <button class="w3-padding w3-btn btn w3-button  w3-border-bottom" type="button" style="background: inherit;" onclick="location.href='{{ url('\/create/patient') }}?_token={{ csrf_token() }}'">
+                        <a href="{{ url('/create/patient') }}?_token={{ csrf_token() }}" data-widget="remove" data-toggle="tooltip" title="Remove">
                           <i class="fa fa-wheelchair"></i>
+                          
                         </a>
+                        <label>
+                            Patients
+                          </label>
+                        </button>
 
-                        <a href="{{ url('/create/doctor') }}?_token={{ csrf_token() }}"class="login100-social-item bg2">
-                          <i class="fa fa-user"></i>
-                        </a>
-
-                        <a href="{{ url('/create/company') }}?_token={{ csrf_token() }}" class="login100-social-item bg2">
+                         <button class="w3-padding w3-btn btn w3-button w3-border-bottom " type="button" onclick="location.href='{{ url('\/create/doctor') }}?_token={{ csrf_token() }}'" style="background: inherit;">
+                        <a href="{{ url('/create/doctor') }}?_token={{ csrf_token() }}" class="">
                           <i class="fa fa-medkit"></i>
                         </a>
+                         <label>
+                            Doctors
+                          </label>
+                        </button>
                       </div>
                     </div>
         </form>
