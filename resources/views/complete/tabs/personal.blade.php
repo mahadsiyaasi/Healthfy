@@ -12,25 +12,24 @@ $gentype = ($updateData->gender=="Female"?0:1);
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" style="display: inline-block; position: relative;">
         <h5 class="box-title">Profile Completeness View</h5></a>
-         <a onClick="updatePersonal()" class="w3-border pull-right btn" style="position: relative;display:inline-block;"><i class="fa fa-edit">update</i></a>
+         <a onClick="updatePersonal()" class="w3-border pull-right btn" style="position: relative;display:inline-block;"><i class="fa fa-edit"> Update</i></a>
       </h4>
     </div>
     <div id="collapse1" class="panel-collapse collapse in">
       <div class="panel-body">
-
 <div class="row">
       <div class="col-sm-4">
             <div class="card  w3-card w3-padding" style="">
               <img class="card-img-top" src="{{Auth::user()->getFirstMediaUrl('image')}}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)}" alt="Card image cap" style="width:100%">
               <div class="card-body">
-                <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>
-               
+                <h5 class="card-title">{{$updateData->title}} {{$updateData->name}}</h5>               
               </div>
               <ul class="list-group list-group-flush">
               
               </ul>
               <div class="card-body">
                 <a href="/doctors/{{$updateData->id}}" class="card-link">Doctor Profile</a>
+                 <a href="#" onclick="updatePersonalProfileImage()" class="card-link pull-right">Change Image</a>
                 </div>
             </div>
             
@@ -77,7 +76,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 </div>
 </div>
 </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" style="display: none;">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
@@ -90,38 +89,11 @@ $gentype = ($updateData->gender=="Female"?0:1);
 
 
      <div class="box-header with-border">
-        <h3 class="box-title">Complete Your Profile</h3></div>
-
-
-   <form method="POST"  class="autovaliddate validate"  id="formUpdateDoctora" style="background: inherit; display: block;" enctype="multipart/form-data" action="/savelastupdate" >
-                <div class="warner">
-               
-            </div>
-            
-                <div class=""><div class="form-group">
-                  
-                  <div class="text-center">
-                    <div class="">
-                 
-                  <div class="">
-                    <div class="w3-display-container w3-hover-opacity">
-                    <img src="{{Auth::user()->getFirstMediaUrl('image', 'thumb') }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)};" alt="..." id="doctorimage" class="user-image img image image-cirle w3-border w3-image-circle w3-circle  circle img-thumbnail w3-hover-opacity" style="width:10%" onclick="$('#imagedoctor').trigger('click')">
-                    <div class="w3-display-middle w3-display-hover">
-                      <button   type="button" onclick="$('#imagedoctor').trigger('click')" class="w3-button w3-red">Change picture</button>
-                    </div>
-                  </div>
-                  <input type="file" onchange="return fileValidationView('imagedoctor','doctorimage')"  name="image" id="imagedoctor" style="display: none;" class="user-image img image image-cirle w3-border">
-                   @if ($errors->has('image'))
-                    <span class="help-block danger-alert" style="color: red">
-                         {{ $errors->first('image') }}
-                     </span>
-                   @endif
-                  </div>
-                  </div>
-                </div> 
-        </div>
-        </div>
-         <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
+     <h3 class="box-title">Complete Your Profile</h3></div>
+  <div id="holefm1">
+   <form method="POST"  class="autovaliddate validate"  id="formUpdateDoctora" style="background: inherit; display: block;" action="/savelastupdate" >
+      <div class="warner"></div>         
+        <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
            <input type="hidden" name="user_id" value="{{ Request::get('user_id') }}">
                 <input type="hidden" name="doctor_id" value="{{ Request::get('doctor_id') }}">
                 <div class="row w3-padding">
@@ -223,34 +195,54 @@ $gentype = ($updateData->gender=="Female"?0:1);
                     <label class="w3-text-gray w3-small">Visit Ammount*</label>
                    <input class="w3-input w3-border" name="visit_amount" type="number" placeholder="visit amount" value="{{ $updateData->visit_amount }}" required>
                   </div>
-                </div> 
-
-
-
-
-
-
-                 <div class="col-sm-12"><div class="form-group">
+                </div>
+                <div class="col-sm-12"><div class="form-group">
                     <label class="w3-text-gray w3-small">About You *</label>
                    <textarea class="w3-input w3-border" name="about" type="text" placeholder="your bio" value="{{ $updateData->About }}" required>{{ $updateData->about }}</textarea>
-                  </div></div>
-                   
+                  </div></div>                   
         </div>
         <div class="w3-padding w3-border-top" style="width: 100%;margin-left: -16px ">
           <p  style="display: inline-block;">    
             Changes made here requires varification, if its not reflected back in 48 hours please contact with the assistance <a href="/feedback"> Here</a>
           </p>
-
-                              
-                               
-
-                            </div>
+        </div>
         </form>
-      
       </div>
-    </div>
-  </div>
-  
+
+
+
+
+      <div id="holefm2">
+        <form method="POST"  class="autovaliddate validate"  id="formUpdateDoctora" style="background: inherit; display: block;" enctype="multipart/form-data" action="/savelastupdate" >
+                <div class="warner"></div>           
+                <div class=""><div class="form-group">
+                  <div class="text-center">
+                    <div class="">
+                 
+                  <div class="">
+                    <div class="w3-display-container w3-hover-opacity">
+                    <img src="{{Auth::user()->getFirstMediaUrl('image') }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)};" alt="..." id="doctorimage" class="user-image img image w3-border w3-hover-opacity" style="width:100%" onclick="$('#DeteilView').find('input[type=file]').trigger('click')">
+                    <div class="w3-display-middle w3-display-hover">
+                      <button   type="button" onclick="$('#DeteilView').find('input[type=file]').trigger('click')" class="w3-button w3-red">Change picture</button>
+                    </div>
+                  </div>
+                  <input type="file" onchange="return fileValidationView($(this).attr('id'),$('#DeteilView').find('img'))"  name="image" id="imagedoctor" style="display: none;" class="user-image img image image-cirle w3-border">
+                   @if ($errors->has('image'))
+                    <span class="help-block danger-alert" style="color: red">
+                         {{ $errors->first('image') }}
+                     </span>
+                   @endif
+                  </div>
+                  </div>
+                </div> 
+        </div>
+        </div>
+         <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
+   </form>
+ </div>
+</div>
+ </div>
+ </div>
 </div>
 
 

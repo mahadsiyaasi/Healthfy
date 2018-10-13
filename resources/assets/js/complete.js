@@ -17,7 +17,7 @@ function addNewClinic(){
 	    cancelbtn:true,
 	    loading:true,
 	    bodyJsParser:function(fm){
-	    	alert(fm)
+	    	//alert(fm)
 	    	timereuse(fm.find("input[name=1_start_time]"))
 	    	timereuse(fm.find("input[name=2_start_time]"))
 	    	timereuse(fm.find("input[name=1_end_time]"))
@@ -42,21 +42,43 @@ function updatePersonal(){
 	    buttontext:"Procced",
 	    buttoneventclass:"OK",
 	    buttoncolor:"w3-blue",
-	    body:$("#formUpdateDoctora").clone(),
+	    body:$("#holefm1").html(),
 	    backdrop:false,
 	    savebtn:true,
 	    cancelbtn:true,
 	    loading:true,
-	    bodyJsParser:function(fm){
-	    	
+	    bodyJsParser:function(fm){	    
+	    	//alert(fm.html())
 	    },
 	    submitData: function(fm){
-       var data  = ajaxtoserv(fm,"form","/clinicsaving",null);
-        if (data.success) {
-         return true;
-          }
-
-    }
+	    	//res = ajaxtoserv(fm,"form","updateDoctorcomplete",this);         
+            fm.submit();
+              //return true;
+     }
+  })
+}
+function updatePersonalProfileImage(){
+	var dism = $("#DeteilView").DeteilView({
+	    title:'Change Profile Image',
+	    width:"25%",
+	    color:"w3-white",
+	    fade:"w3-animate-zoom",
+	    buttontext:"Procced",
+	    buttoneventclass:"OK",
+	    buttoncolor:"w3-blue",
+	    body:$("#holefm2").html(),
+	    backdrop:false,
+	    savebtn:true,
+	    cancelbtn:true,
+	    loading:true,
+	    bodyJsParser:function(fm){	    
+	    	//alert(fm.html())
+	    },
+	    submitData: function(fm){
+	     //res = ajaxtoserv(fm,"form","updateDoctorcomplete",this);         
+            fm.submit();
+              //return true;
+     }
   })
 }
 

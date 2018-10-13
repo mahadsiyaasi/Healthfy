@@ -3,17 +3,17 @@
 <head>
     <link rel="icon" href="{{ url('webicon/cropped.png') }}" type="image/gif" sizes="16x16">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Complete profile</title>
- <link href="{{ asset('css/app.css') }}" rel="stylesheet">
- <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
+     <title>Complete profile</title>
+     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+     <link href="{{ asset('css/all.css') }}" rel="stylesheet">   
 </head>
-<?php 
-  use Healthfy\Http\Controllers\doctorsController; 
-  use Healthfy\Http\Controllers\customerController; 
-  $updateData  = doctorsController::getdoctor();
-  use Healthfy\Http\Controllers\authController;
-  $percent =authController::getPercentage("staff");
-?>
+  <?php 
+    use Healthfy\Http\Controllers\doctorsController; 
+    use Healthfy\Http\Controllers\customerController; 
+    $updateData  = doctorsController::getdoctor();
+    use Healthfy\Http\Controllers\authController;
+    $percent =authController::getPercentage("staff");
+  ?>
 <style type="text/css">
   .allback {
               background: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);

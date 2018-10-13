@@ -14,6 +14,7 @@ use Healthfy\Models\Appointment;
 use Healthfy\Models\Transuction;
 use Healthfy\Http\Controllers\authController;
 use Healthfy\Models\Qualification;
+use Spatie\MediaLibrary\Models\Media;
 class doctorsController extends Controller
 {
     public function __construct()
@@ -46,17 +47,11 @@ class doctorsController extends Controller
                 'salary'=> 'required|min:1|numeric'
                 ]
         );
-
-
-
-	 
-
 		if($validator->fails()){
            return Response::json($validator->messages(),200);
         }
         else{
             if ($request->has("hiddenid")) {
-
             $data =  Staff::find($request->input("hiddenid"));
             $data->name=ucwords($request->input('doctorname'));
             $data->tell =   $request->input('doctortell');
@@ -90,7 +85,7 @@ class doctorsController extends Controller
         "user_id"=>$request->input('email')?$this->saveuser($request->all()):null,
         'type'=>"Doctor",
         "status_id"=>1,
-         "company_id"=>Auth::user()->company_id
+        "company_id"=>Auth::user()->company_id
          ];
         DB::table("staff")->insert($dataC);    
         $succefull =array('success'=>'created succefull !');
@@ -108,24 +103,14 @@ class doctorsController extends Controller
             $staff->status_id = 1;
             $staff->save();
             return response()->json(['success'=>true]);
-
-
-
           }
           elseif($request->decline_id){
             $staff =Staff::find($request->decline_id);
             $staff->status_id = 6;
             $staff->save();
             return response()->json(['success'=>true]);
-
-
-
           }
-
-
           else{
-
-
           $data  = DB::table("staff")->where("status_id",1) 
          ->where("type",$request->input("filter")?$request->input("filter"):"Doctor")
           ->get();
@@ -184,6 +169,11 @@ class doctorsController extends Controller
                 }       
          }
    public function savelastupdate(Request $data){
+    if ($data->has("image")) {
+      $validator = Validator::make($data->all(),[
+            'image' => 'required|file|image|mimes:jpeg,bmp,png',
+          ]);
+    }else{
       $validator = Validator::make($data->all(),[
               //'image' => 'required|file|image|mimes:jpeg,bmp,png', 
               'title' => 'required|min:1',
@@ -197,10 +187,21 @@ class doctorsController extends Controller
                 'city'=>'required|min:3',                
                 'experience'=> 'required|min:1|numeric'             
               ]);
+        }
                 if ($validator->fails()) {
                   return redirect()->back()->withInput()->withErrors($validator);
                 }else{
-                    $staff = Staff::find(authController::authDoctor()->id);
+                if ($data->has("image")) {
+                  $user = User::find(Auth::user()->id);
+                  $iddata = Media::where("model_id",$user->id)->orderBy('id', 'desc')->first();
+                  if ($iddata) {
+                   $user->deleteMedia($iddata->id);
+                 }                  
+                  $user->addMediaFromRequest('image')->toMediaCollection('image');                   
+                  $user->image = $user->getFirstMediaUrl('image');
+                  $user->save();
+                  }else{             
+                  $staff = Staff::find(authController::authDoctor()->id);
                   $staff->datebirth = $data->birthdate;
                   $staff->experience = $data->experience;
                   $staff->city = $data->city;
@@ -212,18 +213,16 @@ class doctorsController extends Controller
                   $staff->address = $data->address;
                   $staff->title = $data->title;
                   $staff->about = $data->about;
-                  $staff->save();                 
-                  if ($data->has("image")) {
-                    $user = User::find(Auth::user()->id);
-                    $user->address = $data->address;
-                    $user->city = $data->city;
-                    $user->addMediaFromRequest('image')->toMediaCollection('image');
-                    $user->image = $user->getFirstMediaUrl('image');
-                    $user->save();
+                  $user = User::find(Auth::user()->id);
+                  $user->address = $data->address;
+                  $user->city = $data->city;
+                  $user->save();
+                  $staff->save(); 
                   }                
 
               return redirect()->back()->withInput();
-   }
+    }
+   
 }
 public function education(Request $data){
             $validator = Validator::make($data->all(),[
@@ -288,4 +287,7 @@ public function appoints(){
     {
       return view("complete.edit");
     }
+    
+
+
 }

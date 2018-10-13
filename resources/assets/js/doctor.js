@@ -57,14 +57,5 @@ $(document).ready(function(){
         ],
          order: {'sort':1 , 'sorttype':'asc'},
         });  
-	   commonvalidator($("#formUpdateDoctora"));
-      $("#formfieldsubmit").click(function(){
-          commonvalidator($("#formUpdateDoctora"));
-          if ($("#formUpdateDoctora").valid()) {
-            //var res = ajaxtoserv("#formUpdateDoctora","form","updateDoctorcomplete",this);
-         
-              formUpdateDoctora.submit();
-               
-          }
-        });
+	   
       })

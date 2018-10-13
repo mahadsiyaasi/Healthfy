@@ -1,26 +1,48 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
-    },
-    "devDependencies": {
-        "axios": "^0.17",
-        "bootstrap-sass": "^4.1.3",
-        "cross-env": "^5.2.0",
-        "jquery": "^3.3.1",
-        "laravel-mix": "^1.0",
-        "lodash": "^4.17.10",
-        "vue": "^2.5.16"
-    },
-    "dependencies": {
-        "bootstrap": "^4.1.3",
-        "ionic-native": "https://github.com/ionic-team/ionic-native/tarball/v3.5.0",
-        "vue-template-compiler": "^2.5.16"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "axios": "^0.17",
+    "bootstrap": "^4.0.0-beta.2",
+    "cross-env": "^5.2.0",
+    "jquery": "^3.3.1",
+    "laravel-mix": "^2.1.14",
+    "lodash": "^4.17.10",
+    "vue": "^2.5.16"
+  },
+  "dependencies": {
+    "bootstrap-beta": "^4.0.0-beta",
+    "bootstrap-sass": "^3.3.7",
+    "ionic-native": "https://github.com/ionic-team/ionic-native/tarball/v3.5.0",
+    "node-sass": "^4.9.3",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "name": "package.json",
+  "description": "Healthfy (Healthy For you ) [vist this link](https://healthfy.net)",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahadsiyaasi/healthfy.git"
+  },
+  "keywords": [
+    "healthfy"
+  ],
+  "author": "Mahad Cigale",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mahadsiyaasi/healthfy/issues"
+  },
+  "homepage": "https://github.com/mahadsiyaasi/healthfy#readme"
 }

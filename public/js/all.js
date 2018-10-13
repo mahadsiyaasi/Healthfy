@@ -25360,28 +25360,27 @@ return $.ui.fancytree;
 }));  // End of closure
 
 $.fn.DeteilView = function(array){
-  console.log(array)
+  //console.log(array)
   var BS = {
       BSMDestroy:function(){
-            setTimeout(function() {
             $('body').find("#DeteilView").modal('hide');
             $('body').find("#DeteilView").on('hidden.bs.modal', function () {
             $(this).data('bs.modal', null);
           })
-      }, 500);
+      
     },
     fm:function(){     
        return $("#DeteilView").find("form");   
     }
   }
   var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
-  var modal = '<div class="modal fade modal-fullscreen"  tabindex="-1" role="dialog" aria-labelledby="modalLabel" id="DeteilView">'
-              +'<div class="modal-dialog w3-border " style="width:'+array.width+'">'
+  var modal = '<div class="modal fade modal-fullscreen w3-arround-large"  tabindex="-1" role="dialog" aria-labelledby="modalLabel" id="DeteilView">'
+              +'<div class="modal-dialog w3-border w3-arround-large" style="width:'+array.width+'">'
               +'<div class="modal-content '+array.color+'">'
-                +'<div class="modal-header" style="border: none;">'
-                +'<button type="button"  class="destroyer close" data-dismiss="modal" aria-label="Close">'
-                +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title w3-text-gray">'+array.title+'</h4></div>'
-                +'<div class="modal-body" id="modalBody"></div><div class="modal-footer" style="border: none;">';
+              +'<div class="modal-header" style="border: none;">'
+              +'<button type="button"  class="destroyer close" data-dismiss="modal" aria-label="Close">'
+              +'<span aria-hidden="true">&times;</span></button><h4 class="modal-title w3-text-gray">'+array.title+'</h4></div>'
+              +'<div class="modal-body" id="modalBody"></div><div class="modal-footer" style="border: none;">';
                   if (array.cancelbtn) {
                     modal +='<button type="button" class="btn w3-text-red dismism destroyer" data-dismiss="modal" style="background:inherit">Close</button>'
                   }
@@ -25395,7 +25394,6 @@ $.fn.DeteilView = function(array){
                  }               
                 setTimeout(function() {
                    $(".specialmodal #modalBody").html(array.body);
-                   alert(BS.fm())
                    array.bodyJsParser(BS.fm());
                    }, 1000);
                 if (array.backdrop==false) {
@@ -25418,8 +25416,6 @@ $.fn.DeteilView = function(array){
 }
 
 function modalmakeup(array){
-  var backdropStatic;
- //if (array.backdrop) { backdropStatic =  "data-backdrop='static'" }else{backdropStatic =  null}
 	var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
 	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate" >'
           		+'<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:'+array.width+'">'
@@ -25796,16 +25792,7 @@ $(document).ready(function(){
         ],
          order: {'sort':1 , 'sorttype':'asc'},
         });  
-	   commonvalidator($("#formUpdateDoctora"));
-      $("#formfieldsubmit").click(function(){
-          commonvalidator($("#formUpdateDoctora"));
-          if ($("#formUpdateDoctora").valid()) {
-            //var res = ajaxtoserv("#formUpdateDoctora","form","updateDoctorcomplete",this);
-         
-              formUpdateDoctora.submit();
-               
-          }
-        });
+	   
       })
 var pateient_editor;
 var doctor_editor;
@@ -28347,11 +28334,14 @@ function fileValidationView(file,setimage){
     }else{
         //Image preview
         if (fileInput.files && fileInput.files[0]) {
+            var image;
             var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById(setimage).src = e.target.result;
+                $(setimage).attr("src",e.target.result);
+                image = e.target.result;
             };
             reader.readAsDataURL(fileInput.files[0]);
+            return image;
         }
     }
 }
@@ -28546,7 +28536,7 @@ function addNewClinic(){
 	    cancelbtn:true,
 	    loading:true,
 	    bodyJsParser:function(fm){
-	    	alert(fm)
+	    	//alert(fm)
 	    	timereuse(fm.find("input[name=1_start_time]"))
 	    	timereuse(fm.find("input[name=2_start_time]"))
 	    	timereuse(fm.find("input[name=1_end_time]"))
@@ -28571,21 +28561,43 @@ function updatePersonal(){
 	    buttontext:"Procced",
 	    buttoneventclass:"OK",
 	    buttoncolor:"w3-blue",
-	    body:$("#formUpdateDoctora").clone(),
+	    body:$("#holefm1").html(),
 	    backdrop:false,
 	    savebtn:true,
 	    cancelbtn:true,
 	    loading:true,
-	    bodyJsParser:function(fm){
-	    	
+	    bodyJsParser:function(fm){	    
+	    	//alert(fm.html())
 	    },
 	    submitData: function(fm){
-       var data  = ajaxtoserv(fm,"form","/clinicsaving",null);
-        if (data.success) {
-         return true;
-          }
-
-    }
+	    	//res = ajaxtoserv(fm,"form","updateDoctorcomplete",this);         
+            fm.submit();
+              //return true;
+     }
+  })
+}
+function updatePersonalProfileImage(){
+	var dism = $("#DeteilView").DeteilView({
+	    title:'Change Profile Image',
+	    width:"25%",
+	    color:"w3-white",
+	    fade:"w3-animate-zoom",
+	    buttontext:"Procced",
+	    buttoneventclass:"OK",
+	    buttoncolor:"w3-blue",
+	    body:$("#holefm2").html(),
+	    backdrop:false,
+	    savebtn:true,
+	    cancelbtn:true,
+	    loading:true,
+	    bodyJsParser:function(fm){	    
+	    	//alert(fm.html())
+	    },
+	    submitData: function(fm){
+	     //res = ajaxtoserv(fm,"form","updateDoctorcomplete",this);         
+            fm.submit();
+              //return true;
+     }
   })
 }
 
