@@ -212,34 +212,7 @@ $gentype = ($updateData->gender=="Female"?0:1);
 
 
 
-      <div id="holefm2">
-        <form method="POST"  class="autovaliddate validate"  id="formUpdateDoctora" style="background: inherit; display: block;" enctype="multipart/form-data" action="/savelastupdate" >
-                <div class="warner"></div>           
-                <div class=""><div class="form-group">
-                  <div class="text-center">
-                    <div class="">
-                 
-                  <div class="">
-                    <div class="w3-display-container w3-hover-opacity">
-                    <img src="{{Auth::user()->getFirstMediaUrl('image') }}" onerror="try{imgError(this,'{{$gentype}}');}catch(err){ console.log(err)};" alt="..." id="doctorimage" class="user-image img image w3-border w3-hover-opacity" style="width:100%" onclick="$('#DeteilView').find('input[type=file]').trigger('click')">
-                    <div class="w3-display-middle w3-display-hover">
-                      <button   type="button" onclick="$('#DeteilView').find('input[type=file]').trigger('click')" class="w3-button w3-red">Change picture</button>
-                    </div>
-                  </div>
-                  <input type="file" onchange="return fileValidationView($(this).attr('id'),$('#DeteilView').find('img'))"  name="image" id="imagedoctor" style="display: none;" class="user-image img image image-cirle w3-border">
-                   @if ($errors->has('image'))
-                    <span class="help-block danger-alert" style="color: red">
-                         {{ $errors->first('image') }}
-                     </span>
-                   @endif
-                  </div>
-                  </div>
-                </div> 
-        </div>
-        </div>
-         <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
-   </form>
- </div>
+     
 </div>
  </div>
  </div>

@@ -1,3 +1,6 @@
 
 node_modules/*
 vendor/*
+node_modules/.bin/find-versions
+*.cmd
+*.cmd

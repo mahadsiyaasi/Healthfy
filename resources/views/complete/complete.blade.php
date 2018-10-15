@@ -13,6 +13,7 @@
     $updateData  = doctorsController::getdoctor();
     use Healthfy\Http\Controllers\authController;
     $percent =authController::getPercentage("staff");
+    $gentype = ($updateData->gender=="Female"?0:1);
   ?>
 <style type="text/css">
   .allback {
@@ -148,6 +149,7 @@
       }
                 $(document).ready(function(){
                   if ($("#countryhidden").length != 0) {
+                   populateCountries("countryhidden+1", "cityupdate+1");
                    populateCountries("countryhidden", "cityupdate");
                    }
                     $("#countryhidden").find("option").each(function(){
@@ -187,6 +189,22 @@
                   window.location.hash = e.target.hash;
                  });
           });*/
+          function imageUser(){
+            var query = {};
+            query = {
+              pic : '{{Auth::user()->getFirstMediaUrl('image')}}',
+              gender:'{{$gentype}}'
+
+            }
+            return query;
+          }
+          jsUserDetail = function(){
+            var query = {
+              country : "{{$updateData->nationality}}",
+              city : "{{$updateData->city}}",
+            }
+            return query;
+          }
     </script>
   </body>
   </html>

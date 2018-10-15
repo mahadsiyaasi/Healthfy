@@ -9,11 +9,14 @@ function fileValidationView(file,setimage){
     }else{
         //Image preview
         if (fileInput.files && fileInput.files[0]) {
-            var image;
+            var image =  {};
             var reader = new FileReader();
             reader.onload = function(e) {
-                $(setimage).attr("src",e.target.result);
-                image = e.target.result;
+                document.getElementById(setimage).src=e.target.result;
+               image = {
+                image :e.target.result,
+                filepath:filePath
+               }
             };
             reader.readAsDataURL(fileInput.files[0]);
             return image;
