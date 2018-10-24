@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('/listjsonPayment','paymentController@jsonPaymentMethod');
 	Route::any('/appointpayment','paymentController@appointpayment');
 	Route::any('/payments','paymentController@generalpays');
-	Route::any('patients/mypaysPatient','paymentController@mypaysPatient');
+	Route::any('mypaysPatient','paymentController@patientpays');
 	Route::any('healthfeed','feedController@index')->name(__('titles.feed').' | '.config('app.name'));
 	Route::get('/logout', 'Auth\LoginController@logout');	
 });

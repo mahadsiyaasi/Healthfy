@@ -34,7 +34,7 @@ use Healthfy\Http\Controllers\companyController;
           </div>
         </div>
         <div class="box-body">
-         <table class="table table-stripped table-bordered" id="appoin_table_doctor">
+         <table class="table table-striped" id="appoin_table_doctor">
    
         </table>
         </div>
