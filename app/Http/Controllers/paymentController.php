@@ -10,7 +10,7 @@ use Response;
 use Healthfy\Models\Transuction;
 use Lang;
 use Healthfy\Http\Controllers\authController;
-
+use DataTables;
 class paymentController extends Controller
 {
    public function __construct()
@@ -128,10 +128,10 @@ public function generalpays(){
 	return view("payment.pay");
 	
 }
-public function mypaysPatient(Request $data){
-	$transuction  =Transuction::join("appointments","appointments.id","=","transactions.order_id")
-	->join("variable_lists","variable_lists.status_id","=","appointments.status_id")
-	->select("transactions.*","appointments.name","variable_lists.status_name")
+public function patientpays(Request $data){
+	$transuction  =Transuction::join("appointment","appointment.id","=","transactions.order_id")
+	->join("varaible_lists","varaible_lists.status_id","=","appointment.status_id")
+	->select("transactions.*","appointment.*","varaible_lists.status_name")
 	->where("transactions.patient_id",authController::authPatient()->id)->get();
 	return \DataTables::of($transuction)->make(true);
 }

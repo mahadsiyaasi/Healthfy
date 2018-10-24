@@ -26883,9 +26883,11 @@ function profileviewappointent(){
                     '</div>'
                 }else if (row.status_id==165){
                     return "<span class='badge w3-red'> "+row.status_name+" </span>"
+                }else if(row.status_id==166){
+                   return "<span class='badge w3-blue'> "+row.status_name+" </span>"
                 }
                 else{
-                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                    return '<span class="badge w3-blue"> '+row.status_name+" "+_timeStyl(row.end_date+" "+row.end_time)+' </span>'
                 }
               },
                 "targets": 4
@@ -26993,6 +26995,7 @@ $(document).ready(function(){
          'targets': 3,
      
          "render": function ( data, type, row ) {
+          //alert(row.status_id)
             if (row.status_id==1) {
           return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">Waiting Approval</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                       +'<ul class="dropdown-menu w3-border" style=" z-index; 11111111111">'
@@ -27012,12 +27015,14 @@ $(document).ready(function(){
                 }else if (row.status_id==167){
                    return ' <div class="dropdown " style="display:inline-block;"><button type="button"  tagid="'+row.id+'"  tagpatient_id="'+row.id+'"  class="w3-border w3-border-white w3-red" style="border:none">'+row.status_name+" "+_timeStyl(row.end_date+" "+row.end_time)+'</button><button type="button" class="btn w3-border-white w3-border" dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                       +'<ul class="dropdown-menu w3-borderdropdown-menu col-xs-12 w3-border w3-border-all " role="menu" aria-labelledby="dLabel  w-100" style=" z-index; 11111111111">'
-                        +' <li class=""><a class="" onclick="PaymentAproveForDoctor(this)" _id="'+row.id+'" tagdate="'+row.end_date+" "+row.end_time+'" tagname="'+row.patient_name+'"><i class="fa fa-check"></i> Approve Payment </a></li>'
+                        +' <li class=""><a class="" onclick="PaymentAproveForDoctor(this)" _id="'+row.id+'" tagdate="'+row.end_date+" "+row.end_time+'" tagname="'+row.patient_name+'"><i class="fa fa-print"></i> print </a></li>'
                             +' <li class=""><a class="" data-toggle="modal" data-target="#modal-warn" type="Appoint" forid="'+row.id+'"  tablename="Appointment"  htmtable="doctors_appoints" onclick="if(docancels(this)){datadtab.reload()}"  ><i class="fa fa-exclamation"></i> Missed Payment</a></li>'
                         
                        +' </ul>'+
                     '</div>'
                 //return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                }else{
+                  return  ' <a class="" tagdate="'+row.end_date+" "+row.end_time+'" tagname="'+row.patient_name+'"><span class="badge w3-red">'+row.status_name+'</span> </a>';
                 }
          },
 
@@ -27070,7 +27075,7 @@ $(document).ready(function(){
     "bPaginate":true,
     "sPaginationType":"full_numbers",
     ajax:{
-    url:"/patients/mypaysPatient", // Change this URL to where your json data comes from
+    url:"/mypaysPatient", // Change this URL to where your json data comes from
     type: "POST", // This is the default value, could also be POST, or anything you want.
     data: function(d) {
     d._token  = _token;
@@ -27079,8 +27084,8 @@ $(document).ready(function(){
    //"sAjaxSource":'?_token='+$('meta[name="csrf-token"]').attr('content')       
     columns: [             
           
-            {title:"Tran #id", data: 'paymentid', name: 'paymentid'},          
-            { title:"Appointment name",data: 'name', name: 'name'},
+            {title:"Tran #id", data: 'payment_id', name: 'payment_id'},          
+            { title:"Appoint name",data: 'disease', name: 'disease'},
             { title:"Account",data: 'account', name: 'account'},
             { title:"Amount",data: 'balance', name: 'balance'},          
             { title:"Status", data: 'status_name', name: 'status_name'},
