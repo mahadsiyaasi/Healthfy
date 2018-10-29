@@ -39,9 +39,7 @@ use  Healthfy\Http\Controllers\companyController;
         </table>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
+        
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->

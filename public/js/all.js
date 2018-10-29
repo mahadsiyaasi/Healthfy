@@ -26885,6 +26885,10 @@ function profileviewappointent(){
                     return "<span class='badge w3-red'> "+row.status_name+" </span>"
                 }else if(row.status_id==166){
                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
+                }else if(row.status_id==1){
+                  
+                    return '<span class="badge w3-blue"> '+row.status_name+'</span>'
+                
                 }
                 else{
                     return '<span class="badge w3-blue"> '+row.status_name+" "+_timeStyl(row.end_date+" "+row.end_time)+' </span>'
@@ -27087,21 +27091,49 @@ $(document).ready(function(){
             {title:"Tran #id", data: 'payment_id', name: 'payment_id'},          
             { title:"Appoint name",data: 'disease', name: 'disease'},
             { title:"Account",data: 'account', name: 'account'},
+            { title:"Provider",data: 'provider_name', name: 'provider_name',visible:false},   
             { title:"Amount",data: 'balance', name: 'balance'},          
-            { title:"Status", data: 'status_name', name: 'status_name'},
+            { title:"Appoint status", data: 'status_name', name: 'status_name'},
+            { title:"Payment status", data: 'payment_status_id', name: 'payment_status_id'},
+            { title:"Date", data: 'date', name: 'date'},
+            { title:"Provider",data: 'end_date', name: 'end_date',visible:false},
+            { title:"Provider",data: 'end_time', name: 'end_time',visible:false},
                
        
 
-            ],"columnDefs": [
+            ],
+            "columnDefs": [
                           
             {
-         'targets': 1,
+         'targets': 5,
      
          "render": function ( data, type, row ) {
-          
-          return 
-                    return "<span class='badge w3-blue'> "+row.status_name+" </span>"
-              
+          if (row.status_id==167) {
+          return "<span class='badge w3-green'> "+row.status_name+" "+_timeStyl(row.end_date+" "+row.end_time)+" </span>"
+            }else{
+               return "<span class='badge w3-blue'>"+row.status_name+"</span>"
+            }
+         },
+
+      }, {
+         'targets': 6,
+     
+         "render": function ( data, type, row ) {
+          if (row.payment_status_id==1) {
+          return "<span class='badge w3-green'> Paid </span>"
+            }else{
+               return "<span class='badge w3-red'> Waiting Confirmation </span>"
+            }
+         },
+
+      },
+       {
+         'targets':2 ,
+     
+         "render": function ( data, type, row ) {
+         
+          return row.provider_name+" ("+row.account+")";
+           
          },
 
       }

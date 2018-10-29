@@ -18,9 +18,12 @@ class Transuction extends Model
         'order_type',
         'trunsaction_type',
         'status_id',
+        'payment_status_id',
+        'provider_name',
         'doctor_id',
         'account',
-        "company_id"
+        "company_id",
+        ''
     ];
     
 

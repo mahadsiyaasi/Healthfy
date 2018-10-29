@@ -97,7 +97,8 @@ public function appointpayment(Request $data){
 
 }
 public function paymenttran($data){
-    $check = Transuction::create([
+	$pay = PaymentMethod::where("account",$data->input('accountpay'))->first();
+	$check = Transuction::create([
         'patient_id'=>$data->input('patient_id'),  
         'date'=>date('Y-m-d H:i:s'),
         'amount'=>$data->input('total_amount'),
@@ -108,6 +109,8 @@ public function paymenttran($data){
         'order_type'=>"AppointmentPayment",
         'trunsaction_type'=>"Payment",
         'status_id'=>1,
+        'provider_name'=>$pay->provider_name,
+        'payment_status_id'=>0,
         'account'=>$data->input('accountpay'),
         "company_id"=>Auth::user()->company_id
     ]);
