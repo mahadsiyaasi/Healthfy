@@ -13,11 +13,15 @@
  	<div id="progress"></div>
     <div class="container-login100 backimage" id="con">
       <div class=" p-l-55 p-r-55 p-t-65 p-b-54" id="main" style="width: 60%">
-                        <span class="login100-form-title p-b-49">
-                       <small class="focus-input10"></small> <strong style="color:white">Health .</strong><small class="focus-input10">so</small>
-                       <br>
-                       <small style="color: pink; font-size: 20px"> <i class="fa fa-plus border badge red"></i></small>
+                          <span class="login100-form-title p-b-49">
+                       <small class="focus-input10"></small> <strong style="color:white">Health</strong><small class="focus-input10">fy (<strong style="color: white">+</strong>)</small><br>
+                             <div class="w3-san">
+  <p><i class="fa fa-quote-right w3-xxlarge w3-opacity"></i>
+  <span class="w3-serif w3-xlarge w3-text-light-gray">
+{{__('titles.Patient_register')}}</span></p>
+</div>
                       </span>
+
 
 
                 <div id="register" style="width: 100%" style="border-radius: 2px">
