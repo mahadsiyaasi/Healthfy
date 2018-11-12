@@ -28606,19 +28606,20 @@ function updatePersonal(){
 	    cancelbtn:true,
 	    loading:true,
 	    bodyJsParser:function(fm){	    
-	    fm.find("#countryhidden").attr("id","countryhidden+1");
-	    fm.find("#cityupdate").attr("id","cityupdate+1");
-	    populateCountries("countryhidden+1", "cityupdate+1");
-	     $("#countryhidden+1").find("option").each(function(){
-                    if (this.value==jsUserDetail().country) {
+	    fm.find("#countryhidden").attr("id","countryhidden1");
+	    fm.find("#cityupdate").attr("id","cityupdate1");
+	    populateCountries("countryhidden1", "cityupdate1");
+	     	$("#countryhidden1").find("option").each(function(){
+	     		if ($(this).val()==jsUserDetail().country) { 
+	     		//alert($(this).val())                   
                     $(this).attr("selected",true)
-                     $(this).parent().trigger('change');
+                    $(this).parent().trigger('change');
                   }
                  })
-          $("#cityupdate+1").find("option").each(function(){
-                  if (this.value==jsUserDetail().city) {
-                    $(this).attr("selected",true)
-                     $(this).parent().trigger('change');
+          $("#cityupdate1").find("option").each(function(){
+                  if ($(this).val()==jsUserDetail().city) {
+                  $(this).attr("selected",true)
+                  $(this).parent().trigger('change');
                   }
                  })
                

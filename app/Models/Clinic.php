@@ -15,10 +15,10 @@ class Clinic extends Model
 
     protected $fillable = [
         'name',
-        'clinic',
+        //'clinic',
         'doctor_id',
         'city',
-        'date',
+        'date'
     ];
 
     protected $guarded = [];
