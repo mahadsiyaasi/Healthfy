@@ -13,8 +13,14 @@
     $updateData  = doctorsController::getdoctor();
     use Healthfy\Http\Controllers\authController;
     $percent =authController::getPercentage("staff");
+    if (!empty($updateData->gentype)) {
     $gentype = ($updateData->gender=="Female"?0:1);
+    }else{
+      $gentype = 0;
+     // return  '<h1>Sorry you are un authorized</h2>';
+    }
   ?>
+
 <style type="text/css">
   .allback {
               background: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);

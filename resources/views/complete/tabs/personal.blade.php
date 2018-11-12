@@ -2,7 +2,11 @@
 use Healthfy\Http\Controllers\doctorsController; 
 use Healthfy\Http\Controllers\customerController; 
 $updateData  =doctorsController::getdoctor();
+if (!empty($updateData->gentype)) {
 $gentype = ($updateData->gender=="Female"?0:1);
+}
+
+
 ?>
 
 

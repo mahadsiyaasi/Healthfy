@@ -14,6 +14,7 @@ use Healthfy\Models\Appointment;
 use Healthfy\Models\Transuction;
 use Healthfy\Http\Controllers\authController;
 use Healthfy\Models\Qualification;
+use Redirect;
 use Spatie\MediaLibrary\Models\Media;
 class doctorsController extends Controller
 {
@@ -121,7 +122,12 @@ class doctorsController extends Controller
       $data  = Staff::where("id",authController::authDoctor()->id)
       ->where("status_id",">",0)
       ->first();
-      return $data;
+      if ($data) {
+       return $data;
+      }else{
+       return false;
+      }
+      
     }
     public static function getdDC($id){
       $data  = Staff::where("id",$id)
