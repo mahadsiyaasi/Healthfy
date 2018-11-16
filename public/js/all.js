@@ -25359,7 +25359,9 @@ $.extend($.ui.fancytree,
 return $.ui.fancytree;
 }));  // End of closure
 
-$.fn.DeteilView = function(array){
+
+let arrayfile = {
+DeteilView(array){
   //console.log(array)
   var BS = {
       BSMDestroy:function(){
@@ -25413,9 +25415,8 @@ $.fn.DeteilView = function(array){
                       
                 return BS;
                
-}
-
-function modalmakeup(array){
+},
+modalmakeup(array){
 	var wait = '<i class=a fa-circle-o-notch fa-spin></i>'
 	var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate" >'
           		+'<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:'+array.width+'">'
@@ -25434,6 +25435,7 @@ function modalmakeup(array){
         $(".specialmodal").find("#oncreate").modal({backdrop: 'static', keyboard: false}) 
          }
         $(".specialmodal").find("#oncreate").modal("show");
+}
 }
 function commonvalidator(form){
   $.validator.messages.required = '';
@@ -25501,7 +25503,7 @@ function ajaxtoserv(data,type,url,btn){
        //$(btn).btnBootstrap('reset');
       },
       error: function(xhr){ 
-      warner(data,xhr.responseJSON.message,05454)
+      warner(data,xhr.responseJSON.message,11)
        //$(btn).btnBootstrap('reset');
       bools = "error";
       }
@@ -25651,7 +25653,7 @@ function _timeStyl(date) {
   // join the components into date
   return _dateStyl(date)+ ' ' + d.slice(3).join(':');
 }
-
+export default arrayfile;
 var _token =$('meta[name="csrf-token"]').attr('content');
 var _id =  $("input[name=patient_id]").val();
 $("#togglemenu").trigger("click");

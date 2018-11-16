@@ -21,7 +21,7 @@ use Healthfy\Http\Controllers\companyController;
     <!-- Main content -->
     <section class="content">
 
-      <!-- Default box -->
+      
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Title</h3>
@@ -35,7 +35,8 @@ use Healthfy\Http\Controllers\companyController;
           </div>
         </div>
         <div class="box-body">
-        {{companyController::listside()->child}}
+        <!-- {{companyController::listside()->child}} -->
+        <navbar></navbar>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">

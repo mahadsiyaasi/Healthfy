@@ -89,11 +89,14 @@
     
      @include("aside.aside")
      @include("confirm.confirm")
-     <router-view></router-view>
+     
 
      <div  class="specialmodal"></div>
       @endif
+
+      <router-view></router-view>
       @yield('content')
+
     </div>
     </div>
     

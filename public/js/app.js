@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(42);
+module.exports = __webpack_require__(43);
 
 
 /***/ }),
@@ -11344,6 +11344,8 @@ module.exports = __webpack_require__(42);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_modal_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_modal_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11353,6 +11355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(12);
 __webpack_require__(13);
 window.Vue = __webpack_require__(36);
+
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 /**
@@ -11369,10 +11372,16 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     }]
 });
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('vuetest', __webpack_require__(40));
+Vue.component('clinic', __webpack_require__(54));
 
 var app = new Vue({
     el: '#app',
+    components: {
+        'navbar': __webpack_require__(40),
+        'clinic': __webpack_require__(54),
+        'vmod': __WEBPACK_IMPORTED_MODULE_1__components_modal_vue___default.a
+    },
     router: router
 });
 
@@ -47818,11 +47827,12 @@ if (inBrowser && window.Vue) {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(41)
 /* script */
 var __vue_script__ = null
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(42)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47840,6 +47850,22 @@ var Component = normalizeComponent(
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/components/test.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bd7c2fae", Component.options)
+  } else {
+    hotAPI.reload("data-v-bd7c2fae", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
 module.exports = Component.exports
 
@@ -47955,9 +47981,1250 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("heallow world ")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bd7c2fae", module.exports)
+  }
+}
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 44 */,
+/* 45 */,
+/* 46 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(41)
+/* script */
+var __vue_script__ = __webpack_require__(63)
+/* template */
+var __vue_template__ = __webpack_require__(55)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/complete/clinic.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-608f1292", Component.options)
+  } else {
+    hotAPI.reload("data-v-608f1292", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "form",
+        {
+          staticClass: "autovaliddate validate",
+          staticStyle: { background: "inherit", display: "block" },
+          attrs: {
+            method: "POST",
+            id: "clinicfm",
+            enctype: "multipart/form-data",
+            action: "/savelastupdate"
+          }
+        },
+        [
+          _c("div", { staticClass: "warner" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row w3-padding" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                  _vm._v("Clinic Name *")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "w3-input w3-border",
+                  attrs: {
+                    name: "clinicName",
+                    type: "text",
+                    placeholder: "clinic name ",
+                    required: ""
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                  _vm._v("Consultant Duration")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "w3-input w3-border",
+                  attrs: {
+                    name: "duration",
+                    type: "number",
+                    placeholder: "consultant duration",
+                    required: ""
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                  _vm._v("Consultant Fee *")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "w3-input w3-border",
+                  attrs: {
+                    name: "clinicfee",
+                    type: "number",
+                    placeholder: "Clinic Fee",
+                    required: ""
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row w3-padding" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-6" }, [
+                _c("legend", { staticClass: "w3-medium" }, [
+                  _vm._v(" Session 1+")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("Start Time")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        name: "1_start_time",
+                        type: "text",
+                        placeholder: "Session start time",
+                        value: "",
+                        required: ""
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("End Time")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        name: "1_end_time",
+                        type: "text",
+                        placeholder: "Session end time",
+                        value: "",
+                        required: ""
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-6" }, [
+                _c("legend", { staticClass: "w3-medium" }, [
+                  _vm._v(" Session 2+")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("Start Time")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        name: "2_start_time",
+                        type: "text",
+                        placeholder: "Session start time",
+                        value: "",
+                        required: ""
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("End Time")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        name: "2_end_time",
+                        type: "text",
+                        placeholder: "Session end time",
+                        value: "",
+                        required: ""
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-608f1292", module.exports)
+  }
+}
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(58)
+}
+var normalizeComponent = __webpack_require__(41)
+/* script */
+var __vue_script__ = __webpack_require__(62)
+/* template */
+var __vue_template__ = __webpack_require__(57)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/modal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-514744a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-514744a6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._v("\n    '"),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade modal-fullscreen w3-arround-large",
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "modalLabel",
+          id: "vuemodal"
+        }
+      },
+      [
+        _vm._v("'\n          "),
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog w3-border w3-arround-large",
+            staticStyle: { width: "'+array.width+'" }
+          },
+          [
+            _c("div", { staticClass: "modal-content '+array.color+'" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-header",
+                  staticStyle: { border: "none" }
+                },
+                [
+                  _vm._m(0),
+                  _c("h4", { staticClass: "modal-title w3-text-gray" }, [
+                    _vm._v(_vm._s(_vm.array.title))
+                  ])
+                ]
+              ),
+              _vm._v("'\n        "),
+              _c("div", {
+                staticClass: "modal-body",
+                attrs: { id: "modalBody" }
+              }),
+              _c(
+                "div",
+                {
+                  staticClass: "modal-footer",
+                  staticStyle: { border: "none" }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn w3-text-red dismism destroyer",
+                      staticStyle: { background: "inherit" },
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "btn  '+array.buttoneventclass+' w3-text-blue",
+                      staticStyle: { background: "inherit" },
+                      attrs: {
+                        onclick: "",
+                        type: "button",
+                        "data-loading-text": "'+wait+' Wait"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.array.buttontext))]
+                  )
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "destroyer close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-514744a6", module.exports)
+  }
+}
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(59);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(60)("641a3e6b", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-514744a6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./modal.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-514744a6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./modal.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(46)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(61)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            array: {
+                title: "this modal Title",
+                buttontext: "save"
+
+            }
+        };
+    },
+
+    methods: {},
+    ready: function ready() {}
+});
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Markaps_js__ = __webpack_require__(64);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            mdfunction: __WEBPACK_IMPORTED_MODULE_0__Markaps_js__["a" /* default */],
+            forma: {
+                title: ' Approval Appointment',
+                width: "50%",
+                color: "w3-white",
+                fade: "w3-animate-zoom",
+                buttontext: "Procced",
+                buttoneventclass: "OK",
+                buttoncolor: "w3-blue",
+                body: "<h1>Are you sure to approve this Appointment ?</h1><p class='badge w3-blue'><td><strong>Note</strong> This will procced to payment  . . .</td></p>",
+                savebtn: true,
+                cancelbtn: true,
+                submitData: function submitData() {
+                    var data = __WEBPACK_IMPORTED_MODULE_0__Markaps_js__["a" /* default */].ajaxtoserv({ _token: _token, "_id": $(datas).attr("_id"), "status_id": 1 }, "not form", "appointmentStatusChange", null);
+                    if (data.success) {
+                        doctors_appoints.ajax.reload();
+                        return true;
+                    }
+                }
+            }
+
+        };
+    },
+
+    methods: {
+        testAlert: function testAlert() {
+            __WEBPACK_IMPORTED_MODULE_0__Markaps_js__["a" /* default */].DeteilView(this.forma);
+        }
+    },
+    created: function created() {
+        //modal.DeteilView(this.forma);
+    }
+});
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+var arrayfile = {
+  DeteilView: function DeteilView(array) {
+    //console.log(array)
+    var BS = {
+      BSMDestroy: function BSMDestroy() {
+        $('body').find("#DeteilView").modal('hide');
+        $('body').find("#DeteilView").on('hidden.bs.modal', function () {
+          $(this).data('bs.modal', null);
+        });
+      },
+      fm: function fm() {
+        return $("#DeteilView").find("form");
+      }
+    };
+    var wait = '<i class=a fa-circle-o-notch fa-spin></i>';
+    var modal = '<div class="modal fade modal-fullscreen w3-arround-large"  tabindex="-1" role="dialog" aria-labelledby="modalLabel" id="DeteilView">' + '<div class="modal-dialog w3-border w3-arround-large" style="width:' + array.width + '">' + '<div class="modal-content ' + array.color + '">' + '<div class="modal-header" style="border: none;">' + '<button type="button"  class="destroyer close" data-dismiss="modal" aria-label="Close">' + '<span aria-hidden="true">&times;</span></button><h4 class="modal-title w3-text-gray">' + array.title + '</h4></div>' + '<div class="modal-body" id="modalBody"></div><div class="modal-footer" style="border: none;">';
+    if (array.cancelbtn) {
+      modal += '<button type="button" class="btn w3-text-red dismism destroyer" data-dismiss="modal" style="background:inherit">Close</button>';
+    }
+    if (array.savebtn) {
+      modal += '<button onclick="" type="button" class="btn  ' + array.buttoneventclass + ' w3-text-blue" style="background:inherit" data-loading-text="' + wait + ' Wait">' + array.buttontext + '</button>';
+    }
+    modal += '</div></div></div></div>';
+    $(".specialmodal").html(modal);
+    if (array.loading) {
+      $(".specialmodal #modalBody").html("<h1>loading</h1>");
+    }
+    setTimeout(function () {
+      $(".specialmodal #modalBody").html(array.body);
+      array.bodyJsParser(BS.fm());
+    }, 1000);
+    if (array.backdrop == false) {
+      $(".specialmodal").find("#DeteilView").modal({ backdrop: 'static', keyboard: false });
+    }
+    $(".specialmodal").find("#DeteilView").modal("show");
+    $("." + array.buttoneventclass).click(function () {
+      if (array.submitData(BS.fm())) {
+        BS.BSMDestroy();
+        $(".specialmodal").data(null);
+      }
+    });
+    $(".specialmodal .destroyer").click(function () {
+      BS.BSMDestroy();
+      $(".specialmodal").data(null);
+    });
+
+    return BS;
+  },
+  modalmakeup: function modalmakeup(array) {
+    var wait = '<i class=a fa-circle-o-notch fa-spin></i>';
+    var modal = '<div class="modal  w3-card-8 w3-border w3-round-medium" id="oncreate" >' + '<div class="modal-dialog   w3-round-medium w3-card-8 w3-card w3-panel-8 w3-border " style="width:' + array.width + '">' + '<div class="modal-content ' + array.color + '">' + '<div class="modal-header" style="border: none;">' + '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' + '<span aria-hidden="true">&times;</span></button><h4 class="modal-title">' + array.title + '</h4></div>' + '<div class="modal-body">' + array.body + '</div><div class="modal-footer" style="border: none;">' + '<button type="button" onclick= "removebesmodal()" class="btn w3-text-red dismism" data-dismiss="modal" style="background:inherit">Close</button>' + '<button type="button" class="btn  ' + array.buttoneventclass + ' w3-text-blue" style="background:inherit" data-loading-text="' + wait + ' Wait">' + array.buttontext + '</button></div></div></div></div>';
+    removebesmodal();
+    $(".specialmodal").html(modal);
+    if (array.backdrop == false) {
+      $(".specialmodal").find("#oncreate").modal({ backdrop: 'static', keyboard: false });
+    }
+    $(".specialmodal").find("#oncreate").modal("show");
+  }
+};
+function commonvalidator(form) {
+  $.validator.messages.required = '';
+
+  var validator = $(form).validate({
+    messages: {},
+    highlight: function highlight(element) {
+      $(element).addClass("w3-border-red");
+    },
+    unhighlight: function unhighlight(element) {
+      $(element).removeClass("w3-border-red");
+    }
+  });
+  $(form).validate({
+    rules: {
+      field: {
+        required: true,
+        url: true
+      }
+    }
+  });
+}
+function timereuse(control) {
+  $(function () {
+    $(control).datetimepicker({
+      datepicker: false,
+      format: 'H:i',
+      step: 5
+    });
+  });
+}
+function datereuse(control) {
+  $(function () {
+    $(control).datetimepicker({
+      timepicker: false,
+      format: 'y-m-d'
+    });
+  });
+}
+function ajaxtoserv(data, type, url, btn) {
+  //var btn = $.fn.button.noConflict() // reverts $.fn.button to jqueryui btn
+  //$.fn.btnBootstrap = btn;
+  var bools = false;
+  if (type == "form") {
+    commonvalidator(data);
+    var datsend = $(data).serialize();
+    if ($(data).valid()) {
+      //$(btn).btnBootstrap('loading');
+      $.ajax({
+        url: url,
+        data: datsend,
+        type: "POST",
+        async: false,
+        datatype: "json",
+        success: function success(res) {
+          var tybol = res.success ? 1 : 0;
+          warner(data, res, tybol);
+          if (res.success) {
+            if (data != "#formUpdateDoctora") {
+              $(data).trigger("reset");
+            }
+          }
+          bools = res;
+          //$(btn).btnBootstrap('reset');
+        },
+        error: function error(xhr) {
+          warner(data, xhr.responseJSON.message, 11);
+          //$(btn).btnBootstrap('reset');
+          bools = "error";
+        }
+      });
+    }
+  } else {
+    $.ajax({
+      url: url,
+      data: data,
+      type: "POST",
+      async: false,
+      datatype: "json",
+      success: function success(res) {
+        if (url == "saveorder") {
+          return location.href = "/patients/" + _id;
+        }
+        bools = res;
+        var tybol = res.success ? 1 : 0;
+        warner(res.errprplace, res.messages, tybol);
+        // $(btn).btnBootstrap('reset');
+      }
+    });
+  }
+  return bools;
+}
+function warner(modal, message, type) {
+  if (type == 1) {
+    $(modal).find(".warner").html('<div class="alert alert-success alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> Success ! </strong>' + message.success + '.</div>');
+    setTimeout(function () {
+      $(modal).find(".warner").html("");
+    }, 5000);
+  } else if (type == 0) {
+    $.each(eval(message), function (i, item) {
+      removeColorizeErrors(modal, i);
+      customColorizeErrors(modal, item, i);
+      $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>    </strong>' + item + '.</div>');
+      setTimeout(function () {
+        $(modal).find(".warner").html("");
+        $(modal).find("input[name=" + i + "]").change(function () {
+          removeColorizeErrors(modal, i);
+        });
+        $(modal).find("input[textarea=" + i + "]").change(function () {
+          removeColorizeErrors(modal, i);
+        });
+        $(modal).find("select[name=" + i + "]").change(function () {
+          removeColorizeErrors(modal, i);
+        });
+      }, 5000);
+    });
+  } else {
+    var msg = message == "" || message == null ? "Eror exists server side. contact with developer or visit  go .." : message;
+    $(modal).find(".warner").html('<div class="alert alert-danger alert-dismissable fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong> <i class="fa fa-warning"></i>   </strong>' + msg + '<a href="/feedback">Feedback</a>.</div>');
+    setTimeout(function () {
+      $(modal).find(".warner").html("");
+    }, 5000);
+  }
+}
+function warnerremover(modal) {
+  $(modal).find(".warner").html("");
+}
+function removebesmodal() {
+
+  $('body').find("#oncreate").modal('hide');
+  $('body').find("#oncreate").on('hidden.bs.modal', function () {
+    $(this).data('bs.modal', null);
+  });
+}
+function customColorizeErrors(modal, item, i) {
+  $(modal).find("input[name=" + i + "]").addClass("w3-border-red");
+  $(modal).find("select[name=" + i + "]").addClass("w3-red");
+  $(modal).find("textarea[name=" + i + "]").addClass("w3-red");
+  $(modal).find("input[name=" + i + "]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>" + item + "</label>");
+  $(modal).find("textarea[name=" + i + "]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>" + item + "</label>");
+  $(modal).find("select[name=" + i + "]").parent().append("<label  style='position:relative; left:-15px; top:-15px' class=' alert  flash w3-small w3-text-red'>" + item + "</label>");
+}
+function removeColorizeErrors(modal, i) {
+  $(modal).find("input[name=" + i + "]").removeClass("w3-border-red");
+  $(modal).find("select[name=" + i + "]").removeClass("w3-red");
+  $(modal).find("textarea[name=" + i + "]").removeClass("w3-red");
+  $(modal).find("input[name=" + i + "]").parents("div:first").find("label").remove();
+  $(modal).find("select[name=" + i + "]").parents("div:first").find("label").remove();
+  $(modal).find("textarea[name=" + i + "]").parents("div:first").find("label").remove();
+}
+function _dateStyl(date) {
+  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+function _timeStyl(date) {
+  date = new Date(date);
+  var diff = new Date() - date; // the difference in milliseconds
+  if (diff < 1000 && diff > 0) {
+    // less than 1 second
+    return 'right now';
+  }
+  if (diff < 0) {
+    // less than 1 second
+    var _d = date;
+    _d = ['0' + _d.getDate(), '0' + (_d.getMonth() + 1), '' + _d.getFullYear(), '0' + _d.getHours(), '0' + _d.getMinutes()].map(function (component) {
+      return component.slice(-2);
+    });
+
+    // join the components into date
+    return _dateStyl(date) + ' ' + _d.slice(3).join(':');
+  }
+
+  var sec = Math.floor(diff / 1000); // convert diff to seconds
+
+  if (sec < 60) {
+    return sec + ' sec. ago';
+  }
+
+  var min = Math.floor(diff / 60000); // convert diff to minutes
+  if (min < 60) {
+    return min + ' min. ago';
+  }
+
+  // format the date
+  // add leading zeroes to single-digit day/month/hours/minutes
+  var d = date;
+  d = ['0' + d.getDate(), '0' + (d.getMonth() + 1), '' + d.getFullYear(), '0' + d.getHours(), '0' + d.getMinutes()].map(function (component) {
+    return component.slice(-2);
+  });
+
+  // join the components into date
+  return _dateStyl(date) + ' ' + d.slice(3).join(':');
+}
+/* harmony default export */ __webpack_exports__["a"] = (arrayfile);
 
 /***/ })
 /******/ ]);

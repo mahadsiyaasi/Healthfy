@@ -39,8 +39,13 @@ class HomeController extends Controller
       }else{
          return view('index');
         
-      }   
+      } 
+       
     
        
     }
+    public function vue()
+      {
+        return;  
+      } 
 }
