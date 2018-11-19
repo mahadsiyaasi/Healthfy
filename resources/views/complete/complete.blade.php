@@ -30,7 +30,7 @@
 </style>
 <body class="sidebar-mini" style="height: auto; min-height: 100%;">
     <div id="app">
-        <div class="wrapper">
+      <div class="wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header allback w3-text-white w3-padding">
        <a class="w3-padding" style="display: inline-block;" class="btn w3-red" href="{{url('/')}}"> <i class="fa fa-arrow-left"></i></a>
@@ -47,7 +47,7 @@
       </ol>
       
     </section>
-
+ 
     <!-- Main content -->
     <section class="content">
 

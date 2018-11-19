@@ -95,6 +95,7 @@
       @endif
 
       <router-view></router-view>
+      <vmod></vmod>
       @yield('content')
 
     </div>

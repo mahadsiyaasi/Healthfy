@@ -1,34 +1,22 @@
 <template>
 <div>
-    <form method="POST"  class="autovaliddate validate"  id="clinicfm" style="background: inherit; display: block;" enctype="multipart/form-data" action="/savelastupdate" >
-                <div class="warner">
+    <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+        <div style="position:relative,">
+          <a data-toggle="collapse" data-parent="#accordion" href="#clicnic" style="position: relative;display:inline-block;"><h5 class="box-title">Clinic and Timing Setup</h5></a>
+          <a @click="openModal" class="w3-border pull-right btn" style="position: relative;display:inline-block;"><i class="fa fa-plus"> Add Clinic</i></a>
+       </div>
+        </h4>
+      </div>
+      <div id="educations" class="panel-collapse collapse in">
+        <div class="panel-body">
+    <form method="POST"  class="autovaliddate validate" @submit="onSubmit"  id="clinicfm" style="background: inherit; display: block;">
+            <div class="warner">
                
-            </div>
-            
-       
-                  
-                <div class="row w3-padding">
-                 <div class="col-sm-4">
-                    <div class="form-group">
-                     <label class="w3-text-gray w3-small">Clinic Name *</label>
-                 <input class="w3-input w3-border" name="clinicName" type="text" placeholder="clinic name "  required>
-                    </div>
-                  </div>
-
-                    <div class="col-sm-4">  <div class="form-group">
-                     <label class="w3-text-gray w3-small">Consultant Duration</label>
-                       <input class="w3-input w3-border" name="duration" type="number" placeholder="consultant duration"  required>                         
-                    </div>
-                  </div>
-
-                   <div class="col-sm-4">  <div class="form-group">
-                     <label class="w3-text-gray w3-small">Consultant Fee *</label>
-                       <input class="w3-input w3-border" name="clinicfee" type="number" placeholder="Clinic Fee"  required>
-                    </div>
-                  </div>
-                <div class="row w3-padding">
-                 
-          </div>
+            </div>       
+   
 
           <div class="row">
           <div class="col-sm-6"> 
@@ -67,46 +55,121 @@
 
            </div>
 
-        </div>
+     
        </form>
+           </div>
+ </div>
+ </div>
 </div>
+<app-modal
+     v-show="showModal"
+      @close="closeMd"
+></app-modal>
+</div>
+
+
 </template>
 <script>
-import modal from '../../Markaps.js'
+// import modal from '../../modal.js'
+// import Hub from '../../Hub.js';
+import modal from '../modal.vue';
 export default {
+ components:{
+     "app-modal":modal
+ },
     data(){
         return {
-        mdfunction : modal,           
+        showModal: false ,    
+        form: new form({
+                          clinic_name:"",
+                          address:"",
+                          consultant_duration:"",
+                          consultant_free:"",
+                           country:"",
+                          city:"",
+                          
+             }), 
+             width:"80%",     
+             
+            country:null,
+            city:null,  
+            countries:['Somalia'],
+            cities:["Warta nabad"],
             forma:{
             title:' Approval Appointment',
-            width:"50%",
             color:"w3-white",
             fade:"w3-animate-zoom",
             buttontext:"Procced",
             buttoneventclass:"OK",
             buttoncolor:"w3-blue",
-            body:"<h1>Are you sure to approve this Appointment ?</h1><p class='badge w3-blue'><td><strong>Note</strong> This will procced to payment  . . .</td></p>",
+            body:'<form method="POST"  class="autovaliddate validate" @submit="onSubmit"  id="clinicfm" style="background: inherit; display: block;">'+
+                '<div class="warner">'+
+               
+           ' </div>'     +  
+             ' <div class="row w3-padding">'+
+                 '<div class="col-sm-4">'+
+                   ' <div class="form-group">'+
+                   '  <label class="w3-text-gray w3-small">Clinic Name *</label>'+
+                ' <input class="w3-input w3-border" v-model.lazy.trim="form.clinic_name"  type="text" placeholder="clinic name "  required>'+
+                  '  </div>'+
+                '  </div>'+
+
+                  '  <div class="col-sm-4">  <div class="form-group">'+
+                    ' <label class="w3-text-gray w3-small">Consultant Duration</label>'+
+                       '<input class="w3-input w3-border" v-model.lazy.trim="form.consultant_duration" type="number" placeholder="consultant duration"  required> ' +                       
+                   ' </div>'+
+                '  </div>'+
+
+                 '  <div class="col-sm-4">  <div class="form-group">'+
+                    ' <label class="w3-text-gray w3-small">Consultant Fee *</label>'+
+                      ' <input class="w3-input w3-border" v-model.lazy.trim="form.consultant_free" type="number" placeholder="Clinic Fee"  required>'+
+                   ' </div>'+
+                 ' </div>',
             savebtn:true,
             cancelbtn:true,
             submitData: function(){
-            var data  = modal.ajaxtoserv({_token:_token,"_id":$(datas).attr("_id"),"status_id":1},"not form","appointmentStatusChange",null);
-                if (data.success) {
-                doctors_appoints.ajax.reload();
-                return true;
-                }
-
+                alert('happen');
             }
-            }
-
-        }
+            },
+           }
     },
     methods:{
-        testAlert(){
-            modal.DeteilView(this.forma);
-        }
+         openModal() { 
+            this.showModal=true;
+        } ,         
+        closeMd(){
+        this.showModal=false;
+       },
+        
+     onSubmit (evt) {
+      evt.preventDefault();
+      this.form.post('api/users').then(res=>{
+          this.fetch();
+           this.hideModal();             
+      }).catch(err=>{
+                console.log(err);
+            });
+    },
+    onReset (evt) {
+      evt.preventDefault();
+      this.form.email = '';
+      this.form.name = '';
+      this.form.phone = "";
+      this.form.country = null;
+      this.form.city =null;
+      this.form.address="";
+      this.form.password="",
+      evt.target.reset();
+      this.$nextTick(() => { this.show = true });
+    }  
     },
      created() {
-        //modal.DeteilView(this.forma);
+       
+    },
+    mounted(){
+        this.$nextTick(function () {
+        //this.$emit('openModal');
+        }.bind(this));
     }
 }
 </script>
