@@ -30,6 +30,7 @@
 </style>
 <body class="sidebar-mini" style="height: auto; min-height: 100%;">
     <div id="app">
+    
       <div class="wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header allback w3-text-white w3-padding">

@@ -71,7 +71,7 @@
 </template>
 <script>
 // import modal from '../../modal.js'
-// import Hub from '../../Hub.js';
+import { bus } from '../../Hub.js';
 import modal from '../modal.vue';
 export default {
  components:{
@@ -79,8 +79,10 @@ export default {
  },
     data(){
         return {
-        showModal: false ,    
-        form: new form({
+        showModal: false ,
+        md:modal,    
+        array:{
+        form:{
                           clinic_name:"",
                           address:"",
                           consultant_duration:"",
@@ -88,54 +90,57 @@ export default {
                            country:"",
                           city:"",
                           
-             }), 
-             width:"80%",     
+             }, 
              
-            country:null,
-            city:null,  
-            countries:['Somalia'],
-            cities:["Warta nabad"],
-            forma:{
-            title:' Approval Appointment',
-            color:"w3-white",
-            fade:"w3-animate-zoom",
-            buttontext:"Procced",
-            buttoneventclass:"OK",
-            buttoncolor:"w3-blue",
-            body:'<form method="POST"  class="autovaliddate validate" @submit="onSubmit"  id="clinicfm" style="background: inherit; display: block;">'+
-                '<div class="warner">'+
-               
-           ' </div>'     +  
-             ' <div class="row w3-padding">'+
-                 '<div class="col-sm-4">'+
-                   ' <div class="form-group">'+
-                   '  <label class="w3-text-gray w3-small">Clinic Name *</label>'+
-                ' <input class="w3-input w3-border" v-model.lazy.trim="form.clinic_name"  type="text" placeholder="clinic name "  required>'+
-                  '  </div>'+
-                '  </div>'+
+                                   
+                        country:null,
+                        city:null,  
+                        countries:['Somalia'],
+                        cities:["Warta nabad"],
+                array:{
+                        width:"50%",  
+                        title:' Approval Appointment',
+                        color:"w3-white",
+                        fade:"w3-animate-zoom",
+                        buttontext:"Procced",
+                        buttoneventclass:"OK",
+                        buttoncolor:"w3-white",
+                        body:`<form method="POST"  class="autovaliddate validate" @submit="onSubmit"  id="clinicfm" style="background: inherit; display: block;">
+                            <div class="warner">                        
+                    </div> <div class="row w3-padding">
+                            <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="w3-text-gray w3-small">Clinic Name *</label>
+                            <input class="w3-input w3-border" v-model="form.clinic_name"  type="text" placeholder="clinic name "  required>
+                            ` + form.clinic_name+`
+                             </div>
+                             </div>
 
-                  '  <div class="col-sm-4">  <div class="form-group">'+
-                    ' <label class="w3-text-gray w3-small">Consultant Duration</label>'+
-                       '<input class="w3-input w3-border" v-model.lazy.trim="form.consultant_duration" type="number" placeholder="consultant duration"  required> ' +                       
-                   ' </div>'+
-                '  </div>'+
+                             <div class="col-sm-4">  <div class="form-group">
+                            <label class="w3-text-gray w3-small">Consultant Duration</label>
+                            <input class="w3-input w3-border" v-model="form.consultant_duration" type="number" placeholder="consultant duration"  required>                      
+                             </div>
+                            </div>
 
-                 '  <div class="col-sm-4">  <div class="form-group">'+
-                    ' <label class="w3-text-gray w3-small">Consultant Fee *</label>'+
-                      ' <input class="w3-input w3-border" v-model.lazy.trim="form.consultant_free" type="number" placeholder="Clinic Fee"  required>'+
-                   ' </div>'+
-                 ' </div>',
-            savebtn:true,
-            cancelbtn:true,
-            submitData: function(){
-                alert('happen');
-            }
-            },
-           }
+                            <div class="col-sm-4">  <div class="form-group">
+                            <label class="w3-text-gray w3-small">Consultant Fee *</label>
+                            <input class="w3-input w3-border" v-model="form.consultant_free" type="number" placeholder="Clinic Fee"  required>
+                         </div>
+                        </div></form>`,
+                        savebtn:true,
+                        cancelbtn:true,
+                        submitData: function(){
+                            alert('happen');
+                        }
+                        }
+        }
+    }
     },
     methods:{
          openModal() { 
-            this.showModal=true;
+                 
+            bus.$emit('modalDesign', this.array);
+             this.showModal=true;  
         } ,         
         closeMd(){
         this.showModal=false;
