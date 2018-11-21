@@ -10,6 +10,7 @@ window.Vue = require('vue');
 import VueRouter from 'vue-router'
 import vModal from './components/modal.vue'
 import {Form, HasError, AlertError } from 'vform'
+import vSelect from 'vue-select'
 window.form =Form;
 Vue.use(VueRouter)
 axios.defaults.headers.common = {
@@ -17,7 +18,6 @@ axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
     //'Authorization': 'Bearer ' + Laravel.apiToken,
 };
-
 window.Vue.prototype.$http = axios;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,6 +37,7 @@ const router = new VueRouter({
        
     ],
 });
+Vue.component('v-select', vSelect)
 Vue.component('clinic', require('./components/complete/clinic.vue'));
 const app = new Vue({
     el: '#app',

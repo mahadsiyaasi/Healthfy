@@ -44,6 +44,27 @@
                          </div>
                         </div>
                     </div>
+
+                     <div class="row w3-padding">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="w3-text-gray w3-small">Clinic Name *</label>
+                             <v-select :options="countries"></v-select>
+                             </div>
+                             </div>
+
+                             <div class="col-sm-4">  <div class="form-group">
+                            <label class="w3-text-gray w3-small">Consultant Duration</label>
+                            <input class="w3-input w3-border" v-model="form.consultant_duration" type="number" placeholder="consultant duration"  required>                      
+                             </div>
+                            </div>
+
+                            <div class="col-sm-4">  <div class="form-group">
+                            <label class="w3-text-gray w3-small">Consultant Fee *</label>
+                            <input class="w3-input w3-border" v-model="form.consultant_free" type="number" placeholder="Clinic Fee"  required>
+                         </div>
+                        </div>
+                    </div>
                     
                     </form>
     </app-modal>
@@ -53,6 +74,7 @@
 // import modal from '../../modal.js'
 import { bus } from '../../Hub.js';
 import modal from '../modal.vue';
+Vue.component('v-select', VueSelect.VueSelect)
 export default {
  components:{"app-modal":modal},
     data(){

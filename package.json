@@ -25,7 +25,9 @@
     "ionic-native": "https://github.com/ionic-team/ionic-native/tarball/v3.5.0",
     "node-sass": "^4.10.0",
     "vform": "^1.0.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-select": "^2.5.1",
+    "vue-select2": "^0.2.6"
   },
   "name": "package.json",
   "description": "Healthfy (Healthy For you ) [vist this link](https://healthfy.net)",
