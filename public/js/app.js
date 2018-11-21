@@ -22546,6 +22546,13 @@ window.Vue = __webpack_require__(12);
 
 window.form = __WEBPACK_IMPORTED_MODULE_2_vform__["Form"];
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+axios.defaults.headers.common = {
+    'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content'),
+    'X-Requested-With': 'XMLHttpRequest'
+    //'Authorization': 'Bearer ' + Laravel.apiToken,
+};
+
+window.Vue.prototype.$http = axios;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

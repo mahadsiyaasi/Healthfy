@@ -12,6 +12,13 @@ import vModal from './components/modal.vue'
 import {Form, HasError, AlertError } from 'vform'
 window.form =Form;
 Vue.use(VueRouter)
+axios.defaults.headers.common = {
+    'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content'),
+    'X-Requested-With': 'XMLHttpRequest',
+    //'Authorization': 'Bearer ' + Laravel.apiToken,
+};
+
+window.Vue.prototype.$http = axios;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

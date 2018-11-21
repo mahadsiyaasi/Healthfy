@@ -97,7 +97,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('healthfeed','feedController@index')->name(__('titles.feed').' | '.config('app.name'));
 	Route::get('/logout', 'Auth\LoginController@logout');	
 	Route::any('/clinicsaving', 'completeController@clinicsaving');	
-
 	
 });
 Route::get('/{any}', 'HomeController@index')->where('any', '.*');
