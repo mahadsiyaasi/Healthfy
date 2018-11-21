@@ -27,10 +27,14 @@
             }
           .mafont {
             color: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);
+          }
+          .modal-content.ui-resizable {
+            overflow: scroll;
+          }
 </style>
 <body class="sidebar-mini" style="height: auto; min-height: 100%;">
     <div id="app">
-    
+   
       <div class="wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header allback w3-text-white w3-padding">
@@ -171,6 +175,9 @@
                      $(this).parent().trigger('change');
                   }
                  })
+                 $('.modal-content').resizable({
+                  alsoResize: ".modal-header, .modal-body, .modal-footer"
+              });
                 })
 
 
@@ -184,6 +191,7 @@
                      console.log(ex)
                     }
                   }
+
             /*$(function() {
                       var hash = document.location.hash;
                        if (hash) {

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(7);
-var isBuffer = __webpack_require__(25);
+var bind = __webpack_require__(6);
+var isBuffer = __webpack_require__(24);
 
 /*global toString:true*/
 
@@ -408,7 +408,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(27);
+var normalizeHeaderName = __webpack_require__(26);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -424,10 +424,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(9);
+    adapter = __webpack_require__(8);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(9);
+    adapter = __webpack_require__(8);
   }
   return adapter;
 }
@@ -498,125 +498,16 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(14)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(47)
 /* template */
 var __vue_template__ = __webpack_require__(48)
 /* template functional */
@@ -635,7 +526,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/test.vue"
+Component.options.__file = "resources/assets/js/components/complete/clinic.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -644,9 +535,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-bd7c2fae", Component.options)
+    hotAPI.createRecord("data-v-608f1292", Component.options)
   } else {
-    hotAPI.reload("data-v-bd7c2fae", Component.options)
+    hotAPI.reload("data-v-608f1292", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -657,7 +548,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11028,13 +10919,13 @@ return jQuery;
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(24);
+module.exports = __webpack_require__(23);
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11052,7 +10943,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -11242,19 +11133,19 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(28);
-var buildURL = __webpack_require__(30);
-var parseHeaders = __webpack_require__(31);
-var isURLSameOrigin = __webpack_require__(32);
-var createError = __webpack_require__(10);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(33);
+var settle = __webpack_require__(27);
+var buildURL = __webpack_require__(29);
+var parseHeaders = __webpack_require__(30);
+var isURLSameOrigin = __webpack_require__(31);
+var createError = __webpack_require__(9);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(32);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -11351,7 +11242,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(34);
+      var cookies = __webpack_require__(33);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -11429,13 +11320,13 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(29);
+var enhanceError = __webpack_require__(28);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -11454,7 +11345,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11466,7 +11357,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11492,7 +11383,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22455,18 +22346,18 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(42).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(41).setImmediate))
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(14)
 /* script */
-var __vue_script__ = __webpack_require__(45)
+var __vue_script__ = __webpack_require__(44)
 /* template */
-var __vue_template__ = __webpack_require__(46)
+var __vue_template__ = __webpack_require__(45)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -22505,79 +22396,141 @@ module.exports = Component.exports
 
 
 /***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
 /* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return bus; });
-var Vue = __webpack_require__(13);
+var Vue = __webpack_require__(12);
 var bus = new Vue();
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
-var normalizeComponent = __webpack_require__(3)
-/* script */
-var __vue_script__ = __webpack_require__(49)
-/* template */
-var __vue_template__ = __webpack_require__(50)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/complete/clinic.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-608f1292", Component.options)
-  } else {
-    hotAPI.reload("data-v-608f1292", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
+__webpack_require__(17);
+module.exports = __webpack_require__(49);
 
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(18);
-module.exports = __webpack_require__(51);
-
-
-/***/ }),
-/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_modal_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_modal_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_modal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vform__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vform__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vform___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vform__);
 
 /**
@@ -22585,9 +22538,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+__webpack_require__(18);
 __webpack_require__(19);
-__webpack_require__(20);
-window.Vue = __webpack_require__(13);
+window.Vue = __webpack_require__(12);
 
 
 
@@ -22603,33 +22556,30 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vform__["AlertError"].name, __WEBPACK_IMPORT
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     mode: 'history',
     routes: [{
-        path: '/vue',
-        name: 'vue',
-        component: __webpack_require__(4)
+        path: '/cli',
+        name: 'clinic',
+        component: __webpack_require__(3)
     }]
 });
-
-Vue.component('vuetest', __webpack_require__(4));
-Vue.component('clinic', __webpack_require__(16));
+Vue.component('clinic', __webpack_require__(3));
 var app = new Vue({
     el: '#app',
     components: {
-        'navbar': __webpack_require__(4),
-        'clinic': __webpack_require__(16),
+        'clinic': __webpack_require__(3),
         'vmod': __WEBPACK_IMPORTED_MODULE_1__components_modal_vue___default.a
     },
     router: router
 });
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/*! jQuery UI - v1.12.1 - 2016-09-14
 * http://jqueryui.com
 * Includes: widget.js, position.js, data.js, disable-selection.js, effect.js, effects/effect-blind.js, effects/effect-bounce.js, effects/effect-clip.js, effects/effect-drop.js, effects/effect-explode.js, effects/effect-fade.js, effects/effect-fold.js, effects/effect-highlight.js, effects/effect-puff.js, effects/effect-pulsate.js, effects/effect-scale.js, effects/effect-shake.js, effects/effect-size.js, effects/effect-slide.js, effects/effect-transfer.js, focusable.js, form-reset-mixin.js, jquery-1-7.js, keycode.js, labels.js, scroll-parent.js, tabbable.js, unique-id.js, widgets/accordion.js, widgets/autocomplete.js, widgets/button.js, widgets/checkboxradio.js, widgets/controlgroup.js, widgets/datepicker.js, widgets/dialog.js, widgets/draggable.js, widgets/droppable.js, widgets/menu.js, widgets/mouse.js, widgets/progressbar.js, widgets/resizable.js, widgets/selectable.js, widgets/selectmenu.js, widgets/slider.js, widgets/sortable.js, widgets/spinner.js, widgets/tabs.js, widgets/tooltip.js
 * Copyright jQuery Foundation and other contributors; Licensed MIT */(function(factory){if(true){// AMD. Register as an anonymous module.
-!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));}else{// Browser globals
@@ -24727,11 +24677,11 @@ if($.uiBackCompat!==false){// Backcompat for tooltipClass option
 $.widget("ui.tooltip",$.ui.tooltip,{options:{tooltipClass:null},_tooltip:function _tooltip(){var tooltipData=this._superApply(arguments);if(this.options.tooltipClass){tooltipData.tooltip.addClass(this.options.tooltipClass);}return tooltipData;}});}var widgetsTooltip=$.ui.tooltip;});
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(21);
+window._ = __webpack_require__(20);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -24740,9 +24690,9 @@ window._ = __webpack_require__(21);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(5);
+  window.$ = window.jQuery = __webpack_require__(4);
 
-  __webpack_require__(23);
+  __webpack_require__(22);
 } catch (e) {}
 
 /**
@@ -24751,7 +24701,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(6);
+window.axios = __webpack_require__(5);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -24785,7 +24735,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -41897,10 +41847,10 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(22)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(21)(module)))
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -41928,7 +41878,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /*!
@@ -44311,15 +44261,15 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(7);
-var Axios = __webpack_require__(26);
+var bind = __webpack_require__(6);
+var Axios = __webpack_require__(25);
 var defaults = __webpack_require__(2);
 
 /**
@@ -44353,15 +44303,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(12);
-axios.CancelToken = __webpack_require__(40);
-axios.isCancel = __webpack_require__(11);
+axios.Cancel = __webpack_require__(11);
+axios.CancelToken = __webpack_require__(39);
+axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(41);
+axios.spread = __webpack_require__(40);
 
 module.exports = axios;
 
@@ -44370,7 +44320,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /*!
@@ -44397,7 +44347,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44405,8 +44355,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(35);
-var dispatchRequest = __webpack_require__(36);
+var InterceptorManager = __webpack_require__(34);
+var dispatchRequest = __webpack_require__(35);
 
 /**
  * Create a new instance of Axios
@@ -44483,7 +44433,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44502,13 +44452,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(10);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -44535,7 +44485,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44563,7 +44513,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44638,7 +44588,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44698,7 +44648,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44773,7 +44723,7 @@ module.exports = (
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44816,7 +44766,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44876,7 +44826,7 @@ module.exports = (
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44935,18 +44885,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(37);
-var isCancel = __webpack_require__(11);
+var transformData = __webpack_require__(36);
+var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(2);
-var isAbsoluteURL = __webpack_require__(38);
-var combineURLs = __webpack_require__(39);
+var isAbsoluteURL = __webpack_require__(37);
+var combineURLs = __webpack_require__(38);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -45028,7 +44978,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45055,7 +45005,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45076,7 +45026,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45097,13 +45047,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(12);
+var Cancel = __webpack_require__(11);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -45161,7 +45111,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45195,7 +45145,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -45251,7 +45201,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(43);
+__webpack_require__(42);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -45265,7 +45215,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -45455,10 +45405,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(7)))
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48088,7 +48038,7 @@ if (inBrowser && window.Vue) {
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48125,39 +48075,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      form: {},
-      array: {
-        title: "payment form",
-        width: this.width,
-        color: "w3-white",
-        fade: "w3-animate-zoom",
-        buttontext: "Save",
-        buttoneventclass: "savelabpaymentbtn",
-        buttoncolor: "w3-blue"
-      }
-    };
-  },
+    data: function data() {
+        return {
+            form: {},
+            array: {
+                title: "No Title",
+                width: "50%",
+                color: "w3-white",
+                fade: "w3-animate-zoom",
+                buttontext: "Save",
+                buttoneventclass: "savelabpaymentbtn",
+                buttoncolor: "w3-white",
+                cancelbtn: 'block'
+            }
+        };
+    },
 
-  methods: {
-    close: function close() {
-      this.$emit('close');
+    methods: {
+        close: function close() {
+            this.$emit('close');
+        },
+        submitfm: function submitfm() {
+            this.$emit('submitfm');
+        }
+    },
+    created: function created() {},
+    mounted: function mounted() {
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_0__Hub_js__["a" /* bus */].$on('modalDesign', function (obj) {
+            _this.array.width = obj.width ? obj.width : _this.array.width;
+            _this.array.title = obj.title ? obj.title : _this.array.title;
+            _this.array.fade = obj.fade ? obj.fade : _this.array.fade;
+            _this.array.buttontext = obj.buttontext ? obj.buttontext : _this.array.buttontext;
+            _this.array.cancelbtn = obj.cancelbtn ? obj.cancelbtn : _this.array.cancelbtn;
+            $("#myModal").modal('show');
+        });
     }
-  },
-  created: function created() {
-    var _this = this;
-
-    __WEBPACK_IMPORTED_MODULE_0__Hub_js__["a" /* bus */].$on('modalDesign', function (obj) {
-      _this.form = new form(obj.form);
-      _this.array = obj.array;
-      $("#myModal").modal('show');
-    });
-  }
 });
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -48203,6 +48161,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "destroyer close",
+                        style: { display: _vm.array.cancelbtn },
                         attrs: {
                           type: "button",
                           "data-dismiss": "modal",
@@ -48225,11 +48184,8 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "modal-body", attrs: { id: "modalBody" } },
-                  [
-                    _c("section", {
-                      domProps: { innerHTML: _vm._s(_vm.array.body) }
-                    })
-                  ]
+                  [_vm._t("default")],
+                  2
                 ),
                 _vm._v(" "),
                 _c(
@@ -48262,7 +48218,8 @@ var render = function() {
                         attrs: {
                           type: "button",
                           "data-loading-text": "'+wait+' Wait"
-                        }
+                        },
+                        on: { click: _vm.submitfm }
                       },
                       [_vm._v(_vm._s(_vm.array.buttontext))]
                     )
@@ -48287,7 +48244,7 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -48369,7 +48326,7 @@ module.exports = __webpack_require__("lVK7");
 /***/ "OMN4":
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(6);
+module.exports = __webpack_require__(5);
 
 /***/ }),
 
@@ -49270,54 +49227,14 @@ var AlertSuccess_Component = normalizeComponent(
 /******/ });
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("heallow world ")])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-bd7c2fae", module.exports)
-  }
-}
-
-/***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Hub_js__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__modal_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -49374,93 +49291,89 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    "app-modal": __WEBPACK_IMPORTED_MODULE_1__modal_vue___default.a
-  },
-  data: function data() {
-    return {
-      showModal: false,
-      md: __WEBPACK_IMPORTED_MODULE_1__modal_vue___default.a,
-      array: {
-        form: {
-          clinic_name: "",
-          address: "",
-          consultant_duration: "",
-          consultant_free: "",
-          country: "",
-          city: ""
+    components: { "app-modal": __WEBPACK_IMPORTED_MODULE_1__modal_vue___default.a },
+    data: function data() {
+        return {
+            showModal: false,
+            md: app - __WEBPACK_IMPORTED_MODULE_1__modal_vue___default.a,
+            form: new form({
+                clinic_name: "",
+                address: "",
+                consultant_duration: "",
+                consultant_free: "",
+                country: "",
+                city: "",
+                msg: ""
+            }),
+            countries: ['Somalia'],
+            cities: ["Warta nabad"],
+            country: null,
+            city: null,
+            array: {
+                width: "50%",
+                title: 'Clinic Registration',
+                color: "w3-white",
+                fade: "w3-animate-zoom",
+                buttontext: "Procced",
+                buttoneventclass: "OK",
+                buttoncolor: "w3-white",
+                body: '',
+                savebtn: true,
+                cancelbtn: true,
+                submitData: function submitData() {
+                    alert('happen');
+                }
+            }
+        };
+    },
 
+    methods: {
+        openModal: function openModal() {
+            __WEBPACK_IMPORTED_MODULE_0__Hub_js__["a" /* bus */].$emit('modalDesign', this.array);
+            this.showModal = true;
         },
+        closeMd: function closeMd() {
+            this.showModal = false;
+        },
+        onSubmit: function onSubmit(evt) {
+            var _this = this;
 
-        country: null,
-        city: null,
-        countries: ['Somalia'],
-        cities: ["Warta nabad"],
-        array: {
-          width: "50%",
-          title: ' Approval Appointment',
-          color: "w3-white",
-          fade: "w3-animate-zoom",
-          buttontext: "Procced",
-          buttoneventclass: "OK",
-          buttoncolor: "w3-white",
-          body: '<form method="POST"  class="autovaliddate validate" @submit="onSubmit"  id="clinicfm" style="background: inherit; display: block;">\n                            <div class="warner">                        \n                    </div> <div class="row w3-padding">\n                            <div class="col-sm-4">\n                            <div class="form-group">\n                              <label class="w3-text-gray w3-small">Clinic Name *</label>\n                            <input class="w3-input w3-border" v-model="form.clinic_name"  type="text" placeholder="clinic name "  required>\n                            ' + form.clinic_name + '\n                             </div>\n                             </div>\n\n                             <div class="col-sm-4">  <div class="form-group">\n                            <label class="w3-text-gray w3-small">Consultant Duration</label>\n                            <input class="w3-input w3-border" v-model="form.consultant_duration" type="number" placeholder="consultant duration"  required>                      \n                             </div>\n                            </div>\n\n                            <div class="col-sm-4">  <div class="form-group">\n                            <label class="w3-text-gray w3-small">Consultant Fee *</label>\n                            <input class="w3-input w3-border" v-model="form.consultant_free" type="number" placeholder="Clinic Fee"  required>\n                         </div>\n                        </div></form>',
-          savebtn: true,
-          cancelbtn: true,
-          submitData: function submitData() {
-            alert('happen');
-          }
+            //evt.preventDefault();
+            this.form.post('/clinicsaving', { headers: {
+                    'X-CSRF-TOKEN': $('meta[name=_token]').attr('content')
+                } }).then(function (res) {
+                _this.fetch();
+                _this.showModal = false;
+            }).catch(function (err) {
+                console.log(err);
+            });
+        },
+        onReset: function onReset(evt) {
+            var _this2 = this;
+
+            evt.preventDefault();
+            this.form.email = '';
+            this.form.name = '';
+            this.form.phone = "";
+            this.form.country = null;
+            this.form.city = null;
+            this.form.address = "";
+            this.form.password = "", evt.target.reset();
+            this.$nextTick(function () {
+                _this2.show = true;
+            });
         }
-      }
-    };
-  },
-
-  methods: {
-    openModal: function openModal() {
-
-      __WEBPACK_IMPORTED_MODULE_0__Hub_js__["a" /* bus */].$emit('modalDesign', this.array);
-      this.showModal = true;
     },
-    closeMd: function closeMd() {
-      this.showModal = false;
-    },
-    onSubmit: function onSubmit(evt) {
-      var _this = this;
-
-      evt.preventDefault();
-      this.form.post('api/users').then(function (res) {
-        _this.fetch();
-        _this.hideModal();
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    onReset: function onReset(evt) {
-      var _this2 = this;
-
-      evt.preventDefault();
-      this.form.email = '';
-      this.form.name = '';
-      this.form.phone = "";
-      this.form.country = null;
-      this.form.city = null;
-      this.form.address = "";
-      this.form.password = "", evt.target.reset();
-      this.$nextTick(function () {
-        _this2.show = true;
-      });
+    created: function created() {},
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            //this.$emit('openModal');
+        }.bind(this));
     }
-  },
-  created: function created() {},
-  mounted: function mounted() {
-    this.$nextTick(function () {
-      //this.$emit('openModal');
-    }.bind(this));
-  }
 });
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49497,41 +49410,160 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "panel-collapse collapse in",
-              attrs: { id: "educations" }
-            },
-            [
-              _c("div", { staticClass: "panel-body" }, [
-                _c(
-                  "form",
-                  {
-                    staticClass: "autovaliddate validate",
-                    staticStyle: { background: "inherit", display: "block" },
-                    attrs: { method: "POST", id: "clinicfm" },
-                    on: { submit: _vm.onSubmit }
-                  },
-                  [_c("div", { staticClass: "warner" }), _vm._v(" "), _vm._m(1)]
-                )
-              ])
-            ]
-          )
+          _vm._m(1)
         ])
       ]),
       _vm._v(" "),
-      _c("app-modal", {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.showModal,
-            expression: "showModal"
+      _c(
+        "app-modal",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showModal,
+              expression: "showModal"
+            }
+          ],
+          on: {
+            close: _vm.closeMd,
+            submitfm: function($event) {
+              _vm.onSubmit($event)
+            }
           }
-        ],
-        on: { close: _vm.closeMd }
-      })
+        },
+        [
+          _c(
+            "form",
+            {
+              staticClass: "autovaliddate validate",
+              staticStyle: { background: "inherit", display: "block" },
+              attrs: { method: "POST", id: "clinicfm" },
+              on: { submit: _vm.onSubmit }
+            },
+            [
+              _c("div", { staticClass: "warner" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row w3-padding" }, [
+                _c("div", { staticClass: "col-sm-4" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("Clinic Name *")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.clinic_name,
+                          expression: "form.clinic_name"
+                        }
+                      ],
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        type: "text",
+                        placeholder: "clinic name ",
+                        required: ""
+                      },
+                      domProps: { value: _vm.form.clinic_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "clinic_name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(
+                      "\r\n                            " +
+                        _vm._s(_vm.form.consultant_free) +
+                        "\r\n                             "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-4" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("Consultant Duration")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.consultant_duration,
+                          expression: "form.consultant_duration"
+                        }
+                      ],
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        type: "number",
+                        placeholder: "consultant duration",
+                        required: ""
+                      },
+                      domProps: { value: _vm.form.consultant_duration },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "consultant_duration",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-4" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "w3-text-gray w3-small" }, [
+                      _vm._v("Consultant Fee *")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.consultant_free,
+                          expression: "form.consultant_free"
+                        }
+                      ],
+                      staticClass: "w3-input w3-border",
+                      attrs: {
+                        type: "number",
+                        placeholder: "Clinic Fee",
+                        required: ""
+                      },
+                      domProps: { value: _vm.form.consultant_free },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "consultant_free",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      )
     ],
     1
   )
@@ -49562,91 +49594,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-6" }, [
-        _c("legend", { staticClass: "w3-medium" }, [_vm._v(" Session 1+")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "w3-text-gray w3-small" }, [
-              _vm._v("Start Time")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "w3-input w3-border",
-              attrs: {
-                name: "1_start_time",
-                type: "text",
-                placeholder: "Session start time",
-                value: "",
-                required: ""
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "w3-text-gray w3-small" }, [
-              _vm._v("End Time")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "w3-input w3-border",
-              attrs: {
-                name: "1_end_time",
-                type: "text",
-                placeholder: "Session end time",
-                value: "",
-                required: ""
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-6" }, [
-        _c("legend", { staticClass: "w3-medium" }, [_vm._v(" Session 2+")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "w3-text-gray w3-small" }, [
-              _vm._v("Start Time")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "w3-input w3-border",
-              attrs: {
-                name: "2_start_time",
-                type: "text",
-                placeholder: "Session start time",
-                value: "",
-                required: ""
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "w3-text-gray w3-small" }, [
-              _vm._v("End Time")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "w3-input w3-border",
-              attrs: {
-                name: "2_end_time",
-                type: "text",
-                placeholder: "Session end time",
-                value: "",
-                required: ""
-              }
-            })
-          ])
-        ])
-      ])
-    ])
+    return _c(
+      "div",
+      {
+        staticClass: "panel-collapse collapse in",
+        attrs: { id: "educations" }
+      },
+      [_c("div", { staticClass: "panel-body" })]
+    )
   }
 ]
 render._withStripped = true
@@ -49659,7 +49614,7 @@ if (false) {
 }
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

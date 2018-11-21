@@ -31,6 +31,9 @@
           .mafont {
             color: linear-gradient( 135deg, rgba(60, 8, 118, 0.8) 0%, rgba(250, 0, 118, 0.8) 100%);
           }
+          .modal-content.ui-resizable {
+            overflow: scroll;
+          }
     </style>
     @elseif (Auth::guest())    
      <link rel="stylesheet" type="text/css" href="{{ asset('css/w3.css')}}">
@@ -95,8 +98,7 @@
       @endif
 
       <router-view></router-view>
-      <vmod></vmod>
-      @yield('content')
+       @yield('content')
 
     </div>
     </div>
@@ -152,6 +154,9 @@
                   }
                  })
               }
+              $('.modal-content').resizable({
+                  alsoResize: ".modal-header, .modal-body, .modal-footer"
+              });
           </script>
       @endpush
      @if (Auth::check())

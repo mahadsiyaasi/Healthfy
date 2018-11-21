@@ -23,20 +23,17 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/vue',
-            name: 'vue',
-            component: require('./components/test.vue')
+             path: '/cli',
+             name: 'clinic',
+             component: require('./components/complete/clinic.vue')
         },
        
     ],
 });
-
-Vue.component('vuetest', require('./components/test.vue'));
 Vue.component('clinic', require('./components/complete/clinic.vue'));
 const app = new Vue({
     el: '#app',
     components: {
-        'navbar': require('./components/test.vue'),
         'clinic': require('./components/complete/clinic.vue'),
         'vmod':vModal
     },
